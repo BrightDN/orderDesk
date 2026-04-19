@@ -2,9 +2,9 @@
 
 CREATE TABLE permissions (
     id SERIAL PRIMARY KEY,
-    permission TEXT NOT NULL
+    permission TEXT NOT NULL UNIQUE
 );
 
 -- +goose Down
 
-DROP TABLE permissions;
+DROP TABLE IF EXISTS permissions;

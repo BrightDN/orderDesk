@@ -15,3 +15,7 @@ CREATE TABLE role_permissions (
         ON DELETE CASCADE  
 
 );
+
+-- +goose Down
+
+DROP TABLE IF EXISTS role_permissions;

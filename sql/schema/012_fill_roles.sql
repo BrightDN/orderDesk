@@ -2,7 +2,7 @@
 
 INSERT INTO roles (name) {
     VALUES
-    ('company_owner'),
+    ('superadmin'),
     ('admin'),
     ('employee'),
     ('custom')

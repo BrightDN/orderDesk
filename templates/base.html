@@ -1,0 +1,17 @@
+{{ define "base" }}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{{ block "title" . }}Default{{ end }}</title>
+</head>
+<body>
+
+  {{ template "navbar" . }}
+
+  {{ block "content" . }}{{ end }}
+
+  {{ template "footer" . }}
+
+</body>
+</html>
+{{ end }}
