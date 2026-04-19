@@ -8,7 +8,7 @@ CREATE TABLE users(
     email TEXT UNIQUE NOT NULL,
     password TEXT NOT NULL,
 
-    name TEXT NOT NULL,
+    name TEXT NOT NULL
 );
 
 -- +goose Down
