@@ -15,7 +15,7 @@ CREATE TABLE products (
     FOREIGN KEY (company_id)
         REFERENCES companies(id)
         ON DELETE RESTRICT
-)
+);
 
 -- +goose Down
 

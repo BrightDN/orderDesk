@@ -1,6 +1,7 @@
 -- +goose Up
 
 CREATE TABLE company_users (
+    id SERIAL PRIMARY KEY,
     company_id INTEGER NOT NULL,
     user_id INTEGER NOT NULL,
     role_id INTEGER NOT NULL,
@@ -8,7 +9,7 @@ CREATE TABLE company_users (
     display_name TEXT NOT NULL,
     joined_at TIMESTAMPTZ DEFAULT now(),
 
-    PRIMARY KEY (company_id, user_id) ,
+    UNIQUE (company_id, user_id),
 
     FOREIGN KEY (company_id)
         REFERENCES companies(id)
@@ -20,7 +21,7 @@ CREATE TABLE company_users (
 
     FOREIGN KEY (role_id)
         REFERENCES roles(id)
-        ON DELETE RESTRICT,
+        ON DELETE RESTRICT
 );
 
 -- +goose Down

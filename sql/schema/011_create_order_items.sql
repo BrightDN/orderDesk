@@ -25,4 +25,4 @@ CREATE TABLE order_items (
 
 -- +goose Down
 
-DROP IF EXISTS order_items;
+DROP TABLE IF EXISTS order_items;

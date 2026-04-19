@@ -23,4 +23,4 @@ CREATE TABLE orders (
 
 -- +goose Down
 
-DROP IF EXISTS orders;
+DROP TABLE IF EXISTS orders;

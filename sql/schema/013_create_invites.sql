@@ -8,7 +8,7 @@ CREATE TABLE invites (
     role_id INTEGER NOT NULL,
 
     token TEXT NOT NULL UNIQUE,
-    invited_by INTEGER NOT NULL,
+    invited_by INTEGER,
 
     created_at TIMESTAMPTZ DEFAULT now(),
     expires_at TIMESTAMPTZ NOT NULL,
@@ -30,4 +30,4 @@ CREATE TABLE invites (
 
 -- +goose Down
 
-DROP IF EXISTS invites;
+DROP TABLE IF EXISTS invites;

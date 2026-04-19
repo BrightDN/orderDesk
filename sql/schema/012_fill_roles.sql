@@ -1,13 +1,11 @@
 -- +goose Up
 
-INSERT INTO roles (name) {
-    VALUES
+INSERT INTO roles (name) VALUES
     ('superadmin'),
     ('admin'),
     ('employee'),
-    ('custom')
-};
+    ('custom');
 
 -- +goose Down
 
-TRUNCATE TABLE roles;
+DELETE FROM roles;
