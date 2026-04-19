@@ -9,13 +9,17 @@ CREATE TABLE users(
     password TEXT NOT NULL,
     name TEXT NOT NULL,
 
-    company_id UUID NOT NULL,
+    company_id INTEGER NOT NULL,
     role_id integer NOT NULL,
     permissions TEXT[] NOT NULL DEFAULT '{}'
 
     FOREIGN KEY (role_id)
         REFERENCES roles(id)
         ON DELETE RESTRICT
+
+    FOREIGN KEY (company_id)
+        REFERENCES companies(id)
+        ON DELETE CASCADE
 );
 
 -- +goose Down
