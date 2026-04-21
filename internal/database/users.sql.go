@@ -7,13 +7,53 @@ package database
 
 import (
 	"context"
-
-	"github.com/lib/pq"
 )
+
+const getUserById = `-- name: GetUserById :one
+
+SELECT id, created_at, updated_at, email, password, name
+FROM users
+WHERE id = $1
+`
+
+func (q *Queries) GetUserById(ctx context.Context, id int32) (User, error) {
+	row := q.db.QueryRowContext(ctx, getUserById, id)
+	var i User
+	err := row.Scan(
+		&i.ID,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.Email,
+		&i.Password,
+		&i.Name,
+	)
+	return i, err
+}
+
+const getUserByMail = `-- name: GetUserByMail :one
+
+SELECT id, created_at, updated_at, email, password, name
+FROM users
+WHERE email = $1
+`
+
+func (q *Queries) GetUserByMail(ctx context.Context, email string) (User, error) {
+	row := q.db.QueryRowContext(ctx, getUserByMail, email)
+	var i User
+	err := row.Scan(
+		&i.ID,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.Email,
+		&i.Password,
+		&i.Name,
+	)
+	return i, err
+}
 
 const getUsers = `-- name: GetUsers :many
 
-SELECT id, created_at, updated_at, email, password, name, company_id, role, permissions
+SELECT id, created_at, updated_at, email, password, name
 FROM users
 `
 
@@ -33,9 +73,6 @@ func (q *Queries) GetUsers(ctx context.Context) ([]User, error) {
 			&i.Email,
 			&i.Password,
 			&i.Name,
-			&i.CompanyID,
-			&i.Role,
-			pq.Array(&i.Permissions),
 		); err != nil {
 			return nil, err
 		}

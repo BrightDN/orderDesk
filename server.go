@@ -7,9 +7,12 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/brightDN/orderDesk/internal/apiConfigs"
+	"github.com/brightDN/orderDesk/internal/configs"
 	"github.com/brightDN/orderDesk/internal/database"
+	"github.com/brightDN/orderDesk/internal/middlewares"
+	"github.com/gorilla/sessions"
 	"github.com/joho/godotenv"
+	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
@@ -24,17 +27,16 @@ func main() {
 
 	dbQueries := database.New(db)
 
-	cfg := apiConfigs.Config{
-		Db: dbQueries,
+	cfg := configs.Config{
+		Db:       dbQueries,
+		Platform: os.Getenv("PLATFORM"),
 	}
 
 	tmpl := template.Must(template.ParseGlob("templates/*.html"))
 	template.Must(tmpl.ParseGlob("templates/components/*.html"))
-	t := &apiConfigs.Template{
+	t := &configs.Template{
 		Templates: tmpl,
 	}
-
-	cfg = cfg
 
 	e := echo.New()
 	e.Renderer = t
@@ -42,11 +44,20 @@ func main() {
 	e.Use(middleware.RequestLogger())
 	e.Use(middleware.Recover())
 	e.Use(middleware.CSRF())
+	e.Use(middlewares.ChangeMethod())
+	e.Use(session.Middleware(sessions.NewCookieStore(
+		[]byte(os.Getenv("SESSION_AUTH_KEY")),
+		[]byte(os.Getenv("SESSION_ENCRYPT_KEY")),
+	)))
+
+	protected := e.Group("")
+	protected.Use(middlewares.RequireAuth())
+	protected.Use(middlewares.LoadUser(&cfg))
 
 	e.Static("/assets", "assets")
 
 	e.GET("/", func(c echo.Context) error {
-		return c.Render(http.StatusOK, "home", nil)
+		return c.Render(http.StatusOK, "suppliers", nil)
 	})
 
 	httpPort := os.Getenv("PORT")
