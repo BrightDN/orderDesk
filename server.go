@@ -15,6 +15,8 @@ import (
 	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+
+	_ "github.com/lib/pq"
 )
 
 func main() {
@@ -37,7 +39,7 @@ func main() {
 	t := &configs.Template{
 		Templates: tmpl,
 	}
-
+	cfg = cfg
 	e := echo.New()
 	e.Renderer = t
 
@@ -50,7 +52,7 @@ func main() {
 		[]byte(os.Getenv("SESSION_ENCRYPT_KEY")),
 	)))
 
-	protected := e.Group("")
+	protected := e.Group("/dashboard")
 	protected.Use(middlewares.RequireAuth())
 	protected.Use(middlewares.LoadUser(&cfg))
 

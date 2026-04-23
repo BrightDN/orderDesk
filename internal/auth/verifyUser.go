@@ -10,7 +10,7 @@ import (
 )
 
 func verifyUser(c echo.Context, cfg *configs.Config) error {
-	email := c.FormValue("email")
+	email := c.Request().PostFormValue("email")
 	password := c.Request().PostFormValue("password")
 
 	if email == "" {

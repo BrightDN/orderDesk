@@ -4,6 +4,7 @@
 
 {{ define "title" }}Orderdesk{{ end }}
 {{ define "stylesheets"}}
+<link rel="stylesheet" href="/assets/stylesheets/supplierList.css">
 {{end}}
 
 {{ define "scripts" }}
@@ -11,5 +12,5 @@
 {{ end }}
 
 {{ define "content" }}
-<h1>Welcome</h1>
+  {{ template "supplierList" . }}
 {{ end }}
