@@ -1,0 +1,17 @@
+{{ define "suppliers" }}
+    {{ template "base" . }}
+{{ end }}
+
+{{ define "title" }}OD - Suppliers{{ end }}
+{{ define "stylesheets"}}
+<link rel="stylesheet" href="/assets/stylesheets/itemList.css">
+{{end}}
+
+{{ define "scripts" }}
+<script defer src="/assets/scripts/itemList.js"></script>
+{{ end }}
+
+{{ define "content" }}
+    {{ template "supplierInformation" . }}
+    {{ template "itemList" . }}
+{{ end }}

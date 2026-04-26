@@ -1,121 +1,115 @@
 {{ define "authBase" }}
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&display=swap');
-  .od-wrap *, .od-wrap *::before, .od-wrap *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  .od-wrap {
-    --primary: #1D9E75;
-    --primary-light: #E1F5EE;
-    --primary-dark: #0F6E56;
-    --bg: #F7F7F5;
-    --surface: #FFFFFF;
-    --border: rgba(0,0,0,0.08);
-    --border-mid: rgba(0,0,0,0.13);
-    --text: #1a1a18;
-    --text-secondary: #5a5a56;
-    --text-muted: #9a9a95;
-    --radius-sm: 6px;
-    --radius-md: 8px;
-    --radius-lg: 12px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 520px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 32px 16px;
-  }
-  .od-card {
-    background: var(--surface);
-    border: 0.5px solid var(--border-mid);
-    border-radius: var(--radius-lg);
-    padding: 32px 28px 28px;
-    width: 100%;
-    max-width: 360px;
-  }
-  .od-logo {
-    display: flex;
-    align-items: center;
-    gap: 9px;
-    margin-bottom: 28px;
-  }
-  .od-logo-icon {
-    width: 30px;
-    height: 30px;
-    border-radius: 8px;
-    background: var(--primary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
-  .od-logo-icon svg { width: 16px; height: 16px; }
-  .od-logo-text { font-size: 14px; font-weight: 500; color: var(--text); }
-  .od-logo-sub { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
-  .od-heading { font-size: 16px; font-weight: 500; color: var(--text); margin-bottom: 4px; }
-  .od-sub { font-size: 13px; color: var(--text-secondary); margin-bottom: 24px; }
-  .od-field { margin-bottom: 14px; }
-  .od-label {
-    display: block;
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--text-secondary);
-    margin-bottom: 6px;
-  }
-  .od-input {
-    width: 100%;
-    padding: 8px 11px;
-    border-radius: var(--radius-md);
-    border: 0.5px solid var(--border-mid);
-    font-size: 13px;
-    font-family: inherit;
-    background: var(--surface);
-    color: var(--text);
-    outline: none;
-    transition: border-color 0.12s;
-  }
-  .od-input:focus { border-color: var(--primary); }
-  .od-input::placeholder { color: var(--text-muted); }
-  .od-btn {
-    width: 100%;
-    padding: 9px 14px;
-    border-radius: var(--radius-md);
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    border: 0.5px solid var(--primary);
-    background: var(--primary);
-    color: #fff;
-    font-family: inherit;
-    transition: background 0.12s;
-    margin-top: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-  }
-  .od-btn:hover { background: var(--primary-dark); border-color: var(--primary-dark); }
-  .od-btn svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-  .od-divider {
-    border: none;
-    border-top: 0.5px solid var(--border);
-    margin: 22px 0;
-  }
-  .od-footer { font-size: 12px; color: var(--text-muted); text-align: center; }
-  .od-error {
-    background: #FCEBEB;
-    color: #A32D2D;
-    border: 0.5px solid #F7C1C1;
-    border-radius: var(--radius-md);
-    padding: 8px 11px;
-    font-size: 12px;
-    margin-bottom: 16px;
-    display: none;
-  }
-  .od-error.show { display: block; }
-</style>
 
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{{ block "title" . }}Default{{ end }}</title>
+  
+  <link rel="stylesheet" href="/assets/stylesheets/houserules.css">
+
+  {{ block "stylesheets" . }}{{end}}
+  {{ block "scripts" . }}{{end}}
+  <script defer src="/assets/scripts/supplierList.js"></script>
+
+  <style>
+    .od-wrap {
+      min-height: 520px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 16px;
+    }
+    .od-card {
+      background: var(--surface);
+      border: 0.5px solid var(--border-mid);
+      border-radius: var(--radius-lg);
+      padding: 32px 28px 28px;
+      width: 100%;
+      max-width: 360px;
+    }
+    .od-logo {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 28px;
+    }
+    .od-logo-icon {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      background: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .od-logo-icon svg { width: 16px; height: 16px; }
+    .od-logo-text { font-size: 14px; font-weight: 500; color: var(--text); }
+    .od-logo-sub { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
+    .od-heading { font-size: 16px; font-weight: 500; color: var(--text); margin-bottom: 4px; }
+    .od-sub { font-size: 13px; color: var(--text-secondary); margin-bottom: 24px; }
+    .od-field { margin-bottom: 14px; }
+    .od-label {
+      display: block;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+    .od-input {
+      width: 100%;
+      padding: 8px 11px;
+      border-radius: var(--radius-md);
+      border: 0.5px solid var(--border-mid);
+      font-size: 13px;
+      font-family: inherit;
+      background: var(--surface);
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.12s;
+    }
+    .od-input:focus { border-color: var(--primary); }
+    .od-input::placeholder { color: var(--text-muted); }
+    .od-btn {
+      width: 100%;
+      padding: 9px 14px;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      border: 0.5px solid var(--primary);
+      background: var(--primary);
+      color: #fff;
+      font-family: inherit;
+      transition: background 0.12s;
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .od-btn:hover { background: var(--primary-dark); border-color: var(--primary-dark); }
+    .od-btn svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .od-divider {
+      border: none;
+      border-top: 0.5px solid var(--border);
+      margin: 22px 0;
+    }
+    .od-footer { font-size: 12px; color: var(--text-muted); text-align: center; }
+    .od-error {
+      background: #FCEBEB;
+      color: #A32D2D;
+      border: 0.5px solid #F7C1C1;
+      border-radius: var(--radius-md);
+      padding: 8px 11px;
+      font-size: 12px;
+      margin-bottom: 16px;
+      display: none;
+    }
+    .od-error.show { display: block; }
+  </style>
+</head>
+<body>
 <div class="od-wrap">
   <div class="od-card">
     <div class="od-logo">
@@ -172,4 +166,7 @@
     });
   });
 </script>
+
+</body>
+</html>
 {{ end }}

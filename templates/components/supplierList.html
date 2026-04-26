@@ -11,7 +11,9 @@
           </div>
           <div class="s-meta">
             <div class="s-count">14 products</div>
+            {{ if eq .Page "suppliers"}}
             <span class="badge-green">Active</span>
+            {{ end }}
           </div>
         </div>
 
@@ -25,7 +27,9 @@
           </div>
           <div class="s-meta">
             <div class="s-count">8 products</div>
+            {{ if eq .Page "suppliers"}}
             <span class="badge-green">Active</span>
+            {{ end }}
           </div>
         </div>
 
@@ -38,20 +42,9 @@
           </div>
           <div class="s-meta">
             <div class="s-count">6 products</div>
-            <span class="badge-amber">Draft</span>
-          </div>
-        </div>
-
-        <div class="supplier-card">
-          <div class="s-header">
-            <div>
-              <div class="s-name">GrocerMart</div>
-              <div class="s-cat">Dry goods</div>
-            </div>
-          </div>
-          <div class="s-meta">
-            <div class="s-count">22 products</div>
-            <span class="badge-green">Active</span>
+            {{ if eq .Page "suppliers"}}
+            <span class="badge-amber">Inactive</span>
+            {{ end }}
           </div>
         </div>
       </div>

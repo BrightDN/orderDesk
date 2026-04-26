@@ -50,6 +50,7 @@
 
   .nav-item {
     display: flex;
+    text-decoration: none;
     align-items: center;
     gap: 9px;
     padding: 8px 9px;

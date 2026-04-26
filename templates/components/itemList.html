@@ -1,59 +1,66 @@
 {{ define "itemList" }}
-      <div class="section-label" style="margin-top:4px">New order — FreshVeg BV</div>
+<div class="section-label" style="margin-top:4px">New order — FreshVeg BV</div>
 
-      <div class="order-panel">
-        <div class="order-row order-header">
-          <div>Product</div>
-          <div>Qty</div>
-          <div>Unit</div>
-          {{ if eq .Page "suppliers" }}
-          <div></div>
-          {{ end }}
-        </div>
-
-        <div class="order-row">
-          <div>
-            <div class="order-product">Iceberg lettuce</div>
-            <div class="order-sku">SKU #0041</div>
-          </div>
-          <input class="qty-input" type="number" value="24" min="1">
-          <div class="unit-label">pieces</div>
-          {{ if eq .Page "suppliers" }}
-          <button class="del-btn" title="Remove">
-            <svg viewBox="0 0 12 12"><path d="M2 2l8 8M10 2L2 10"/></svg>
-          </button>
-          {{ end }}
-        </div>
-
-        <div class="order-row">
-          <div>
-            <div class="order-product">Tomatoes (500g)</div>
-            <div class="order-sku">SKU #0043</div>
-          </div>
-          <input class="qty-input" type="number" value="60" min="1">
-          <div class="unit-label">packs</div>
-          {{ if eq .Page "suppliers" }}
-          <button class="del-btn" title="Remove">
-            <svg viewBox="0 0 12 12"><path d="M2 2l8 8M10 2L2 10"/></svg>
-          </button>
-          {{ end }}
-        </div>
-
-        {{ if eq .Page "suppliers" }}
-        <div class="add-product-row">
-          <button class="btn" style="font-size:12px;padding:5px 12px">
-            <svg viewBox="0 0 14 14"><path d="M7 2v10M2 7h10"/></svg>
-            Add product
-          </button>
-        </div>
+<div class="order-panel">
+  <table class="order-table">
+    <thead>
+      <tr>
+        <th>Product</th>
+        {{ if eq .Page "new order" }}
+        <th>Qty</th>
         {{ end }}
-
-        <div class="order-footer">
-          <div class="footer-note">Sending to <span>orders@freshveg.nl</span></div>
-          <button class="btn btn-primary">
-            <svg viewBox="0 0 14 14"><path d="M2 7l4 4 6-7"/></svg>
-            Send order
+        <th>Unit</th>
+        {{ if eq .Page "suppliers" }}<th>Orderable</th>{{ end }}
+        {{ if eq .Page "suppliers" }}<th></th>{{ end }}
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <div class="order-product">Iceberg lettuce</div>
+        </td>
+        <td><input class="qty-input" type="number" value="24" min="1"></td>
+        <td><span class="unit-label">pieces</span></td>
+        {{ if eq .Page "suppliers" }}
+        <td class="col-action">
+          <button class="del-btn" title="Remove">
+            <svg viewBox="0 0 12 12"><path d="M2 2l8 8M10 2L2 10"/></svg>
           </button>
-        </div>
-      </div>
+        </td>
+        {{ end }}
+      </tr>
+      <tr>
+        <td>
+          <div class="order-product">Tomatoes (500g)</div>
+        </td>
+        <td><input class="qty-input" type="number" value="60" min="1"></td>
+        <td><span class="unit-label">packs</span></td>
+        {{ if eq .Page "suppliers" }}
+        <td class="col-action">
+          <button class="del-btn" title="Remove">
+            <svg viewBox="0 0 12 12"><path d="M2 2l8 8M10 2L2 10"/></svg>
+          </button>
+        </td>
+        {{ end }}
+      </tr>
+    </tbody>
+  </table>
+
+  {{ if eq .Page "suppliers" }}
+  <div class="add-product-row">
+    <button class="btn" style="font-size:12px;padding:5px 12px">
+      <svg viewBox="0 0 14 14"><path d="M7 2v10M2 7h10"/></svg>
+      Add product
+    </button>
+  </div>
+  {{ end }}
+
+  <div class="order-footer">
+    <div class="footer-note">Sending to <span>orders@freshveg.nl</span></div>
+    <button class="btn btn-primary">
+      <svg viewBox="0 0 14 14"><path d="M2 7l4 4 6-7"/></svg>
+      Send order
+    </button>
+  </div>
+</div>
 {{ end }}

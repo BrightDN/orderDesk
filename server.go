@@ -2,7 +2,6 @@ package main
 
 import (
 	"database/sql"
-	"html/template"
 	"log"
 	"net/http"
 	"os"
@@ -34,14 +33,9 @@ func main() {
 		Platform: os.Getenv("PLATFORM"),
 	}
 
-	tmpl := template.Must(template.ParseGlob("templates/*.html"))
-	template.Must(tmpl.ParseGlob("templates/components/*.html"))
-	t := &configs.Template{
-		Templates: tmpl,
-	}
 	cfg = cfg
 	e := echo.New()
-	e.Renderer = t
+	e.Renderer = &configs.Template{}
 
 	e.Use(middleware.RequestLogger())
 	e.Use(middleware.Recover())
@@ -52,13 +46,25 @@ func main() {
 		[]byte(os.Getenv("SESSION_ENCRYPT_KEY")),
 	)))
 
-	protected := e.Group("/dashboard")
-	protected.Use(middlewares.RequireAuth())
-	protected.Use(middlewares.LoadUser(&cfg))
+	// protected := e.Group("/dashboard")
+	// protected.Use(middlewares.RequireAuth())
+	// protected.Use(middlewares.LoadUser(&cfg))
 
 	e.Static("/assets", "assets")
 
 	e.GET("/", func(c echo.Context) error {
+		return c.Render(http.StatusOK, "newOrder", map[string]any{
+			"Page": "new order",
+		})
+	})
+
+	e.GET("/dashboard/suppliers", func(c echo.Context) error {
+		return c.Render(http.StatusOK, "suppliers", map[string]any{
+			"Page": "suppliers",
+		})
+	})
+
+	e.GET("/dashboard/neworder", func(c echo.Context) error {
 		return c.Render(http.StatusOK, "newOrder", map[string]any{
 			"Page": "new order",
 		})

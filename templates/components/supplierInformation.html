@@ -1,0 +1,180 @@
+{{ define "supplierInformation" }}
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&display=swap');
+.od *,od *::before,.od *::after{box-sizing:border-box;margin:0;padding:0}
+.od{
+  --primary:#1D9E75;--primary-light:#E1F5EE;--primary-dark:#0F6E56;
+  --bg:#F7F7F5;--surface:#FFFFFF;--border:rgba(0,0,0,0.08);--border-mid:rgba(0,0,0,0.13);
+  --text:#1a1a18;--text-secondary:#5a5a56;--text-muted:#9a9a95;
+  --red-bg:#FCEBEB;--red-text:#A32D2D;--red-border:#F7C1C1;
+  --radius-sm:6px;--radius-md:8px;--radius-lg:12px;
+  font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);
+  background:var(--bg);padding:22px 24px;
+}
+.section-label{font-size:11px;font-weight:500;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px}
+.module{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:16px 18px;margin-bottom:16px}
+.module-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding-bottom:12px;border-bottom:0.5px solid var(--border)}
+.module-title{font-size:13px;font-weight:500;color:var(--text)}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:var(--radius-md);font-size:12px;font-weight:500;cursor:pointer;border:0.5px solid var(--border-mid);background:transparent;color:var(--text);font-family:inherit;transition:background .12s}
+.btn:hover{background:var(--bg)}
+.btn-primary{background:var(--primary);color:#fff;border-color:var(--primary)}
+.btn-primary:hover{background:var(--primary-dark);border-color:var(--primary-dark)}
+.btn-ghost{border-color:transparent;color:var(--text-muted)}
+.btn-ghost:hover{background:var(--bg);color:var(--text)}
+.btn svg,.del-btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.info-grid{display:grid;grid-template-columns:140px 1fr;gap:8px 0;align-items:start}
+.info-label{font-size:12px;color:var(--text-muted);padding:6px 0}
+.info-value{font-size:13px;color:var(--text);padding:6px 0}
+.info-value a{color:var(--primary);text-decoration:none}
+.legend{font-size:11px;color:var(--text-muted);margin-top:4px;line-height:1.5}
+.legend code{font-size:11px;background:var(--bg);border:0.5px solid var(--border-mid);border-radius:4px;padding:1px 5px;color:var(--text-secondary);font-family:monospace}
+.mail-preview{font-size:12px;color:var(--text-secondary);background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-md);padding:8px 10px;margin-top:4px;line-height:1.6}
+.order-table{width:100%;border-collapse:collapse;table-layout:fixed}
+.order-table thead tr{color:var(--text-muted);font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.05em}
+.order-table th{padding:0 0 8px;text-align:left;border-bottom:0.5px solid var(--border)}
+.order-table td{padding:9px 0;border-bottom:0.5px solid var(--border);vertical-align:middle}
+.order-table tbody tr:last-child td{border-bottom:none}
+.order-table th:nth-child(2),.order-table td:nth-child(2){width:100px}
+.order-table th:nth-child(3),.order-table td:nth-child(3){width:80px}
+.order-table .col-action{width:36px}
+.order-product{font-size:13px;color:var(--text)}
+.order-sku{font-size:11px;color:var(--text-muted);margin-top:2px}
+.unit-label{font-size:12px;color:var(--text-secondary)}
+.toggle{position:relative;display:inline-block;width:32px;height:18px;flex-shrink:0}
+.toggle input{opacity:0;width:0;height:0}
+.toggle-slider{position:absolute;inset:0;background:var(--border-mid);border-radius:18px;transition:.2s;cursor:pointer}
+.toggle-slider:before{content:'';position:absolute;width:12px;height:12px;left:3px;top:3px;background:white;border-radius:50%;transition:.2s}
+.toggle input:checked+.toggle-slider{background:var(--primary)}
+.toggle input:checked+.toggle-slider:before{transform:translateX(14px)}
+.del-btn{width:28px;height:28px;border-radius:var(--radius-sm);border:0.5px solid var(--border);background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text-muted);transition:background .12s,color .12s;flex-shrink:0}
+.del-btn:hover{background:var(--red-bg);color:var(--red-text);border-color:var(--red-border)}
+.del-btn svg{width:12px;height:12px}
+.add-row{padding:10px 0 4px}
+</style>
+
+<div class="od">
+  <div class="section-label">Supplier information</div>
+
+  <div class="module">
+    <div class="module-header">
+      <span class="module-title">FreshVeg BV</span>
+      <div style="display:flex;gap:6px">
+        <button class="btn btn-ghost" id="edit-btn">
+          <svg viewBox="0 0 14 14"><path d="M9.5 2.5l2 2L4 12H2v-2L9.5 2.5z"/></svg>
+          Edit
+        </button>
+        <button class="btn btn-primary" id="save-btn" style="display:none">
+          <svg viewBox="0 0 14 14"><path d="M2 7l4 4 6-7"/></svg>
+          Save
+        </button>
+        <button class="btn" id="cancel-btn" style="display:none">Cancel</button>
+      </div>
+    </div>
+
+    <div class="info-grid" id="view-mode">
+      <span class="info-label">Name</span>
+      <span class="info-value">FreshVeg BV</span>
+      <span class="info-label">Product type</span>
+      <span class="info-value">Produce</span>
+      <span class="info-label">Email</span>
+      <span class="info-value"><a href="#">orders@freshveg.nl</a></span>
+      <span class="info-label">Contact person</span>
+      <span class="info-value" style="color:var(--text-muted)">—</span>
+      <span class="info-label" style="padding-top:6px">Order mail</span>
+      <div>
+        <div class="mail-preview">Dear FreshVeg BV,<br><br>Please find our order attached. This order was placed by <strong>Jan V.</strong> on behalf of <strong>Markt Storeroom</strong>.</div>
+        <div class="legend" style="margin-top:6px">Variables: <code>{{ "{{" }} user {{ "}}" }}</code> name of person placing order &nbsp;·&nbsp; <code>{{ "{{" }} company {{ "}}" }}</code> your company name</div>
+      </div>
+    </div>
+
+    <div class="info-grid" id="edit-mode" style="display:none">
+      <span class="info-label">Name</span>
+      <div style="padding:4px 0"><input style="width:100%;padding:5px 8px;border-radius:6px;border:0.5px solid rgba(0,0,0,0.13);font-size:13px;font-family:inherit;background:white;color:#1a1a18;outline:none" value="FreshVeg BV"></div>
+      <span class="info-label">Product type</span>
+      <div style="padding:4px 0"><input style="width:100%;padding:5px 8px;border-radius:6px;border:0.5px solid rgba(0,0,0,0.13);font-size:13px;font-family:inherit;background:white;color:#1a1a18;outline:none" value="Produce"></div>
+      <span class="info-label">Email</span>
+      <div style="padding:4px 0"><input style="width:100%;padding:5px 8px;border-radius:6px;border:0.5px solid rgba(0,0,0,0.13);font-size:13px;font-family:inherit;background:white;color:#1a1a18;outline:none" type="email" value="orders@freshveg.nl"></div>
+      <span class="info-label">Contact person</span>
+      <div style="padding:4px 0"><input style="width:100%;padding:5px 8px;border-radius:6px;border:0.5px solid rgba(0,0,0,0.13);font-size:13px;font-family:inherit;background:white;color:#1a1a18;outline:none" placeholder="Optional"></div>
+      <span class="info-label" style="padding-top:6px">Order mail</span>
+      <div>
+        <textarea style="width:100%;padding:6px 8px;border-radius:6px;border:0.5px solid rgba(0,0,0,0.13);font-size:13px;font-family:inherit;background:white;color:#1a1a18;outline:none;resize:vertical;min-height:72px">Dear FreshVeg BV,
+
+Please find our order attached. This order was placed by {{ "{{" }} user {{ "}}" }} on behalf of {{ "{{" }} company {{ "}}" }}.</textarea>
+        <div class="legend" style="margin-top:6px">Variables: <code>{{ "{{" }} user {{ "}}" }}</code> name of person placing order &nbsp;·&nbsp; <code>{{ "{{" }} company {{ "}}" }}</code> your company name</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label">Products</div>
+
+  <div class="module">
+    <table class="order-table">
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Unit</th>
+          <th>Orderable</th>
+          <th class="col-action"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><div class="order-product">Iceberg lettuce</div><div class="order-sku">SKU #0041</div></td>
+          <td><span class="unit-label">pieces</span></td>
+          <td><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></td>
+          <td><button class="del-btn"><svg viewBox="0 0 12 12"><path d="M2 2l8 8M10 2L2 10"/></svg></button></td>
+        </tr>
+        <tr>
+          <td><div class="order-product">Tomatoes (500g)</div><div class="order-sku">SKU #0043</div></td>
+          <td><span class="unit-label">packs</span></td>
+          <td><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></td>
+          <td><button class="del-btn"><svg viewBox="0 0 12 12"><path d="M2 2l8 8M10 2L2 10"/></svg></button></td>
+        </tr>
+        <tr>
+          <td><div class="order-product">Bell peppers mix</div><div class="order-sku">SKU #0047</div></td>
+          <td><span class="unit-label">kg</span></td>
+          <td><label class="toggle"><input type="checkbox"><span class="toggle-slider"></span></label></td>
+          <td><button class="del-btn"><svg viewBox="0 0 12 12"><path d="M2 2l8 8M10 2L2 10"/></svg></button></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="add-row">
+      <button class="btn" style="font-size:12px;padding:5px 12px">
+        <svg viewBox="0 0 14 14"><path d="M7 2v10M2 7h10"/></svg>
+        Add product
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+const editBtn = document.getElementById('edit-btn');
+const saveBtn = document.getElementById('save-btn');
+const cancelBtn = document.getElementById('cancel-btn');
+const viewMode = document.getElementById('view-mode');
+const editMode = document.getElementById('edit-mode');
+
+editBtn.addEventListener('click', () => {
+  viewMode.style.display = 'none';
+  editMode.style.display = 'grid';
+  editBtn.style.display = 'none';
+  saveBtn.style.display = 'inline-flex';
+  cancelBtn.style.display = 'inline-flex';
+});
+
+[saveBtn, cancelBtn].forEach(btn => {
+  btn.addEventListener('click', () => {
+    viewMode.style.display = 'grid';
+    editMode.style.display = 'none';
+    editBtn.style.display = 'inline-flex';
+    saveBtn.style.display = 'none';
+    cancelBtn.style.display = 'none';
+  });
+});
+
+document.querySelectorAll('.del-btn').forEach(btn => {
+  btn.addEventListener('click', () => btn.closest('tr').remove());
+});
+</script>
+{{ end }}

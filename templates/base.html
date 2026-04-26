@@ -3,16 +3,16 @@
 <html>
 <head>
   <title>{{ block "title" . }}Default{{ end }}</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
   
   <link rel="stylesheet" href="/assets/stylesheets/houserules.css">
   <link rel="stylesheet" href="/assets/stylesheets/topbar.css">
   <link rel="stylesheet" href="/assets/stylesheets/nav.css">
+  <link rel="stylesheet" href="/assets/stylesheets/supplierList.css">
 
-
-  <script defer src="/assets/scripts/nav.js"></script>
   {{ block "stylesheets" . }}{{end}}
   {{ block "scripts" . }}{{end}}
+  <script defer src="/assets/scripts/supplierList.js"></script>
+
 </head>
 <body>
   <div class="app">
@@ -21,6 +21,7 @@
     <main>
       {{ template "topbar" . }}
       <div class="content">
+        {{ template "supplierList" . }}
         {{ block "content" . }}{{ end }}
       </div>
     </main>

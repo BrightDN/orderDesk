@@ -13,7 +13,7 @@ func RequireAuth() echo.MiddlewareFunc {
 			sess, _ := session.Get("session", c)
 			_, ok := sess.Values["userID"].(int64)
 			if !ok {
-				return c.Redirect(http.StatusSeeOther, "/login")
+				return c.Render(http.StatusSeeOther, "login", nil)
 			}
 			return next(c)
 		}

@@ -17,30 +17,30 @@
 
     <div class="nav-section">
       <div class="nav-label">Menu</div>
-      <div class='nav-item {{ if eq .Page "suppliers" }} active {{end }}'>
+      <a href="/dashboard/suppliers" class='nav-item {{ if eq .Page "suppliers" }} active {{end }}'>
         <svg viewBox="0 0 16 16"><rect x="2" y="2" width="5" height="5" rx="1"/><rect x="9" y="2" width="5" height="5" rx="1"/><rect x="2" y="9" width="5" height="5" rx="1"/><rect x="9" y="9" width="5" height="5" rx="1"/></svg>
         Suppliers
-      </div>
-      <div class='nav-item {{ if eq .Page "new order" }} active {{end }}'>
+      </a>
+      <a href="/dashboard/neworder" class='nav-item {{ if eq .Page "new order" }} active {{end }}'>
         <svg viewBox="0 0 16 16"><path d="M2 4h12M4 4V3a1 1 0 011-1h6a1 1 0 011 1v1m2 0l-1 9a1 1 0 01-1 1H4a1 1 0 01-1-1L2 4"/></svg>
         New order
-      </div>
-      <div class='nav-item {{ if eq .Page "order history" }} active {{end }}'>
+      </a>
+      <a href="/dashboard/history" class='nav-item {{ if eq .Page "order history" }} active {{end }}'>
         <svg viewBox="0 0 16 16"><path d="M2 3h12v2H2zm0 4h12v2H2zm0 4h7v2H2z"/></svg>
         Order history
-      </div>
+      </a>
     </div>
 
     <div class="nav-section" style="margin-top: 6px;">
       <div class="nav-label">Admin</div>
-      <div class="nav-item">
+      <a class='nav-item {{ if eq .Page "contacts" }} active {{end }}'>
         <svg viewBox="0 0 16 16"><circle cx="8" cy="5" r="3"/><path d="M2 14c0-3.3 2.7-6 6-6s6 2.7 6 6"/></svg>
         Contacts
-      </div>
-      <div class="nav-item">
+      </a>
+      <a class='nav-item {{ if eq .Page "settings" }} active {{end }}'>
         <svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"/><path d="M8 5v3l2 2"/></svg>
         Settings
-      </div>
+      </a>
     </div>
 
     <div class="nav-bottom">
