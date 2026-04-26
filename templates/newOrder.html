@@ -1,17 +1,19 @@
-{{ define "suppliers" }}
+{{ define "newOrder" }}
   {{ template "base" . }}
 {{ end }}
 
 {{ define "title" }}Orderdesk{{ end }}
 {{ define "stylesheets"}}
 <link rel="stylesheet" href="/assets/stylesheets/supplierList.css">
-
+<link rel="stylesheet" href="/assets/stylesheets/itemList.css">
 {{end}}
 
 {{ define "scripts" }}
-
+<script defer src="/assets/scripts/supplierList.js"></script>
+<script defer src="/assets/scripts/itemList.js"></script>
 {{ end }}
 
 {{ define "content" }}
   {{ template "supplierList" . }}
+  {{ template "itemList" . }}
 {{ end }}

@@ -1,0 +1,88 @@
+  .order-panel {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 16px 18px;
+  }
+
+  .order-row {
+    display: grid;
+    grid-template-columns: 1fr 90px 90px 36px;
+    gap: 10px;
+    align-items: center;
+    padding: 9px 0;
+    border-bottom: 0.5px solid var(--border);
+  }
+
+  .order-row:last-of-type { border-bottom: none; }
+
+  .order-header {
+    color: var(--text-muted);
+    font-size: 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .order-product { font-size: 13px; color: var(--text); }
+  .order-sku     { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+
+  .qty-input {
+    width: 72px;
+    padding: 5px 8px;
+    border-radius: var(--radius-md);
+    border: 0.5px solid var(--border-mid);
+    font-size: 13px;
+    font-family: inherit;
+    background: var(--surface);
+    color: var(--text);
+    text-align: center;
+    outline: none;
+    transition: border-color 0.12s;
+  }
+
+  .qty-input:focus { border-color: var(--primary); }
+
+  .unit-label { font-size: 12px; color: var(--text-secondary); }
+
+  .del-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: var(--radius-sm);
+    border: 0.5px solid var(--border);
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--text-muted);
+    transition: background 0.12s, color 0.12s;
+  }
+
+  .del-btn:hover { background: #FCEBEB; color: #A32D2D; border-color: #F7C1C1; }
+
+  .del-btn svg {
+    width: 12px;
+    height: 12px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .add-product-row {
+    padding: 10px 0 4px;
+  }
+
+  .order-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 0.5px solid var(--border);
+  }
+
+  .footer-note { font-size: 12px; color: var(--text-secondary); }
+  .footer-note span { color: var(--primary); font-weight: 500; }

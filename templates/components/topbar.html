@@ -1,16 +1,18 @@
     
 {{ define "topbar" }}
     <div class="topbar">
-      <div class="page-title">Suppliers</div>
+      <div class="page-title">{{ .Page }}</div>
+      {{ if eq .Page "suppliers" }}
     <div class="topbar-actions">
        <button class="btn">
           <svg viewBox="0 0 14 14"><circle cx="6" cy="6" r="4"/><path d="M10 10l2.5 2.5"/></svg>
           Search
         </button>
-        <button class="btn btn-primary">
+        <button class="btn-primary">
           <svg viewBox="0 0 14 14"><path d="M7 2v10M2 7h10"/></svg>
           Add supplier
         </button>
       </div>
+      {{ end }}
     </div>
 {{ end }}

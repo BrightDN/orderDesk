@@ -59,7 +59,9 @@ func main() {
 	e.Static("/assets", "assets")
 
 	e.GET("/", func(c echo.Context) error {
-		return c.Render(http.StatusOK, "suppliers", nil)
+		return c.Render(http.StatusOK, "newOrder", map[string]any{
+			"Page": "new order",
+		})
 	})
 
 	httpPort := os.Getenv("PORT")
