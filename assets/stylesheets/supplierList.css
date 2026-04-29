@@ -36,5 +36,12 @@
     font-weight: 500;
   }
 
-  .badge-green  { background: var(--primary-light); color: var(--primary-dark); }
-  .badge-amber  { background: var(--amber-bg); color: var(--amber-text); }
+  .badge-green {
+    background: var(--primary-light);
+    color: var(--primary-dark);
+  }
+
+  .badge-red  {
+    background: var(--red-bg);
+    color: var(--red-text); 
+  }

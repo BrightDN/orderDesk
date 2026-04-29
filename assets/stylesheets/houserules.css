@@ -21,13 +21,14 @@
     --radius-md: 8px;
     --radius-lg: 12px;
     --radius-xl: 16px;
-
+    
     --amber-bg: #FAEEDA;
     --amber-text: #854F0B;
-    --blue-bg: #E6F1FB;
-    --blue-text: #185FA5;
-    --purple-bg: #EEEDFE;
-    --purple-text: #534AB7;
+    --red-bg:#FCEBEB;
+    --red-text:#A32D2D;
+    --red-border:#F7C1C1;
+    
+
 
     --sidebar-width: 210px;
   }
@@ -101,6 +102,9 @@
 
   .btn-primary:hover { background: var(--primary-dark); border-color: var(--primary-dark); }
 
+  .btn-ghost{border-color:transparent;color:var(--text-muted)}
+  .btn-ghost:hover{background:var(--bg);color:var(--text)}
+  
   .section-label {
     font-size: 11px;
     font-weight: 500;
@@ -109,3 +113,76 @@
     letter-spacing: 0.06em;
     margin-bottom: 12px;
   }
+
+
+.module {
+  background:var(--surface);
+  border:0.5px solid var(--border);
+  border-radius:var(--radius-lg);
+  padding:16px 18px;
+  margin-bottom:16px
+}
+
+.module-header {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:14px;
+  padding-bottom:12px;
+  border-bottom:0.5px solid var(--border)
+}
+
+.module-title{font-size:13px;font-weight:500;color:var(--text)}
+
+
+/* MODALS  */
+.modal-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 18px;
+  border-bottom:0.5px solid var(--border);
+}
+.modal-title{font-size:14px;font-weight:500;color:var(--text)}
+.modal-close{
+  width:26px;height:26px;border-radius:var(--radius-sm);
+  border:none;background:transparent;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;color:var(--text-muted);transition:background .12s;
+}
+.modal-close:hover{background:var(--bg)}
+.modal-close svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.modal-body{padding:18px}
+.modal-footer{
+  display:flex;align-items:center;justify-content:flex-end;gap:8px;
+  padding:12px 18px;
+  border-top:0.5px solid var(--border);
+}
+.field{margin-bottom:14px}
+.field:last-child{margin-bottom:0}
+.field label{display:block;font-size:12px;font-weight:500;color:var(--text-secondary);margin-bottom:6px}
+.field input,.field select,.field textarea{
+  width:100%;padding:7px 10px;
+  border-radius:var(--radius-md);
+  border:0.5px solid var(--border-mid);
+  font-size:13px;font-family:inherit;
+  background:var(--surface);color:var(--text);
+  outline:none;transition:border-color .12s;
+}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--primary)}
+.field input::placeholder,.field textarea::placeholder{color:var(--text-muted)}
+.field textarea{resize:vertical;min-height:72px}
+.field-hint{font-size:11px;color:var(--text-muted);margin-top:4px}
+
+dialog {
+  border: 0.5px solid var(--border-mid);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  width: 100%;
+  max-width: 420px;
+  overflow: hidden;
+  padding: 0;
+}
+
+dialog::backdrop {
+  background: rgba(0,0,0,0.25);
+  backdrop-filter: blur(1px);
+}
