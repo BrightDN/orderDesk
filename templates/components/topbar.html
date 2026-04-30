@@ -1,14 +1,13 @@
-    
 {{ define "topbar" }}
-    <div class="topbar">
-      <div class="page-title">{{ .Page }}</div>
+    <header class="topbar">
+      <h1 class="page-title">{{ .Page }}</h1>
       {{ if eq .Page "suppliers" }}
-    <div class="topbar-actions">
+      <div class="topbar-actions">
         <button class="btn-primary" command="show-modal" commandfor="modal-add-supplier">
           <svg viewBox="0 0 14 14"><path d="M7 2v10M2 7h10"/></svg>
           Add supplier
         </button>
       </div>
       {{ end }}
-    </div>
+    </header>
 {{ end }}

@@ -45,3 +45,116 @@
     background: var(--red-bg);
     color: var(--red-text); 
   }
+
+  .module-title-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .module-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .is-hidden { display: none; }
+
+  .status-select {
+    font-size: 12px;
+    font-family: inherit;
+    padding: 2px 8px;
+    border-radius: 20px;
+    border: 0.5px solid var(--border-mid);
+    background: var(--surface);
+    color: var(--text-secondary);
+    outline: none;
+  }
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 8px 0;
+    align-items: start;
+  }
+
+  .info-grid.is-hidden { display: none; }
+
+  .info-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    padding: 6px 0;
+  }
+
+  .info-label-top { padding-top: 6px; }
+
+  .info-value {
+    font-size: 13px;
+    color: var(--text);
+    padding: 6px 0;
+  }
+
+  .muted-value { color: var(--text-muted); }
+
+  .info-value a {
+    color: var(--primary);
+    text-decoration: none;
+  }
+
+  .info-control { padding: 4px 0; }
+
+  .info-input {
+    width: 100%;
+    padding: 5px 8px;
+    border-radius: var(--radius-sm);
+    border: 0.5px solid var(--border-mid);
+    font-size: 13px;
+    font-family: inherit;
+    background: var(--surface);
+    color: var(--text);
+    outline: none;
+  }
+
+  .info-textarea {
+    width: 100%;
+    padding: 6px 8px;
+    border-radius: var(--radius-sm);
+    border: 0.5px solid var(--border-mid);
+    font-size: 13px;
+    font-family: inherit;
+    background: var(--surface);
+    color: var(--text);
+    outline: none;
+    resize: vertical;
+    min-height: 72px;
+  }
+
+  .legend {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 4px;
+    line-height: 1.5;
+  }
+
+  .legend-spaced { margin-top: 6px; }
+
+  .legend code {
+    font-size: 11px;
+    background: var(--bg);
+    border: 0.5px solid var(--border-mid);
+    border-radius: 4px;
+    padding: 1px 5px;
+    color: var(--text-secondary);
+    font-family: monospace;
+  }
+
+  .mail-preview {
+    font-size: 12px;
+    color: var(--text-secondary);
+    background: var(--bg);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 8px 10px;
+    margin-top: 4px;
+    line-height: 1.6;
+  }

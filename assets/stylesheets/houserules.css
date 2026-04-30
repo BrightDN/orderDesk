@@ -114,6 +114,45 @@
     margin-bottom: 12px;
   }
 
+  .logo-mark,
+  .od-logo {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+  }
+
+  .logo-icon,
+  .od-logo-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    background: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .logo-icon svg,
+  .od-logo-icon svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .logo-text,
+  .od-logo-text {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .logo-sub,
+  .od-logo-sub {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 1px;
+  }
+
 
 .module {
   background:var(--surface);
@@ -171,13 +210,16 @@
 .field input::placeholder,.field textarea::placeholder{color:var(--text-muted)}
 .field textarea{resize:vertical;min-height:72px}
 .field-hint{font-size:11px;color:var(--text-muted);margin-top:4px}
+.field-optional{color:var(--text-muted);font-weight:400}
 
 dialog {
   border: 0.5px solid var(--border-mid);
   border-radius: var(--radius-lg);
   background: var(--surface);
-  width: 100%;
+  margin: auto;
+  width: calc(100% - 32px);
   max-width: 420px;
+  max-height: calc(100vh - 32px);
   overflow: hidden;
   padding: 0;
 }

@@ -1,51 +1,50 @@
 {{ define "supplierList" }}
-      <div class="section-label">Suppliers — 4 total</div>
+      <p class="section-label">Suppliers &mdash; 4 total</p>
 
       <div class="supplier-grid">
-        <div class="supplier-card selected">
+        <article class="supplier-card selected">
           <div class="s-header">
             <div>
-              <div class="s-name">FreshVeg BV</div>
-              <div class="s-cat">Produce</div>
+              <h2 class="s-name">FreshVeg BV</h2>
+              <p class="s-cat">Produce</p>
             </div>
           </div>
           <div class="s-meta">
-            <div class="s-count">14 products</div>
+            <p class="s-count">14 products</p>
             {{ if eq .Page "suppliers"}}
             <span class="badge-green">Active</span>
             {{ end }}
           </div>
-        </div>
+        </article>
 
-        <div class="supplier-card">
+        <article class="supplier-card">
           <div class="s-header">
-
             <div>
-              <div class="s-name">DairyGo</div>
-              <div class="s-cat">Dairy &amp; eggs</div>
+              <h2 class="s-name">DairyGo</h2>
+              <p class="s-cat">Dairy &amp; eggs</p>
             </div>
           </div>
           <div class="s-meta">
-            <div class="s-count">8 products</div>
+            <p class="s-count">8 products</p>
             {{ if eq .Page "suppliers"}}
             <span class="badge-green">Active</span>
             {{ end }}
           </div>
-        </div>
+        </article>
 
-        <div class="supplier-card">
+        <article class="supplier-card">
           <div class="s-header">
             <div>
-              <div class="s-name">BakkerKoning</div>
-              <div class="s-cat">Bakery</div>
+              <h2 class="s-name">BakkerKoning</h2>
+              <p class="s-cat">Bakery</p>
             </div>
           </div>
           <div class="s-meta">
-            <div class="s-count">6 products</div>
+            <p class="s-count">6 products</p>
             {{ if eq .Page "suppliers"}}
             <span class="badge-red">Inactive</span>
             {{ end }}
           </div>
-        </div>
+        </article>
       </div>
 {{ end }}

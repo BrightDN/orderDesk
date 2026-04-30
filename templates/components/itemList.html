@@ -1,6 +1,6 @@
 {{ define "itemList" }}
-  <p class="section-label" style="margin-top:4px">New order — FreshVeg BV</p>
-  
+  <p class="section-label order-section-label">New order &mdash; FreshVeg BV</p>
+
   <div class="order-panel">
     <table class="order-table">
       <thead>
@@ -38,7 +38,7 @@
           </td>
           {{ end }}
         </tr>
-        
+
         <tr>
           <td>
             <p class="order-product">Tomatoes (500g)</p>
@@ -64,17 +64,16 @@
         </tr>
       </tbody>
     </table>
-    
-    
+
     {{ if eq .Page "suppliers" }}
     <div class="add-product-row">
-      <button class="btn" style="font-size:12px;padding:5px 12px" command="show-modal" commandfor="modal-add-product">
+      <button class="btn btn-compact" command="show-modal" commandfor="modal-add-product">
         <svg viewBox="0 0 14 14"><path d="M7 2v10M2 7h10"/></svg>
         Add product
       </button>
     </div>
     {{ end }}
-    
+
     {{ if eq .Page "new order" }}
     <div class="order-footer">
       <p class="footer-note">Sending to <span>orders@freshveg.nl</span></p>
@@ -82,8 +81,7 @@
         <svg viewBox="0 0 14 14"><path d="M2 7l4 4 6-7"/></svg>
         Send order
       </button>
-      {{ end }}
-      
     </div>
+    {{ end }}
   </div>
-  {{ end }}
+{{ end }}

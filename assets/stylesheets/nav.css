@@ -13,32 +13,8 @@
     border-bottom: 0.5px solid var(--border);
   }
 
-  .logo-mark {
-    display: flex;
-    align-items: center;
-    gap: 9px;
-  }
-
-  .logo-icon {
-    width: 30px;
-    height: 30px;
-    border-radius: 8px;
-    background: var(--primary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
-
-  .logo-icon svg {
-    width: 16px;
-    height: 16px;
-  }
-
-  .logo-text { font-size: 14px; font-weight: 500; color: var(--text); }
-  .logo-sub  { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
-
   .nav-section { padding: 10px 10px 0; }
+  .nav-section-spaced { margin-top: 6px; }
 
   .nav-label {
     font-size: 10px;

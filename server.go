@@ -70,6 +70,11 @@ func main() {
 		})
 	})
 
+	e.GET("/dashboard/history", func(c echo.Context) error {
+		return c.Render(http.StatusOK, "orderHistory", map[string]any{
+			"Page": "History",
+		})
+	})
 	httpPort := os.Getenv("PORT")
 	if httpPort == "" {
 		httpPort = "8080"

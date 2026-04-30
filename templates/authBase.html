@@ -6,147 +6,50 @@
   <title>{{ block "title" . }}Default{{ end }}</title>
   
   <link rel="stylesheet" href="/assets/stylesheets/houserules.css">
+  <link rel="stylesheet" href="/assets/stylesheets/auth.css">
 
   {{ block "stylesheets" . }}{{end}}
   {{ block "scripts" . }}{{end}}
-  <script defer src="/assets/scripts/supplierList.js"></script>
 
-  <style>
-    .od-wrap {
-      min-height: 520px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 32px 16px;
-    }
-    .od-card {
-      background: var(--surface);
-      border: 0.5px solid var(--border-mid);
-      border-radius: var(--radius-lg);
-      padding: 32px 28px 28px;
-      width: 100%;
-      max-width: 360px;
-    }
-    .od-logo {
-      display: flex;
-      align-items: center;
-      gap: 9px;
-      margin-bottom: 28px;
-    }
-    .od-logo-icon {
-      width: 30px;
-      height: 30px;
-      border-radius: 8px;
-      background: var(--primary);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-    .od-logo-icon svg { width: 16px; height: 16px; }
-    .od-logo-text { font-size: 14px; font-weight: 500; color: var(--text); }
-    .od-logo-sub { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
-    .od-heading { font-size: 16px; font-weight: 500; color: var(--text); margin-bottom: 4px; }
-    .od-sub { font-size: 13px; color: var(--text-secondary); margin-bottom: 24px; }
-    .od-field { margin-bottom: 14px; }
-    .od-label {
-      display: block;
-      font-size: 12px;
-      font-weight: 500;
-      color: var(--text-secondary);
-      margin-bottom: 6px;
-    }
-    .od-input {
-      width: 100%;
-      padding: 8px 11px;
-      border-radius: var(--radius-md);
-      border: 0.5px solid var(--border-mid);
-      font-size: 13px;
-      font-family: inherit;
-      background: var(--surface);
-      color: var(--text);
-      outline: none;
-      transition: border-color 0.12s;
-    }
-    .od-input:focus { border-color: var(--primary); }
-    .od-input::placeholder { color: var(--text-muted); }
-    .od-btn {
-      width: 100%;
-      padding: 9px 14px;
-      border-radius: var(--radius-md);
-      font-size: 13px;
-      font-weight: 500;
-      cursor: pointer;
-      border: 0.5px solid var(--primary);
-      background: var(--primary);
-      color: #fff;
-      font-family: inherit;
-      transition: background 0.12s;
-      margin-top: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-    }
-    .od-btn:hover { background: var(--primary-dark); border-color: var(--primary-dark); }
-    .od-btn svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-    .od-divider {
-      border: none;
-      border-top: 0.5px solid var(--border);
-      margin: 22px 0;
-    }
-    .od-footer { font-size: 12px; color: var(--text-muted); text-align: center; }
-    .od-error {
-      background: #FCEBEB;
-      color: #A32D2D;
-      border: 0.5px solid #F7C1C1;
-      border-radius: var(--radius-md);
-      padding: 8px 11px;
-      font-size: 12px;
-      margin-bottom: 16px;
-      display: none;
-    }
-    .od-error.show { display: block; }
-  </style>
 </head>
 <body>
-<div class="od-wrap">
-  <div class="od-card">
-    <div class="od-logo">
+<main class="od-wrap">
+  <section class="od-card" aria-labelledby="login-heading">
+    <header class="od-logo">
       <div class="od-logo-icon">
         <svg viewBox="0 0 16 16" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
           <path d="M3 13V7m0 0L8 3l5 4m-5-4v10m5-6v6M1 13h14"/>
         </svg>
       </div>
       <div>
-        <div class="od-logo-text">OrderDesk</div>
-        <div class="od-logo-sub">Markt Storeroom</div>
+        <p class="od-logo-text">OrderDesk</p>
+        <p class="od-logo-sub">Markt Storeroom</p>
       </div>
+    </header>
+
+    <h1 class="od-heading" id="login-heading">Welcome back</h1>
+    <p class="od-sub">Sign in to your workspace</p>
+
+    <p class="od-error" id="od-err">Invalid email or password. Please try again.</p>
+
+    <div class="field od-field">
+      <label for="od-email">Email</label>
+      <input id="od-email" type="email" placeholder="you@company.com" autocomplete="email">
+    </div>
+    <div class="field od-field">
+      <label for="od-pass">Password</label>
+      <input id="od-pass" type="password" placeholder="Password" autocomplete="current-password">
     </div>
 
-    <div class="od-heading">Welcome back</div>
-    <div class="od-sub">Sign in to your workspace</div>
-
-    <div class="od-error" id="od-err">Invalid email or password. Please try again.</div>
-
-    <div class="od-field">
-      <label class="od-label" for="od-email">Email</label>
-      <input class="od-input" id="od-email" type="email" placeholder="you@company.com" autocomplete="email">
-    </div>
-    <div class="od-field">
-      <label class="od-label" for="od-pass">Password</label>
-      <input class="od-input" id="od-pass" type="password" placeholder="••••••••" autocomplete="current-password">
-    </div>
-
-    <button class="od-btn" id="od-submit">
+    <button class="btn-primary od-btn" id="od-submit">
       <svg viewBox="0 0 14 14"><path d="M2 7h10M7 2l5 5-5 5"/></svg>
       Sign in
     </button>
 
     <hr class="od-divider">
-    <div class="od-footer">Contact your administrator to create an account</div>
-  </div>
-</div>
+    <p class="od-footer">Contact your administrator to create an account</p>
+  </section>
+</main>
 
 <script>
   document.getElementById('od-submit').addEventListener('click', () => {

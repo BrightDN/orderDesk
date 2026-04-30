@@ -1,7 +1,7 @@
 {{ define "navbar" }}
 
-  <div class="sidebar">
-    <div class="logo">
+  <aside class="sidebar">
+    <header class="logo">
       <div class="logo-mark">
         <div class="logo-icon">
           <svg viewBox="0 0 16 16" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -9,14 +9,14 @@
           </svg>
         </div>
         <div>
-          <div class="logo-text">OrderDesk</div>
-          <div class="logo-sub">{{ "storename" }}</div>
+          <p class="logo-text">OrderDesk</p>
+          <p class="logo-sub">{{ "storename" }}</p>
         </div>
       </div>
-    </div>
+    </header>
 
-    <div class="nav-section">
-      <div class="nav-label">Menu</div>
+    <nav class="nav-section" aria-label="Main menu">
+      <p class="nav-label">Menu</p>
       <a href="/dashboard/suppliers" class='nav-item {{ if eq .Page "suppliers" }} active {{end }}'>
         <svg viewBox="0 0 16 16"><rect x="2" y="2" width="5" height="5" rx="1"/><rect x="9" y="2" width="5" height="5" rx="1"/><rect x="2" y="9" width="5" height="5" rx="1"/><rect x="9" y="9" width="5" height="5" rx="1"/></svg>
         Suppliers
@@ -29,10 +29,10 @@
         <svg viewBox="0 0 16 16"><path d="M2 3h12v2H2zm0 4h12v2H2zm0 4h7v2H2z"/></svg>
         Order history
       </a>
-    </div>
+    </nav>
 
-    <div class="nav-section" style="margin-top: 6px;">
-      <div class="nav-label">Admin</div>
+    <nav class="nav-section nav-section-spaced" aria-label="Admin menu">
+      <p class="nav-label">Admin</p>
       <a class='nav-item {{ if eq .Page "contacts" }} active {{end }}'>
         <svg viewBox="0 0 16 16"><circle cx="8" cy="5" r="3"/><path d="M2 14c0-3.3 2.7-6 6-6s6 2.7 6 6"/></svg>
         Contacts
@@ -41,16 +41,16 @@
         <svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"/><path d="M8 5v3l2 2"/></svg>
         Settings
       </a>
-    </div>
+    </nav>
 
     <div class="nav-bottom">
       <div class="nav-user">
         <div>
-          <div class="user-name">Jan V.</div>
-          <div class="user-role">Employee</div>
+          <p class="user-name">Jan V.</p>
+          <p class="user-role">Employee</p>
         </div>
       </div>
     </div>
-  </div>
+  </aside>
 
 {{ end }}
