@@ -27,7 +27,7 @@
         <svg viewBox="0 0 16 16"><path d="M2 4h12M4 4V3a1 1 0 011-1h6a1 1 0 011 1v1m2 0l-1 9a1 1 0 01-1 1H4a1 1 0 01-1-1L2 4"/></svg>
         New order
       </a>
-      <a href="/dashboard/history" class='nav-item {{ if eq .Page "order history" }} active {{end }}'>
+      <a href="/dashboard/history" class='nav-item {{ if eq .Page "history" }} active {{end }}'>
         <svg viewBox="0 0 16 16"><path d="M2 3h12v2H2zm0 4h12v2H2zm0 4h7v2H2z"/></svg>
         Order history
       </a>
@@ -35,7 +35,7 @@
 
     <nav class="nav-section nav-section-spaced" aria-label="Admin menu">
       <p class="nav-label">Admin</p>
-      <a href="/dashboard/settings" class='nav-item {{ if eq .Page "settings" }} active {{end }}'>
+      <a href="/dashboard/settings" class='nav-item {{ if eq .Page "company settings" }} active {{end }}'>
         <svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"/><path d="M8 5v3l2 2"/></svg>
         Settings
       </a>
@@ -52,7 +52,8 @@
       <div id="settings-pop" popover>
         <a href="/settings/user">User settings</a>
         <a href="/settings/company">Switch company</a>
-        <a href="/logout">Logout</a>
+        <a href="/support/contact">Contact</a>
+        <a href="/auth/logout">Logout</a>
       </div>
     </div>
   </aside>
