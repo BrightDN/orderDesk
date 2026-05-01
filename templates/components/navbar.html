@@ -8,10 +8,12 @@
             <path d="M3 13V7m0 0L8 3l5 4m-5-4v10m5-6v6M1 13h14"/>
           </svg>
         </div>
+        
         <div>
           <p class="logo-text">OrderDesk</p>
           <p class="logo-sub">{{ "storename" }}</p>
         </div>
+
       </div>
     </header>
 
@@ -33,11 +35,7 @@
 
     <nav class="nav-section nav-section-spaced" aria-label="Admin menu">
       <p class="nav-label">Admin</p>
-      <a class='nav-item {{ if eq .Page "contacts" }} active {{end }}'>
-        <svg viewBox="0 0 16 16"><circle cx="8" cy="5" r="3"/><path d="M2 14c0-3.3 2.7-6 6-6s6 2.7 6 6"/></svg>
-        Contacts
-      </a>
-      <a class='nav-item {{ if eq .Page "settings" }} active {{end }}'>
+      <a href="/dashboard/settings" class='nav-item {{ if eq .Page "settings" }} active {{end }}'>
         <svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"/><path d="M8 5v3l2 2"/></svg>
         Settings
       </a>
@@ -49,6 +47,12 @@
           <p class="user-name">Jan V.</p>
           <p class="user-role">Employee</p>
         </div>
+      </div>
+      <button class="btn" popovertarget="settings-pop">⚙</button>
+      <div id="settings-pop" popover>
+        <a href="/settings/user">User settings</a>
+        <a href="/settings/company">Switch company</a>
+        <a href="/logout">Logout</a>
       </div>
     </div>
   </aside>

@@ -65,37 +65,6 @@
 
   .unit-label { font-size: 12px; color: var(--text-secondary); }
 
-  .del-btn {
-    width: 28px;
-    height: 28px;
-    border-radius: var(--radius-sm);
-    border: 0.5px solid var(--border);
-    background: transparent;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    color: var(--text-muted);
-    transition: background 0.12s, color 0.12s;
-    flex-shrink:0
-  }
-
-  .del-btn:hover {
-    background:var(--red-bg);
-    color:var(--red-text);
-    border-color:var(--red-border)
-  }
-
-  .del-btn svg {
-    width: 12px;
-    height: 12px;
-    stroke: currentColor;
-    fill: none;
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
-
   .add-product-row {
     padding: 10px 0 4px;
   }

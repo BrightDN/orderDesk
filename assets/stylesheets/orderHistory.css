@@ -1,0 +1,22 @@
+.order-count{font-size:12px;color:var(--text-muted)}
+
+.history-table{width:100%;border-collapse:collapse;table-layout:fixed}
+.history-table thead tr{font-size:10px;font-weight:500;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em}
+.history-table th{padding:10px 16px;text-align:left;border-bottom:0.5px solid var(--border)}
+.history-table td{padding:11px 16px;border-bottom:0.5px solid var(--border);vertical-align:middle}
+.history-table tbody tr:last-child td{border-bottom:none}
+.history-table tbody tr:hover{background:var(--bg)}
+.history-table th:nth-child(2){width:130px}
+.history-table th:nth-child(3){width:90px}
+.history-table th:nth-child(4){width:100px}
+.history-table th:nth-child(5){width:44px}
+
+.order-ref{font-size:13px;color:var(--text);font-weight:500}
+.order-date{font-size:13px;color:var(--text)}
+.order-date-sub{font-size:11px;color:var(--text-muted);margin-top:1px}
+.order-items{font-size:13px;color:var(--text)}
+.order-by{font-size:13px;color:var(--text-secondary)}
+
+.btn-dl:hover{background:var(--primary-light);color:var(--primary-dark);border-color:var(--primary)}
+
+.empty{padding:40px 16px;text-align:center;color:var(--text-muted);font-size:13px}

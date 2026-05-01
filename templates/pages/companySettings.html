@@ -1,0 +1,304 @@
+{{ define "companySettings" }}
+    {{ template "adminBase" . }}
+{{ end }}
+
+{{ define "title"}} OD - Company settings {{end}}
+
+
+{{ define "content" }}
+
+<style>
+.btn-sm{padding:5px 10px;font-size:12px}
+
+.section-label{font-size:11px;font-weight:500;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px}
+
+.info-grid{display:grid;grid-template-columns:140px 1fr;gap:8px 0;align-items:center}
+.info-label{font-size:12px;color:var(--text-muted);padding:6px 0}
+.info-value{font-size:13px;color:var(--text);padding:6px 0}
+.info-value.muted{color:var(--text-muted)}
+.info-input{width:100%;padding:6px 9px;border-radius:var(--radius-md);border:0.5px solid var(--border-mid);font-size:13px;font-family:inherit;background:var(--surface);color:var(--text);outline:none;transition:border-color .12s}
+.info-input:focus{border-color:var(--primary)}
+
+.emp-table{width:100%;border-collapse:collapse;table-layout:fixed}
+.emp-table thead tr{font-size:10px;font-weight:500;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em}
+.emp-table th{padding:0 0 8px;text-align:left;border-bottom:0.5px solid var(--border)}
+.emp-table td{padding:10px 0;border-bottom:0.5px solid var(--border);vertical-align:middle}
+.emp-table tbody tr:last-child td{border-bottom:none}
+.emp-table th:nth-child(2){width:180px}
+.emp-table th:nth-child(3){width:150px}
+.emp-table th:nth-child(4){width:72px;text-align:right}
+
+.emp-name{font-size:13px;font-weight:500;color:var(--text)}
+.emp-email{font-size:11px;color:var(--text-muted);margin-top:1px}
+
+.role-select{padding:4px 8px;border-radius:var(--radius-md);border:0.5px solid var(--border-mid);font-size:12px;font-family:inherit;background:var(--surface);color:var(--text-secondary);outline:none;cursor:pointer;width:140px}
+.role-select:focus{border-color:var(--primary)}
+
+.row-actions{display:flex;justify-content:flex-end;gap:6px}
+.del-btn{width:28px;height:28px;border-radius:var(--radius-sm);border:0.5px solid var(--border);background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text-muted);transition:background .12s,color .12s}
+.del-btn:hover{background:var(--red-bg);color:var(--red-text);border-color:var(--red-border)}
+.del-btn svg,.icon-btn svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+.add-row{padding:12px 0 2px}
+
+/* Modal */
+.field{margin-bottom:14px}
+.field:last-child{margin-bottom:0}
+.field label{display:block;font-size:12px;font-weight:500;color:var(--text-secondary);margin-bottom:6px}
+.field input,.field select{width:100%;padding:7px 10px;border-radius:var(--radius-md);border:0.5px solid var(--border-mid);font-size:13px;font-family:inherit;background:var(--surface);color:var(--text);outline:none;transition:border-color .12s}
+.field input:focus,.field select:focus{border-color:var(--primary)}
+.field input::placeholder{color:var(--text-muted)}
+
+.perm-section{margin-bottom:14px}
+.perm-section:last-child{margin-bottom:0}
+.perm-section-title{font-size:11px;font-weight:500;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+.perm-row{display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:0.5px solid var(--border)}
+.perm-row:last-child{border-bottom:none}
+.perm-label{font-size:13px;color:var(--text-secondary)}
+.toggle{position:relative;display:inline-block;width:32px;height:18px;flex-shrink:0}
+.toggle input{opacity:0;width:0;height:0}
+.toggle-slider{position:absolute;inset:0;background:var(--border-mid);border-radius:18px;transition:.2s;cursor:pointer}
+.toggle-slider:before{content:'';position:absolute;width:12px;height:12px;left:3px;top:3px;background:white;border-radius:50%;transition:.2s}
+.toggle input:checked+.toggle-slider{background:var(--primary)}
+.toggle input:checked+.toggle-slider:before{transform:translateX(14px)}
+</style>
+
+<p class="section-label">Company settings</p>
+
+<!-- Company info module -->
+<div class="module">
+  <div class="module-header">
+    <span class="module-title">Company information</span>
+    <div style="display:flex;gap:6px">
+      <button class="btn-ghost btn-sm" id="edit-btn">
+        <svg viewBox="0 0 14 14"><path d="M9.5 2.5l2 2L4 12H2v-2L9.5 2.5z"/></svg>
+        Edit
+      </button>
+      <button class="btn-primary btn-sm" id="save-btn" style="display:none">
+        <svg viewBox="0 0 14 14"><path d="M2 7l4 4 6-7"/></svg>
+        Save
+      </button>
+      <button class="btn btn-sm" id="cancel-btn" style="display:none">Cancel</button>
+    </div>
+  </div>
+
+  <div class="info-grid" id="view-mode">
+    <span class="info-label">Company name</span>
+    <span class="info-value">Markt Storeroom</span>
+    <span class="info-label">Email</span>
+    <span class="info-value muted">markt@storeroom.nl <span style="font-size:11px;color:var(--text-muted)">(contact admin to change)</span></span>
+    <span class="info-label">Location</span>
+    <span class="info-value">Amsterdam, NL</span>
+  </div>
+
+  <div class="info-grid" id="edit-mode" style="display:none">
+    <span class="info-label">Company name</span>
+    <div style="padding:4px 0"><input class="info-input" value="Markt Storeroom"></div>
+    <span class="info-label">Email</span>
+    <span class="info-value muted">markt@storeroom.nl <span style="font-size:11px">(contact admin to change)</span></span>
+    <span class="info-label">Location</span>
+    <div style="padding:4px 0"><input class="info-input" value="Amsterdam, NL"></div>
+  </div>
+</div>
+
+<!-- Employees module -->
+<div class="module">
+  <div class="module-header">
+    <span class="module-title">Employees</span>
+    <button class="btn-primary btn-sm" onclick="openModal('modal-add-employee')">
+      <svg viewBox="0 0 14 14"><path d="M7 2v10M2 7h10"/></svg>
+      Add employee
+    </button>
+  </div>
+
+  <table class="emp-table">
+    <thead>
+      <tr>
+        <th>Employee</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <p class="emp-name">Jan V.</p>
+          <p class="emp-email" style="font-size:10px;color:var(--primary)">you</p>
+        </td>
+        <td><span style="font-size:13px;color:var(--text-secondary)">jan@storeroom.nl</span></td>
+        <td><span style="font-size:12px;color:var(--text-muted)">Super admin</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>
+          <p class="emp-name">Marie K.</p>
+          <p class="emp-email">marie@storeroom.nl</p>
+        </td>
+        <td><span style="font-size:13px;color:var(--text-secondary)">marie@storeroom.nl</span></td>
+        <td>
+          <select class="role-select" onchange="handleRoleChange(this)">
+            <option>Admin</option>
+            <option selected>Manager</option>
+            <option>Employee</option>
+            <option value="custom">Custom...</option>
+          </select>
+        </td>
+        <td>
+          <div class="row-actions">
+            <button class="del-btn" title="Remove employee">
+              <svg viewBox="0 0 12 12"><path d="M2 2l8 8M10 2L2 10"/></svg>
+            </button>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p class="emp-name">Thomas B.</p>
+          <p class="emp-email">thomas@storeroom.nl</p>
+        </td>
+        <td><span style="font-size:13px;color:var(--text-secondary)">thomas@storeroom.nl</span></td>
+        <td>
+          <select class="role-select" onchange="handleRoleChange(this)">
+            <option>Admin</option>
+            <option>Manager</option>
+            <option selected>Employee</option>
+            <option value="custom">Custom...</option>
+          </select>
+        </td>
+        <td>
+          <div class="row-actions">
+            <button class="del-btn" title="Remove employee">
+              <svg viewBox="0 0 12 12"><path d="M2 2l8 8M10 2L2 10"/></svg>
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<script>
+function handleRoleChange(select){
+  if(select.value==='custom'){
+    openModal('modal-permissions');
+    select.value = select.dataset.prev || 'Employee';
+  } else {
+    select.dataset.prev = select.value;
+  }
+}
+
+const editBtn=document.getElementById('edit-btn');
+const saveBtn=document.getElementById('save-btn');
+const cancelBtn=document.getElementById('cancel-btn');
+const viewMode=document.getElementById('view-mode');
+const editMode=document.getElementById('edit-mode');
+
+editBtn.addEventListener('click',()=>{
+  viewMode.style.display='none';editMode.style.display='grid';
+  editBtn.style.display='none';saveBtn.style.display='inline-flex';cancelBtn.style.display='inline-flex';
+});
+[saveBtn,cancelBtn].forEach(btn=>btn.addEventListener('click',()=>{
+  viewMode.style.display='grid';editMode.style.display='none';
+  editBtn.style.display='inline-flex';saveBtn.style.display='none';cancelBtn.style.display='none';
+}));
+
+document.querySelectorAll('.del-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>btn.closest('tr').remove())
+});
+</script>
+{{ end }}
+
+{{ define "modals" }}
+<!-- Add employee modal -->
+<dialog id="modal-add-employee">
+    <div class="modal-header">
+      <span class="modal-title">Add employee</span>
+      <button class="modal-close" command="close" onclick="closeModal('modal-add-employee')">
+        <svg viewBox="0 0 12 12"><path d="M2 2l8 8M10 2L2 10"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="field">
+        <label>Display name</label>
+        <input type="text" placeholder="e.g. Jan V.">
+      </div>
+      <div class="field">
+        <label>Email address</label>
+        <input type="email" placeholder="employee@company.nl">
+      </div>
+      <div class="field">
+        <label>Role</label>
+        <select>
+          <option value="">Select a role</option>
+          <option>Admin</option>
+          <option>Manager</option>
+          <option>Employee</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-ghost" onclick="closeModal('modal-add-employee')">Cancel</button>
+      <button class="btn-primary">
+        <svg viewBox="0 0 14 14"><path d="M2 7l4 4 6-7"/></svg>
+        Send invite
+      </button>
+    </div>
+</dialog>
+
+<!-- Custom permissions modal -->
+<dialog id="modal-permissions">
+    <div class="modal-header">
+      <span class="modal-title">Custom permissions</span>
+      <button class="modal-close" onclick="closeModal('modal-permissions')">
+        <svg viewBox="0 0 12 12"><path d="M2 2l8 8M10 2L2 10"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="perm-section">
+        <p class="perm-section-title">Suppliers</p>
+        <div class="perm-row">
+          <span class="perm-label">View suppliers</span>
+          <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+        </div>
+        <div class="perm-row">
+          <span class="perm-label">Edit suppliers</span>
+          <label class="toggle"><input type="checkbox"><span class="toggle-slider"></span></label>
+        </div>
+        <div class="perm-row">
+          <span class="perm-label">Add suppliers</span>
+          <label class="toggle"><input type="checkbox"><span class="toggle-slider"></span></label>
+        </div>
+      </div>
+      <div class="perm-section">
+        <p class="perm-section-title">Orders</p>
+        <div class="perm-row">
+          <span class="perm-label">View order history</span>
+          <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+        </div>
+        <div class="perm-row">
+          <span class="perm-label">Place orders</span>
+          <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+        </div>
+      </div>
+      <div class="perm-section">
+        <p class="perm-section-title">Company</p>
+        <div class="perm-row">
+          <span class="perm-label">View company settings</span>
+          <label class="toggle"><input type="checkbox"><span class="toggle-slider"></span></label>
+        </div>
+        <div class="perm-row">
+          <span class="perm-label">Manage employees</span>
+          <label class="toggle"><input type="checkbox"><span class="toggle-slider"></span></label>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-ghost" command="close" commandfor="modal-permissions">Cancel</button>
+      <button class="btn-primary">
+        <svg viewBox="0 0 14 14"><path d="M2 7l4 4 6-7"/></svg>
+        Save permissions
+      </button>
+    </div>
+</dialog>
+{{ end }}

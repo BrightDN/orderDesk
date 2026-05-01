@@ -4,10 +4,12 @@
 
 {{ define "title" }}OD - History{{ end }}
 {{ define "stylesheets"}}
+<link rel="stylesheet" href="/assets/stylesheets/orderHistory.css">
 {{end}}
 
 {{ define "scripts" }}
 {{ end }}
 
 {{ define "content" }}
+  {{ template "historyTable" . }}
 {{ end }}
