@@ -4,6 +4,9 @@
 
 {{ define "title"}} OD - Company settings {{end}}
 
+{{ define "scripts" }}
+<script src="/assets/scripts/modalOpener.js"></script>
+{{ end }}
 
 {{ define "content" }}
 
@@ -35,19 +38,9 @@
 .role-select:focus{border-color:var(--primary)}
 
 .row-actions{display:flex;justify-content:flex-end;gap:6px}
-.del-btn{width:28px;height:28px;border-radius:var(--radius-sm);border:0.5px solid var(--border);background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text-muted);transition:background .12s,color .12s}
-.del-btn:hover{background:var(--red-bg);color:var(--red-text);border-color:var(--red-border)}
-.del-btn svg,.icon-btn svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-
 .add-row{padding:12px 0 2px}
 
 /* Modal */
-.field{margin-bottom:14px}
-.field:last-child{margin-bottom:0}
-.field label{display:block;font-size:12px;font-weight:500;color:var(--text-secondary);margin-bottom:6px}
-.field input,.field select{width:100%;padding:7px 10px;border-radius:var(--radius-md);border:0.5px solid var(--border-mid);font-size:13px;font-family:inherit;background:var(--surface);color:var(--text);outline:none;transition:border-color .12s}
-.field input:focus,.field select:focus{border-color:var(--primary)}
-.field input::placeholder{color:var(--text-muted)}
 
 .perm-section{margin-bottom:14px}
 .perm-section:last-child{margin-bottom:0}
@@ -105,7 +98,7 @@
 <div class="module">
   <div class="module-header">
     <span class="module-title">Employees</span>
-    <button class="btn-primary btn-sm" onclick="openModal('modal-add-employee')">
+    <button class="btn-primary btn-sm" command="show-modal" commandfor="modal-add-employee">
       <svg viewBox="0 0 14 14"><path d="M7 2v10M2 7h10"/></svg>
       Add employee
     </button>
@@ -137,7 +130,7 @@
         </td>
         <td><span style="font-size:13px;color:var(--text-secondary)">marie@storeroom.nl</span></td>
         <td>
-          <select class="role-select" onchange="handleRoleChange(this)">
+          <select class="role-select" onchange="modalOpener(this, 'custom', '#modal-permissions')">
             <option>Admin</option>
             <option selected>Manager</option>
             <option>Employee</option>
@@ -159,9 +152,8 @@
         </td>
         <td><span style="font-size:13px;color:var(--text-secondary)">thomas@storeroom.nl</span></td>
         <td>
-          <select class="role-select" onchange="handleRoleChange(this)">
+          <select class="role-select" onchange="modalOpener(this, 'custom', '#modal-permissions')">
             <option>Admin</option>
-            <option>Manager</option>
             <option selected>Employee</option>
             <option value="custom">Custom...</option>
           </select>
@@ -179,15 +171,6 @@
 </div>
 
 <script>
-function handleRoleChange(select){
-  if(select.value==='custom'){
-    openModal('modal-permissions');
-    select.value = select.dataset.prev || 'Employee';
-  } else {
-    select.dataset.prev = select.value;
-  }
-}
-
 const editBtn=document.getElementById('edit-btn');
 const saveBtn=document.getElementById('save-btn');
 const cancelBtn=document.getElementById('cancel-btn');
@@ -214,15 +197,11 @@ document.querySelectorAll('.del-btn').forEach(btn=>{
 <dialog id="modal-add-employee">
     <div class="modal-header">
       <span class="modal-title">Add employee</span>
-      <button class="modal-close" command="close" onclick="closeModal('modal-add-employee')">
+      <button class="modal-close" command="close" commandfor="modal-add-employee">
         <svg viewBox="0 0 12 12"><path d="M2 2l8 8M10 2L2 10"/></svg>
       </button>
     </div>
     <div class="modal-body">
-      <div class="field">
-        <label>Display name</label>
-        <input type="text" placeholder="e.g. Jan V.">
-      </div>
       <div class="field">
         <label>Email address</label>
         <input type="email" placeholder="employee@company.nl">
@@ -238,8 +217,8 @@ document.querySelectorAll('.del-btn').forEach(btn=>{
       </div>
     </div>
     <div class="modal-footer">
-      <button class="btn-ghost" onclick="closeModal('modal-add-employee')">Cancel</button>
-      <button class="btn-primary">
+      <button class="btn-ghost" command="close" commandfor="modal-add-employee">Cancel</button>
+      <button class="btn-primary" command="close" commandfor="modal-add-employee">
         <svg viewBox="0 0 14 14"><path d="M2 7l4 4 6-7"/></svg>
         Send invite
       </button>
@@ -250,7 +229,7 @@ document.querySelectorAll('.del-btn').forEach(btn=>{
 <dialog id="modal-permissions">
     <div class="modal-header">
       <span class="modal-title">Custom permissions</span>
-      <button class="modal-close" onclick="closeModal('modal-permissions')">
+      <button class="modal-close" command="close" commandfor="modal-permissions">
         <svg viewBox="0 0 12 12"><path d="M2 2l8 8M10 2L2 10"/></svg>
       </button>
     </div>
@@ -295,7 +274,7 @@ document.querySelectorAll('.del-btn').forEach(btn=>{
     </div>
     <div class="modal-footer">
       <button class="btn-ghost" command="close" commandfor="modal-permissions">Cancel</button>
-      <button class="btn-primary">
+      <button class="btn-primary" command="close" commandfor="modal-permissions">
         <svg viewBox="0 0 14 14"><path d="M2 7l4 4 6-7"/></svg>
         Save permissions
       </button>
