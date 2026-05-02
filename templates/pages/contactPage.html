@@ -1,0 +1,108 @@
+{{ define "contactPage" }}
+    {{ template "defaultBase" . }}
+{{ end }}
+
+{{ define "title" }}OD - Contact{{ end }}
+
+{{ define "content" }}
+    <style>
+.card{background:var(--surface);border:0.5px solid var(--border-mid);border-radius:var(--radius-lg);width:100%;max-width:440px;padding:28px}
+
+.card-logo{display:flex;align-items:center;gap:9px;margin-bottom:24px}
+.logo-icon{width:30px;height:30px;border-radius:8px;background:var(--primary);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.logo-icon svg{width:16px;height:16px}
+.logo-text{font-size:14px;font-weight:500}
+.logo-sub{font-size:11px;color:var(--text-muted);margin-top:1px}
+
+.card-heading{font-size:16px;font-weight:500;margin-bottom:4px}
+.card-sub{font-size:13px;color:var(--text-secondary);margin-bottom:24px}
+
+.company-field{display:none}
+.company-field.visible{display:block}
+
+.divider{border:none;border-top:0.5px solid var(--border);margin:20px 0}
+
+.success{display:none;text-align:center;padding:12px 0}
+.success-icon{width:44px;height:44px;border-radius:50%;background:var(--primary-light);display:flex;align-items:center;justify-content:center;margin:0 auto 12px}
+.success-icon svg{width:20px;height:20px;stroke:var(--primary-dark);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.success-title{font-size:15px;font-weight:500;margin-bottom:4px}
+.success-sub{font-size:13px;color:var(--text-secondary)}
+</style>
+
+<div class="card">
+  <div class="card-logo">
+    <div class="logo-icon">
+      <svg viewBox="0 0 16 16" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 13V7m0 0L8 3l5 4m-5-4v10m5-6v6M1 13h14"/>
+      </svg>
+    </div>
+    <div>
+      <p class="logo-text">OrderDesk</p>
+      <p class="logo-sub">Markt Storeroom</p>
+    </div>
+  </div>
+
+  <div id="form-view">
+    <p class="card-heading">Get in touch</p>
+    <p class="card-sub">Questions, issues or want to get your business on board? Send a message and I'll get back to you.</p>
+
+    <div class="field">
+      <label>Your name</label>
+      <input type="text" placeholder="Full name">
+    </div>
+
+    <div class="field">
+      <label>Email address</label>
+      <input type="email" placeholder="you@company.nl">
+    </div>
+
+    <div class="field">
+      <label>Reason</label>
+      <select id="reason-select" onchange="handleReason(this)">
+        <option value="" disabled selected>Select a reason</option>
+        <option value="account">Request an account</option>
+        <option value="question">General question</option>
+        <option value="bug">Bug report</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
+
+    <div class="field company-field" id="company-field">
+      <label>Company name</label>
+      <input type="text" placeholder="e.g. Markt Amsterdam BV">
+    </div>
+
+    <div class="field">
+      <label>Message</label>
+      <textarea placeholder="Your message..."></textarea>
+    </div>
+
+    <hr class="divider">
+
+    <button class="btn-primary" onclick="handleSubmit()">
+      <svg viewBox="0 0 14 14"><path d="M2 7h10M7 2l5 5-5 5"/></svg>
+      Send message
+    </button>
+  </div>
+
+  <div class="success" id="success-view">
+    <div class="success-icon">
+      <svg viewBox="0 0 20 20"><path d="M3 10l5 5 9-9"/></svg>
+    </div>
+    <p class="success-title">Message sent!</p>
+    <p class="success-sub">Thanks for reaching out. I'll get back to you as soon as possible.</p>
+  </div>
+</div>
+
+<script>
+function handleReason(select){
+  const companyField = document.getElementById('company-field');
+  companyField.classList.toggle('visible', select.value === 'account');
+}
+
+function handleSubmit(){
+  document.getElementById('form-view').style.display = 'none';
+  document.getElementById('success-view').style.display = 'block';
+}
+</script>
+{{ end }}

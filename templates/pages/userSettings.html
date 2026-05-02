@@ -1,0 +1,216 @@
+{{ define userSettings }}
+ {{ template "adminBase" . }}
+{{ end }}
+
+{{ define "title"}}OD - User settings{{end}}
+
+{{ define "content" }}
+
+<style>
+.section-label:first-child{margin-top:0}
+
+.info-grid{display:grid;grid-template-columns:140px 1fr;gap:8px 0;align-items:center}
+.info-label{font-size:12px;color:var(--text-muted);padding:6px 0}
+.info-value{font-size:13px;color:var(--text);padding:6px 0}
+.info-input{width:100%;padding:6px 9px;border-radius:var(--radius-md);border:0.5px solid var(--border-mid);font-size:13px;font-family:inherit;background:var(--surface);color:var(--text);outline:none;transition:border-color .12s}
+.info-input:focus{border-color:var(--primary)}
+.info-input::placeholder{color:var(--text-muted)}
+</style>
+
+<!-- Profile -->
+<p class="section-label">Profile</p>
+<div class="module">
+  <div class="module-header">
+    <div>
+      <p class="module-title">Display name</p>
+      <p class="module-desc">Shown on orders and to other employees</p>
+    </div>
+    <div style="display:flex;gap:6px">
+      <button class="btn-ghost btn-sm" id="name-edit">
+        <svg viewBox="0 0 14 14"><path d="M9.5 2.5l2 2L4 12H2v-2L9.5 2.5z"/></svg>Edit
+      </button>
+      <button class="btn-primary btn-sm" id="name-save" style="display:none">
+        <svg viewBox="0 0 14 14"><path d="M2 7l4 4 6-7"/></svg>Save
+      </button>
+      <button class="btn btn-sm" id="name-cancel" style="display:none">Cancel</button>
+    </div>
+  </div>
+  <div class="info-grid" id="name-view">
+    <span class="info-label">Display name</span>
+    <span class="info-value">Jan V.</span>
+  </div>
+  <div class="info-grid" id="name-edit-mode" style="display:none">
+    <span class="info-label">Display name</span>
+    <div style="padding:4px 0"><input class="info-input" value="Jan V."></div>
+  </div>
+</div>
+
+<!-- Account -->
+<p class="section-label">Account</p>
+<div class="module">
+  <div class="module-header">
+    <div>
+      <p class="module-title">Email address</p>
+      <p class="module-desc">Used to log in and receive notifications</p>
+    </div>
+    <div style="display:flex;gap:6px">
+      <button class="btn-ghost btn-sm" command="show-modal" commandfor="modal-email">
+        <svg viewBox="0 0 14 14"><path d="M9.5 2.5l2 2L4 12H2v-2L9.5 2.5z"/></svg>Change
+      </button>
+    </div>
+  </div>
+  <div class="info-grid">
+    <span class="info-label">Email</span>
+    <span class="info-value">jan@storeroom.nl</span>
+  </div>
+</div>
+
+<div class="module">
+  <div class="module-header">
+    <div>
+      <p class="module-title">Password</p>
+      <p class="module-desc">Change your login password</p>
+    </div>
+    <button class="btn-ghost btn-sm" command="show-modal" commandfor="modal-password">
+      <svg viewBox="0 0 14 14"><path d="M9.5 2.5l2 2L4 12H2v-2L9.5 2.5z"/></svg>Change
+    </button>
+  </div>
+  <div class="info-grid">
+    <span class="info-label">Password</span>
+    <span class="info-value">••••••••</span>
+  </div>
+</div>
+
+<!-- Preferences -->
+<p class="section-label">Preferences</p>
+<div class="module">
+  <div class="module-header">
+    <div>
+      <p class="module-title">Language</p>
+      <p class="module-desc">Interface display language</p>
+    </div>
+  </div>
+  <div class="info-grid">
+    <span class="info-label">Language</span>
+    <div>
+      <select class="info-input" style="width:auto">
+        <option selected>English</option>
+        <option disabled>Nederlands (coming soon)</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<!-- Danger zone -->
+<p class="section-label">Danger zone</p>
+<div class="module danger-zone">
+  <div class="danger-module-header">
+    <div>
+      <p class="danger-title">Delete account</p>
+      <p class="danger-desc">Permanently remove your account and all associated data</p>
+    </div>
+    <button class="btn-danger btn-sm" command="show-modal" commandfor="modal-delete">Delete account</button>
+  </div>
+</div>
+
+<!-- Email modal -->
+<dialog id="modal-email">
+    <div class="modal-header">
+      <span class="modal-title">Change email</span>
+      <button class="modal-close" onclick="closeModal('modal-email')">
+        <svg viewBox="0 0 12 12"><path d="M2 2l8 8M10 2L2 10"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="field">
+        <label>New email address</label>
+        <input type="email" placeholder="new@email.nl">
+      </div>
+      <div class="field">
+        <label>Current password</label>
+        <input type="password" placeholder="Confirm with your password">
+        <p class="field-hint">Required to confirm the change</p>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-ghost" onclick="closeModal('modal-email')">Cancel</button>
+      <button class="btn-primary">
+        <svg viewBox="0 0 14 14"><path d="M2 7l4 4 6-7"/></svg>
+        Save
+      </button>
+    </div>
+</dialog>
+
+<!-- Password modal -->
+<dialog id="modal-password">
+    <div class="modal-header">
+      <span class="modal-title">Change password</span>
+      <button class="modal-close" onclick="closeModal('modal-password')">
+        <svg viewBox="0 0 12 12"><path d="M2 2l8 8M10 2L2 10"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="field">
+        <label>Current password</label>
+        <input type="password" placeholder="••••••••">
+      </div>
+      <div class="field">
+        <label>New password</label>
+        <input type="password" placeholder="••••••••">
+      </div>
+      <div class="field">
+        <label>Confirm new password</label>
+        <input type="password" placeholder="••••••••">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-ghost" onclick="closeModal('modal-password')">Cancel</button>
+      <button class="btn-primary">
+        <svg viewBox="0 0 14 14"><path d="M2 7l4 4 6-7"/></svg>
+        Save
+      </button>
+    </div>
+</dialog>
+
+<!-- Delete modal -->
+<dialog id="modal-delete">
+    <div class="modal-header">
+      <span class="modal-title" style="color:var(--red-text)">Delete account</span>
+      <button class="modal-close" command="close" commandfor="modal-delete">
+        <svg viewBox="0 0 12 12"><path d="M2 2l8 8M10 2L2 10"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p class="warning-text">This action is permanent and cannot be undone. All your data will be removed.</p>
+      <div class="field">
+        <label>Type your email to confirm</label>
+        <input type="email" placeholder="jan@storeroom.nl">
+      </div>
+      <div class="field">
+        <label>Current password</label>
+        <input type="password" placeholder="••••••••">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-ghost" command="close" commandfor="modal-delete">Cancel</button>
+      <button class="btn-danger">Delete my account</button>
+    </div>
+</dialog>
+
+<script>
+const nameEdit=document.getElementById('name-edit');
+const nameSave=document.getElementById('name-save');
+const nameCancel=document.getElementById('name-cancel');
+const nameView=document.getElementById('name-view');
+const nameEditMode=document.getElementById('name-edit-mode');
+
+nameEdit.addEventListener('click',()=>{
+  nameView.style.display='none';nameEditMode.style.display='grid';
+  nameEdit.style.display='none';nameSave.style.display='inline-flex';nameCancel.style.display='inline-flex';
+});
+[nameSave,nameCancel].forEach(btn=>btn.addEventListener('click',()=>{
+  nameView.style.display='grid';nameEditMode.style.display='none';
+  nameEdit.style.display='inline-flex';nameSave.style.display='none';nameCancel.style.display='none';
+}));
+</script>
+{{ end }}

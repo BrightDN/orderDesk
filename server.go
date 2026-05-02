@@ -82,6 +82,10 @@ func main() {
 		})
 	})
 
+	e.GET("/support/contact", func(c echo.Context) error {
+		return c.Render(http.StatusOK, "contactPage", nil)
+	})
+
 	httpPort := os.Getenv("PORT")
 	if httpPort == "" {
 		httpPort = "8080"
