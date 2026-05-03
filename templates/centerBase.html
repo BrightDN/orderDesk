@@ -1,4 +1,4 @@
-{{ define "defaultBase" }}
+{{ define "centerBase" }}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="/assets/stylesheets/houserules.css">
+    {{ block "stylesheets" . }}{{end}}
+    {{ block "scripts" . }}{{end}}
+    
     <title>{{ block "title" . }}OD{{ end }}</title>
 </head>
 <body>

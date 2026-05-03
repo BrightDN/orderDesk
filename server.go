@@ -34,9 +34,12 @@ func main() {
 	}
 
 	cfg = cfg
+
+	// echo setup
+
 	e := echo.New()
 	e.Renderer = &configs.Template{}
-
+	e.HTTPErrorHandler = configs.HTTPErrorHandler
 	e.Use(middleware.RequestLogger())
 	e.Use(middleware.Recover())
 	e.Use(middleware.CSRF())
@@ -84,6 +87,26 @@ func main() {
 
 	e.GET("/support/contact", func(c echo.Context) error {
 		return c.Render(http.StatusOK, "contactPage", nil)
+	})
+
+	e.GET("/admin/controlpanel", func(c echo.Context) error {
+		return c.Render(http.StatusOK, "adminPanel", nil)
+	})
+
+	e.GET("/auth/login", func(c echo.Context) error {
+		return c.Render(http.StatusOK, "login", nil)
+	})
+
+	e.GET("/auth/signup", func(c echo.Context) error {
+		return c.Render(http.StatusOK, "signup", nil)
+	})
+
+	e.GET("/settings/companies", func(c echo.Context) error {
+		return c.Render(http.StatusOK, "companies", nil)
+	})
+
+	e.GET("/settings/user", func(c echo.Context) error {
+		return c.Render(http.StatusOK, "userSettings", nil)
 	})
 
 	httpPort := os.Getenv("PORT")

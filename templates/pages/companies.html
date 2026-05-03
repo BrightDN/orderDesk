@@ -1,0 +1,102 @@
+{{ define "companies" }}
+    {{ template "centerBase" . }}
+{{ end }}
+
+{{ define "title" }}OD - Company select{{ end }}
+{{ define "content" }}
+
+<style>
+.card{background:var(--surface);border:0.5px solid var(--border-mid);border-radius:var(--radius-lg);width:100%;max-width:380px;padding:28px}
+
+.card-logo{display:flex;align-items:center;gap:9px;margin-bottom:24px}
+.logo-icon{width:30px;height:30px;border-radius:8px;background:var(--primary);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.logo-icon svg{width:16px;height:16px}
+.logo-text{font-size:14px;font-weight:500}
+.logo-sub{font-size:11px;color:var(--text-muted);margin-top:1px}
+
+.card-heading{font-size:16px;font-weight:500;margin-bottom:4px}
+.card-sub{font-size:13px;color:var(--text-secondary);margin-bottom:20px}
+
+.company-list{display:flex;flex-direction:column;gap:8px}
+
+.company-item{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 14px;
+  border:0.5px solid var(--border-mid);
+  border-radius:var(--radius-lg);
+  cursor:pointer;
+  transition:border-color .12s, background .12s;
+  text-decoration:none;
+  color:inherit;
+}
+.company-item:hover{border-color:var(--primary);background:var(--primary-light)}
+.company-item:hover .company-arrow{color:var(--primary-dark)}
+.company-item:hover .company-name{color:var(--primary-dark)}
+
+.company-left{display:flex;align-items:center;gap:12px}
+.company-name{font-size:13px;font-weight:500;color:var(--text)}
+.company-meta{font-size:11px;color:var(--text-muted);margin-top:2px}
+.company-arrow{color:var(--text-muted);transition:color .12s}
+.company-arrow svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+.divider{border:none;border-top:0.5px solid var(--border);margin:20px 0}
+.logout-link{display:flex;align-items:center;justify-content:center;gap:6px;font-size:12px;color:var(--text-muted);cursor:pointer;transition:color .12s;text-decoration:none}
+.logout-link:hover{color:var(--text)}
+.logout-link svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+</style>
+
+<div class="card">
+  <div class="card-logo">
+    <div class="logo-icon">
+      <svg viewBox="0 0 16 16" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 13V7m0 0L8 3l5 4m-5-4v10m5-6v6M1 13h14"/>
+      </svg>
+    </div>
+    <div>
+      <p class="logo-text">OrderDesk</p>
+      <p class="logo-sub">Welcome back, Jan</p>
+    </div>
+  </div>
+
+  <p class="card-heading">Select a workspace</p>
+  <p class="card-sub">You are part of multiple companies. Choose which one to open.</p>
+
+  <div class="company-list">
+    <a href="/" class="company-item">
+      <div class="company-left">
+          <p class="company-name">Markt Storeroom</p>
+          <p class="company-meta">Amsterdam, NL · 3 employees</p>
+        </div>
+        <div class="company-arrow">
+          <svg viewBox="0 0 14 14"><path d="M5 2l5 5-5 5"/></svg>
+        </div>
+    </a>
+
+    <a href="/" class="company-item">
+      <div class="company-left">
+          <p class="company-name">Demo Company</p>
+          <p class="company-meta">demo@orderdesk.nl · 1 employee</p>
+        </div>
+        <div class="company-arrow">
+          <svg viewBox="0 0 14 14"><path d="M5 2l5 5-5 5"/></svg>
+        </div>
+    </a>
+
+    <a href="/" class="company-item">
+      <div class="company-left">
+          <p class="company-name">Another BV</p>
+          <p class="company-meta">Rotterdam, NL · 7 employees</p>
+        </div>
+        <div class="company-arrow">
+          <svg viewBox="0 0 14 14"><path d="M5 2l5 5-5 5"/></svg>
+        </div>
+    </a>
+  </div>
+
+  <hr class="divider">
+  <a href="/logout" class="logout-link">
+    <svg viewBox="0 0 14 14"><path d="M5 2H2v10h3M9 10l4-3-4-3M5 7h8"/></svg>
+    Sign out
+  </a>
+</div>
+{{ end }}

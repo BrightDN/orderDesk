@@ -60,8 +60,10 @@
   .centralize {
     display: flex;
     height: 100vh;
+    max-width: 80%;
     justify-content: center;
     align-items: center;
+    margin: auto;
   }
 
   .content::-webkit-scrollbar { width: 5px; }
@@ -140,6 +142,7 @@
 
 
   .btn-sm{padding:5px 10px;font-size:12px}
+  .btn-xs{padding:3px 8px;font-size:11px}
   /* LABELS */
   
   .section-label {

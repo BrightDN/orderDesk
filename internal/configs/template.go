@@ -91,7 +91,7 @@ func templateBase(page string) (string, error) {
 		return "", err
 	}
 
-	for _, base := range []string{"adminBase", "authBase", "businessBase", "defaultBase"} {
+	for _, base := range []string{"adminBase", "businessBase", "centerBase"} {
 		if strings.Contains(string(contents), `template "`+base+`"`) {
 			return base, nil
 		}

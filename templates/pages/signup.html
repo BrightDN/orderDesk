@@ -1,0 +1,162 @@
+{{ define "signup" }}
+ {{ template "centerBase" . }}
+{{ end }}
+
+{{ define "title" }}OD - Sign up{{ end }}
+{{ define "content" }}
+
+<style>
+.toggle-row{display:flex;gap:8px;margin-bottom:24px}
+.toggle-btn{padding:6px 16px;border-radius:var(--radius-md);border:0.5px solid var(--border-mid);font-size:12px;font-weight:500;cursor:pointer;background:transparent;font-family:inherit;color:var(--text-muted);transition:all .12s;width:auto}
+.toggle-btn.active{background:var(--primary-light);color:var(--primary-dark);border-color:var(--primary)}
+
+.card{background:var(--surface);border:0.5px solid var(--border-mid);border-radius:var(--radius-lg);width:100%;max-width:400px;padding:28px}
+.card-logo{display:flex;align-items:center;gap:9px;margin-bottom:24px}
+.logo-icon{width:30px;height:30px;border-radius:8px;background:var(--primary);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.logo-icon svg{width:16px;height:16px}
+.logo-text{font-size:14px;font-weight:500}
+.logo-sub{font-size:11px;color:var(--text-muted);margin-top:1px}
+
+.invite-banner{background:var(--primary-light);border:0.5px solid rgba(29,158,117,0.2);border-radius:var(--radius-md);padding:10px 12px;margin-bottom:20px;display:flex;align-items:flex-start;gap:8px}
+.invite-banner svg{width:14px;height:14px;stroke:var(--primary-dark);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;margin-top:1px}
+.invite-banner-text{font-size:12px;color:var(--primary-dark);line-height:1.5}
+.invite-banner-title{font-weight:500;margin-bottom:2px}
+
+.card-heading{font-size:16px;font-weight:500;margin-bottom:4px}
+.card-sub{font-size:13px;color:var(--text-secondary);margin-bottom:20px}
+
+.field{margin-bottom:14px}
+.field:last-child{margin-bottom:0}
+.field label{display:block;font-size:12px;font-weight:500;color:var(--text-secondary);margin-bottom:6px}
+.field input{width:100%;padding:7px 10px;border-radius:var(--radius-md);border:0.5px solid var(--border-mid);font-size:13px;font-family:inherit;background:var(--surface);color:var(--text);outline:none;transition:border-color .12s}
+.field input:focus{border-color:var(--primary)}
+.field input::placeholder{color:var(--text-muted)}
+.field input:disabled{background:var(--bg);color:var(--text-muted);cursor:not-allowed}
+.field-hint{font-size:11px;color:var(--text-muted);margin-top:4px}
+
+.divider{border:none;border-top:0.5px solid var(--border);margin:18px 0}
+</style>
+
+<div class="toggle-row">
+  <button class="toggle-btn active" onclick="showVariant('company', this)">Company invite</button>
+  <button class="toggle-btn" onclick="showVariant('employee', this)">Employee invite</button>
+</div>
+
+<!-- Company invite -->
+<div class="card" id="variant-company">
+  <div class="card-logo">
+    <div class="logo-icon">
+      <svg viewBox="0 0 16 16" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 13V7m0 0L8 3l5 4m-5-4v10m5-6v6M1 13h14"/>
+      </svg>
+    </div>
+    <div>
+      <p class="logo-text">OrderDesk</p>
+      <p class="logo-sub">Welcome</p>
+    </div>
+  </div>
+
+  <div class="invite-banner">
+    <svg viewBox="0 0 14 14"><rect x="1" y="4" width="12" height="9" rx="1"/><path d="M4 4V3a3 3 0 016 0v1"/></svg>
+    <div class="invite-banner-text">
+      <p class="invite-banner-title">You've been invited to set up your company</p>
+      <p>Complete the form below to create your account and get started with OrderDesk.</p>
+    </div>
+  </div>
+
+  <p class="card-heading">Create your account</p>
+  <p class="card-sub">Set up the first account for your company.</p>
+
+  <div class="field">
+    <label>Company name</label>
+    <input type="text" value="Markt Storeroom" disabled>
+    <p class="field-hint">Set by your administrator — contact them if this is incorrect</p>
+  </div>
+  <div class="field">
+    <label>Email address</label>
+    <input type="email" value="markt@storeroom.nl" disabled>
+  </div>
+  <div class="field">
+    <label>Your display name</label>
+    <input type="text" placeholder="e.g. Jan V.">
+    <p class="field-hint">Shown on orders and to other employees</p>
+  </div>
+  <div class="field">
+    <label>Password</label>
+    <input type="password" placeholder="••••••••">
+  </div>
+  <div class="field">
+    <label>Confirm password</label>
+    <input type="password" placeholder="••••••••">
+  </div>
+
+  <hr class="divider">
+  <button class="btn-primary">
+    <svg viewBox="0 0 14 14"><path d="M2 7l4 4 6-7"/></svg>
+    Create account
+  </button>
+</div>
+
+<!-- Employee invite -->
+<div class="card" id="variant-employee" style="display:none">
+  <div class="card-logo">
+    <div class="logo-icon">
+      <svg viewBox="0 0 16 16" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 13V7m0 0L8 3l5 4m-5-4v10m5-6v6M1 13h14"/>
+      </svg>
+    </div>
+    <div>
+      <p class="logo-text">OrderDesk</p>
+      <p class="logo-sub">Welcome</p>
+    </div>
+  </div>
+
+  <div class="invite-banner">
+    <svg viewBox="0 0 14 14"><circle cx="7" cy="5" r="3"/><path d="M1 13c0-3.3 2.7-6 6-6s6 2.7 6 6"/></svg>
+    <div class="invite-banner-text">
+      <p class="invite-banner-title">You've been invited to join Markt Storeroom</p>
+      <p>Your account has been set up by your administrator. Just choose a display name and password to get started.</p>
+    </div>
+  </div>
+
+  <p class="card-heading">Join your team</p>
+  <p class="card-sub">Complete your account to get started.</p>
+
+  <div class="field">
+    <label>Company</label>
+    <input type="text" value="Markt Storeroom" disabled>
+  </div>
+  <div class="field">
+    <label>Email address</label>
+    <input type="email" value="marie@storeroom.nl" disabled>
+  </div>
+  <div class="field">
+    <label>Your display name</label>
+    <input type="text" placeholder="e.g. Marie K.">
+    <p class="field-hint">Shown on orders and to other employees</p>
+  </div>
+  <div class="field">
+    <label>Password</label>
+    <input type="password" placeholder="••••••••">
+  </div>
+  <div class="field">
+    <label>Confirm password</label>
+    <input type="password" placeholder="••••••••">
+  </div>
+
+  <hr class="divider">
+  <button class="btn-primary">
+    <svg viewBox="0 0 14 14"><path d="M2 7l4 4 6-7"/></svg>
+    Create account
+  </button>
+</div>
+
+<script>
+function showVariant(key, btn) {
+  document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('variant-company').style.display = key === 'company' ? 'block' : 'none';
+  document.getElementById('variant-employee').style.display = key === 'employee' ? 'block' : 'none';
+}
+</script>
+{{ end }}
