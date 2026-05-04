@@ -4,54 +4,10 @@
 
 {{ define "title" }}OD - adminpanel{{ end }}
 
+{{ define "stylesheets" }}
+  <link rel="stylesheet" href="/assets/stylesheets/adminPanel.css">
+{{ end }}
 {{ define "content" }}
-
-<style>
-.back-btn{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--text-muted);cursor:pointer;margin-bottom:16px;padding:4px 0;transition:color .12s}
-.back-btn:hover{color:var(--text)}
-.back-btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-
-/* Company table */
-.co-table{width:100%;border-collapse:collapse;table-layout:fixed}
-.co-table thead tr{font-size:10px;font-weight:500;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em}
-.co-table th{padding:0 0 8px;text-align:left;border-bottom:0.5px solid var(--border)}
-.co-table td{padding:10px 0;border-bottom:0.5px solid var(--border);vertical-align:middle}
-.co-table tbody tr:last-child td{border-bottom:none}
-.co-table tbody tr:hover{background:var(--bg);cursor:pointer}
-.co-table th:nth-child(2){width:180px}
-.co-table th:nth-child(3){width:80px}
-.co-table th:nth-child(4){width:90px}
-.co-table th:nth-child(5){width:80px}
-
-.co-name{font-size:13px;font-weight:500;color:var(--text)}
-.co-email{font-size:11px;color:var(--text-muted);margin-top:1px}
-.co-date{font-size:13px;color:var(--text-secondary)}
-
-.badge{font-size:10px;padding:2px 8px;border-radius:20px;font-weight:500;display:inline-block}
-.badge-green{background:var(--primary-light);color:var(--primary-dark)}
-.badge-red{background:var(--red-bg);color:var(--red-text)}
-
-/* Employee table */
-.emp-table{width:100%;border-collapse:collapse;table-layout:fixed}
-.emp-table thead tr{font-size:10px;font-weight:500;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em}
-.emp-table th{padding:0 0 8px;text-align:left;border-bottom:0.5px solid var(--border)}
-.emp-table td{padding:10px 0;border-bottom:0.5px solid var(--border);vertical-align:middle}
-.emp-table tbody tr:last-child td{border-bottom:none}
-.emp-table th:nth-child(2){width:160px}
-.emp-table th:nth-child(3){width:80px}
-.emp-table th:nth-child(4){width:120px;text-align:right}
-
-.emp-name{font-size:13px;font-weight:500;color:var(--text)}
-.emp-email{font-size:11px;color:var(--text-muted);margin-top:1px}
-.emp-actions{display:flex;justify-content:flex-end;gap:6px}
-
-.info-grid{display:grid;grid-template-columns:140px 1fr;gap:8px 0;align-items:center}
-.info-label{font-size:12px;color:var(--text-muted);padding:6px 0}
-.info-value{font-size:13px;color:var(--text);padding:6px 0}
-.info-input{width:100%;padding:6px 9px;border-radius:var(--radius-md);border:0.5px solid var(--border-mid);font-size:13px;font-family:inherit;background:var(--surface);color:var(--text);outline:none;transition:border-color .12s}
-.info-input:focus{border-color:var(--primary)}
-
-</style>
 
 <!-- LIST VIEW -->
 <div id="list-view">
@@ -77,22 +33,22 @@
       <tbody>
         <tr onclick="showDetail('freshveg')">
           <td><p class="co-name">Markt Storeroom</p><p class="co-email">markt@storeroom.nl</p></td>
-          <td><span style="font-size:13px;color:var(--text-secondary)">markt@storeroom.nl</span></td>
-          <td><span style="font-size:13px;color:var(--text-secondary)">3</span></td>
+          <td><span class="table-text">markt@storeroom.nl</span></td>
+          <td><span class="table-text">3</span></td>
           <td><span class="co-date">12 Jan 2026</span></td>
           <td><span class="badge badge-green">Active</span></td>
         </tr>
         <tr onclick="showDetail('demo')">
           <td><p class="co-name">Demo Company</p><p class="co-email">demo@orderdesk.nl</p></td>
-          <td><span style="font-size:13px;color:var(--text-secondary)">demo@orderdesk.nl</span></td>
-          <td><span style="font-size:13px;color:var(--text-secondary)">1</span></td>
+          <td><span class="table-text">demo@orderdesk.nl</span></td>
+          <td><span class="table-text">1</span></td>
           <td><span class="co-date">1 Jan 2026</span></td>
           <td><span class="badge badge-green">Active</span></td>
         </tr>
         <tr onclick="showDetail('suspended')">
           <td><p class="co-name">OldCorp BV</p><p class="co-email">info@oldcorp.nl</p></td>
-          <td><span style="font-size:13px;color:var(--text-secondary)">info@oldcorp.nl</span></td>
-          <td><span style="font-size:13px;color:var(--text-secondary)">2</span></td>
+          <td><span class="table-text">info@oldcorp.nl</span></td>
+          <td><span class="table-text">2</span></td>
           <td><span class="co-date">3 Feb 2026</span></td>
           <td><span class="badge badge-red">Suspended</span></td>
         </tr>
@@ -102,26 +58,26 @@
 </div>
 
 <!-- DETAIL VIEW -->
-<div id="detail-view" style="display:none">
-  <div class="back-btn" onclick="showList()">
+<div id="detail-view" class="is-hidden">
+  <button class="back-btn" onclick="showList()">
     <svg viewBox="0 0 14 14"><path d="M9 2L3 7l6 5"/></svg>
     Back to companies
-  </div>
+  </button>
 
   <p class="section-label">Company detail</p>
 
   <div class="module">
     <div class="module-header">
       <span class="module-title" id="detail-name">Markt Storeroom</span>
-      <div style="display:flex;gap:6px;align-items:center">
+      <div class="button-row button-row-center">
         <span class="badge badge-green" id="detail-status">Active</span>
         <button class="btn-ghost btn-sm" id="co-edit-btn">
           <svg viewBox="0 0 14 14"><path d="M9.5 2.5l2 2L4 12H2v-2L9.5 2.5z"/></svg>Edit
         </button>
-        <button class="btn-primary btn-sm" id="co-save-btn" style="display:none">
+        <button class="btn-primary btn-sm is-hidden" id="co-save-btn">
           <svg viewBox="0 0 14 14"><path d="M2 7l4 4 6-7"/></svg>Save
         </button>
-        <button class="btn-sm" id="co-cancel-btn" style="display:none">Cancel</button>
+        <button class="btn-sm is-hidden" id="co-cancel-btn">Cancel</button>
       </div>
     </div>
     <div class="info-grid" id="co-view-mode">
@@ -134,16 +90,16 @@
       <span class="info-label">Created</span>
       <span class="info-value" id="co-view-created">12 Jan 2026</span>
     </div>
-    <div class="info-grid" id="co-edit-mode" style="display:none">
+    <div class="info-grid is-hidden" id="co-edit-mode">
       <span class="info-label">Company name</span>
-      <div style="padding:4px 0"><input class="info-input" id="co-input-name" value="Markt Storeroom"></div>
+      <div class="info-control"><input class="info-input" id="co-input-name" value="Markt Storeroom"></div>
       <span class="info-label">Email</span>
-      <div style="padding:4px 0"><input class="info-input" id="co-input-email" type="email" value="markt@storeroom.nl"></div>
+      <div class="info-control"><input class="info-input" id="co-input-email" type="email" value="markt@storeroom.nl"></div>
       <span class="info-label">Location</span>
-      <div style="padding:4px 0"><input class="info-input" id="co-input-location" value="Amsterdam, NL"></div>
+      <div class="info-control"><input class="info-input" id="co-input-location" value="Amsterdam, NL"></div>
       <span class="info-label">Status</span>
-      <div style="padding:4px 0">
-        <select class="info-input" style="width:auto" id="co-input-status">
+      <div class="info-control">
+        <select class="info-input info-input-auto" id="co-input-status">
           <option value="active">Active</option>
           <option value="suspended">Suspended</option>
         </select>
@@ -155,7 +111,7 @@
     <div class="module-header">
       <span class="module-title">Employees</span>
     </div>
-    <table class="emp-table">
+    <table class="emp-table admin-emp-table">
       <thead>
         <tr>
           <th>Employee</th>
@@ -167,14 +123,14 @@
       <tbody>
         <tr>
           <td><p class="emp-name">Jan V.</p><p class="emp-email">jan@storeroom.nl</p></td>
-          <td><span style="font-size:13px;color:var(--text-secondary)">jan@storeroom.nl</span></td>
-          <td><span style="font-size:12px;color:var(--text-muted)">Super admin</span></td>
+          <td><span class="table-text">jan@storeroom.nl</span></td>
+          <td><span class="table-text-muted">Super admin</span></td>
           <td><div class="emp-actions"></div></td>
         </tr>
         <tr>
           <td><p class="emp-name">Marie K.</p><p class="emp-email">marie@storeroom.nl</p></td>
-          <td><span style="font-size:13px;color:var(--text-secondary)">marie@storeroom.nl</span></td>
-          <td><span style="font-size:12px;color:var(--text-muted)">Manager</span></td>
+          <td><span class="table-text">marie@storeroom.nl</span></td>
+          <td><span class="table-text-muted">Manager</span></td>
           <td>
             <div class="emp-actions">
               <button class="btn-ghost btn-xs">
@@ -186,8 +142,8 @@
         </tr>
         <tr>
           <td><p class="emp-name">Thomas B.</p><p class="emp-email">thomas@storeroom.nl</p></td>
-          <td><span style="font-size:13px;color:var(--text-secondary)">thomas@storeroom.nl</span></td>
-          <td><span style="font-size:12px;color:var(--text-muted)">Employee</span></td>
+          <td><span class="table-text">thomas@storeroom.nl</span></td>
+          <td><span class="table-text-muted">Employee</span></td>
           <td>
             <div class="emp-actions">
               <button class="btn-ghost btn-xs">Suspend</button>
@@ -231,7 +187,7 @@
 <!-- Ban modal -->
 <dialog id="modal-ban">
     <div class="modal-header">
-      <span class="modal-title" style="color:var(--red-text)">Ban account</span>
+      <span class="modal-title modal-title-danger">Ban account</span>
       <button class="modal-close" command="close" commandfor="modal-ban">
         <svg viewBox="0 0 12 12"><path d="M2 2l8 8M10 2L2 10"/></svg>
       </button>
@@ -239,7 +195,7 @@
     <div class="modal-body">
       <p class="warning-text">This will permanently ban the account. The user will no longer be able to log in.</p>
       <div class="field">
-        <label>Reason <span style="color:var(--text-muted);font-weight:400">(optional)</span></label>
+        <label>Reason <span class="field-optional">(optional)</span></label>
         <input type="text" placeholder="e.g. Repeated policy violations">
       </div>
     </div>
@@ -251,12 +207,12 @@
 
 <script>
 function showDetail(key){
-  document.getElementById('list-view').style.display='none';
-  document.getElementById('detail-view').style.display='block';
+  document.getElementById('list-view').classList.add('is-hidden');
+  document.getElementById('detail-view').classList.remove('is-hidden');
 }
 function showList(){
-  document.getElementById('detail-view').style.display='none';
-  document.getElementById('list-view').style.display='block';
+  document.getElementById('detail-view').classList.add('is-hidden');
+  document.getElementById('list-view').classList.remove('is-hidden');
 }
 
 const coEdit=document.getElementById('co-edit-btn');
@@ -266,12 +222,12 @@ const coView=document.getElementById('co-view-mode');
 const coEditMode=document.getElementById('co-edit-mode');
 
 coEdit.addEventListener('click',()=>{
-  coView.style.display='none';coEditMode.style.display='grid';
-  coEdit.style.display='none';coSave.style.display='inline-flex';coCancel.style.display='inline-flex';
+  coView.classList.add('is-hidden');coEditMode.classList.remove('is-hidden');
+  coEdit.classList.add('is-hidden');coSave.classList.remove('is-hidden');coCancel.classList.remove('is-hidden');
 });
 [coSave,coCancel].forEach(btn=>btn.addEventListener('click',()=>{
-  coView.style.display='grid';coEditMode.style.display='none';
-  coEdit.style.display='inline-flex';coSave.style.display='none';coCancel.style.display='none';
+  coView.classList.remove('is-hidden');coEditMode.classList.add('is-hidden');
+  coEdit.classList.remove('is-hidden');coSave.classList.add('is-hidden');coCancel.classList.add('is-hidden');
 }));
 </script>
 {{ end }}

@@ -8,6 +8,7 @@ import (
 
 	"github.com/brightDN/orderDesk/internal/configs"
 	"github.com/brightDN/orderDesk/internal/database"
+	"github.com/brightDN/orderDesk/internal/mailer"
 	"github.com/brightDN/orderDesk/internal/middlewares"
 	"github.com/gorilla/sessions"
 	"github.com/joho/godotenv"
@@ -35,6 +36,9 @@ func main() {
 
 	cfg = cfg
 
+	// Mail client setup
+	mc, err := mailer.NewClient("smtp-relay.brevo.com", 587, os.Getenv("MAILER_USER"), os.Getenv("MAILER_SECRET"))
+	mc = mc
 	// echo setup
 
 	e := echo.New()

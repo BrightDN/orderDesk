@@ -1,45 +1,4 @@
 {{ define "historyTable"}}
-<p class="section-label">Suppliers — 4 total</p>
-
-<div class="supplier-grid">
-  <div class="supplier-card selected" onclick="selectSupplier(this, 'freshveg')">
-    <div class="s-header">
-      <div>
-        <div class="s-name">FreshVeg BV</div>
-        <div class="s-cat">Produce</div>
-      </div>
-    </div>
-    <div class="s-count">14 products</div>
-  </div>
-  <div class="supplier-card" onclick="selectSupplier(this, 'dairygo')">
-    <div class="s-header">
-      <div>
-        <div class="s-name">DairyGo</div>
-        <div class="s-cat">Dairy &amp; eggs</div>
-      </div>
-    </div>
-    <div class="s-count">8 products</div>
-  </div>
-  <div class="supplier-card" onclick="selectSupplier(this, 'bakker')">
-    <div class="s-header">
-      <div>
-        <div class="s-name">BakkerKoning</div>
-        <div class="s-cat">Bakery</div>
-      </div>
-    </div>
-    <div class="s-count">6 products</div>
-  </div>
-  <div class="supplier-card" onclick="selectSupplier(this, 'grocer')">
-    <div class="s-header">
-      <div>
-        <div class="s-name">GrocerMart</div>
-        <div class="s-cat">Dry goods</div>
-      </div>
-    </div>
-    <div class="s-count">22 products</div>
-  </div>
-</div>
-
 <p class="section-label">Order history — FreshVeg BV</p>
 
 <div class="module">
@@ -56,21 +15,21 @@
     <tbody id="history-body">
       <tr>
         <td><span class="order-ref">#ORD-0041</span></td>
-        <td><div class="order-date">29 Apr 2026</div><div class="order-date-sub">14:32</div></td>
+        <td><time class="order-date" datetime="2026-04-29T14:32">29 Apr 2026</time><p class="order-date-sub">14:32</p></td>
         <td><span class="order-items">14 items</span></td>
         <td><span class="order-by">Jan V.</span></td>
         <td><button class="btn-dl" title="Download PDF"><svg viewBox="0 0 14 14"><path d="M7 2v7M4 6l3 3 3-3M2 11h10"/></svg></button></td>
       </tr>
       <tr>
         <td><span class="order-ref">#ORD-0038</span></td>
-        <td><div class="order-date">26 Apr 2026</div><div class="order-date-sub">09:15</div></td>
+        <td><time class="order-date" datetime="2026-04-26T09:15">26 Apr 2026</time><p class="order-date-sub">09:15</p></td>
         <td><span class="order-items">11 items</span></td>
         <td><span class="order-by">Jan V.</span></td>
         <td><button class="btn-dl" title="Download PDF"><svg viewBox="0 0 14 14"><path d="M7 2v7M4 6l3 3 3-3M2 11h10"/></svg></button></td>
       </tr>
       <tr>
         <td><span class="order-ref">#ORD-0035</span></td>
-        <td><div class="order-date">23 Apr 2026</div><div class="order-date-sub">11:47</div></td>
+        <td><time class="order-date" datetime="2026-04-23T11:47">23 Apr 2026</time><p class="order-date-sub">11:47</p></td>
         <td><span class="order-items">16 items</span></td>
         <td><span class="order-by">Jan V.</span></td>
         <td><button class="btn-dl" title="Download PDF"><svg viewBox="0 0 14 14"><path d="M7 2v7M4 6l3 3 3-3M2 11h10"/></svg></button></td>
@@ -106,13 +65,13 @@ function selectSupplier(card, key) {
   label.textContent = `Order history — ${names[key]}`;
   const orders = data[key];
   if (!orders.length) {
-    body.innerHTML = `<tr><td colspan="5"><div class="empty">No orders found for this supplier</div></td></tr>`;
+    body.innerHTML = `<tr><td colspan="5"><p class="empty">No orders found for this supplier</p></td></tr>`;
     return;
   }
   body.innerHTML = orders.map(o => `
     <tr>
       <td><span class="order-ref">${o.ref}</span></td>
-      <td><div class="order-date">${o.date}</div><div class="order-date-sub">${o.time}</div></td>
+      <td><time class="order-date">${o.date}</time><p class="order-date-sub">${o.time}</p></td>
       <td><span class="order-items">${o.items} items</span></td>
       <td><span class="order-by">${o.by}</span></td>
       <td><button class="btn-dl" title="Download PDF"><svg viewBox="0 0 14 14"><path d="M7 2v7M4 6l3 3 3-3M2 11h10"/></svg></button></td>

@@ -4,37 +4,18 @@
 
 
 {{ define "title" }}OD - error{{ end }}
+{{ define "stylesheets" }}
+  <link rel="stylesheet" href="/assets/stylesheets/centerPages.css">
+{{ end }}
 {{ define "content" }}
 
-<style>
-.toggle-row{display:flex;gap:8px;margin-bottom:32px}
-.toggle-btn{padding:6px 16px;border-radius:var(--radius-md);border:0.5px solid var(--border-mid);font-size:12px;font-weight:500;cursor:pointer;background:transparent;font-family:inherit;color:var(--text-muted);transition:all .12s}
-.toggle-btn.active{background:var(--primary-light);color:var(--primary-dark);border-color:var(--primary)}
-
-.error-wrap{text-align:center;max-width:400px;width:100%}
-
-.error-code{font-size:72px;font-weight:500;color:var(--primary);line-height:1;margin-bottom:8px;letter-spacing:-2px}
-.error-title{font-size:18px;font-weight:500;color:var(--text);margin-bottom:8px}
-.error-message{font-size:13px;color:var(--text-secondary);margin-bottom:32px;line-height:1.6}
-
-.error-actions{display:flex;align-items:center;justify-content:center;gap:8px}
-
-.divider{width:1px;height:16px;background:var(--border-mid)}
-
-.logo{display:flex;align-items:center;justify-content:center;gap:9px;margin-bottom:40px}
-.logo-icon{width:30px;height:30px;border-radius:8px;background:var(--primary);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.logo-icon svg{width:16px;height:16px}
-.logo-text{font-size:14px;font-weight:500}
-.logo-sub{font-size:11px;color:var(--text-muted);margin-top:1px}
-</style>
-
-<div class="toggle-row">
+<div class="toggle-row toggle-row-spacious">
   <button class="toggle-btn active" onclick="showError('404', this)">404</button>
   <button class="toggle-btn" onclick="showError('500', this)">5xx</button>
 </div>
 
 <div class="error-wrap" id="error-404">
-  <div class="logo">
+  <header class="logo-mark logo-centered toggle-row-spacious">
     <div class="logo-icon">
       <svg viewBox="0 0 16 16" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
         <path d="M3 13V7m0 0L8 3l5 4m-5-4v10m5-6v6M1 13h14"/>
@@ -44,10 +25,10 @@
       <p class="logo-text">OrderDesk</p>
       <p class="logo-sub">Markt Storeroom</p>
     </div>
-  </div>
+  </header>
 
   <p class="error-code">404</p>
-  <p class="error-title">Page not found</p>
+  <h1 class="error-title">Page not found</h1>
   <p class="error-message">The page you're looking for doesn't exist or may have been moved.</p>
 
   <div class="error-actions">
@@ -55,18 +36,16 @@
       <svg viewBox="0 0 14 14"><path d="M9 2L3 7l6 5"/></svg>
       Go back
     </button>
-    <div class="divider"></div>
-    <a href="/dashboard" style="text-decoration:none">
-      <button class="btn">
-        <svg viewBox="0 0 14 14"><rect x="2" y="2" width="4" height="4" rx="0.5"/><rect x="8" y="2" width="4" height="4" rx="0.5"/><rect x="2" y="8" width="4" height="4" rx="0.5"/><rect x="8" y="8" width="4" height="4" rx="0.5"/></svg>
-        Dashboard
-      </button>
+    <hr class="vertical-divider">
+    <a href="/dashboard" class="btn">
+      <svg viewBox="0 0 14 14"><rect x="2" y="2" width="4" height="4" rx="0.5"/><rect x="8" y="2" width="4" height="4" rx="0.5"/><rect x="2" y="8" width="4" height="4" rx="0.5"/><rect x="8" y="8" width="4" height="4" rx="0.5"/></svg>
+      Dashboard
     </a>
   </div>
 </div>
 
-<div class="error-wrap" id="error-500" style="display:none">
-  <div class="logo">
+<div class="error-wrap is-hidden" id="error-500">
+  <header class="logo-mark logo-centered toggle-row-spacious">
     <div class="logo-icon">
       <svg viewBox="0 0 16 16" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
         <path d="M3 13V7m0 0L8 3l5 4m-5-4v10m5-6v6M1 13h14"/>
@@ -76,10 +55,10 @@
       <p class="logo-text">OrderDesk</p>
       <p class="logo-sub">Markt Storeroom</p>
     </div>
-  </div>
+  </header>
 
   <p class="error-code">500</p>
-  <p class="error-title">Something went wrong</p>
+  <h1 class="error-title">Something went wrong</h1>
   <p class="error-message">Something went wrong on our end. This has been noted — try again in a moment.</p>
 
   <div class="error-actions">
@@ -87,12 +66,10 @@
       <svg viewBox="0 0 14 14"><path d="M2 7a5 5 0 1 0 1-3M2 2v3h3"/></svg>
       Try again
     </button>
-    <div class="divider"></div>
-    <a href="/dashboard" style="text-decoration:none">
-      <button class="btn">
-        <svg viewBox="0 0 14 14"><rect x="2" y="2" width="4" height="4" rx="0.5"/><rect x="8" y="2" width="4" height="4" rx="0.5"/><rect x="2" y="8" width="4" height="4" rx="0.5"/><rect x="8" y="8" width="4" height="4" rx="0.5"/></svg>
-        Dashboard
-      </button>
+    <hr class="vertical-divider">
+    <a href="/dashboard" class="btn">
+      <svg viewBox="0 0 14 14"><rect x="2" y="2" width="4" height="4" rx="0.5"/><rect x="8" y="2" width="4" height="4" rx="0.5"/><rect x="2" y="8" width="4" height="4" rx="0.5"/><rect x="8" y="8" width="4" height="4" rx="0.5"/></svg>
+      Dashboard
     </a>
   </div>
 </div>
@@ -101,8 +78,8 @@
 function showError(code, btn) {
   document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  document.getElementById('error-404').style.display = code === '404' ? 'block' : 'none';
-  document.getElementById('error-500').style.display = code === '500' ? 'block' : 'none';
+  document.getElementById('error-404').classList.toggle('is-hidden', code !== '404');
+  document.getElementById('error-500').classList.toggle('is-hidden', code !== '500');
 }
 </script>
 {{ end }}

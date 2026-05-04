@@ -12,7 +12,7 @@
 .history-table th:nth-child(5){width:44px}
 
 .order-ref{font-size:13px;color:var(--text);font-weight:500}
-.order-date{font-size:13px;color:var(--text)}
+.order-date{display:block;font-size:13px;color:var(--text)}
 .order-date-sub{font-size:11px;color:var(--text-muted);margin-top:1px}
 .order-items{font-size:13px;color:var(--text)}
 .order-by{font-size:13px;color:var(--text-secondary)}

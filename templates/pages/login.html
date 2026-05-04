@@ -9,8 +9,8 @@
 {{ end }}
 {{ define "content" }}
 
-  <section class="od-card" aria-labelledby="login-heading">
-    <header class="logo-mark">
+  <section class="card card-sm login-card" aria-labelledby="login-heading">
+    <header class="logo-mark logo-spaced">
       <div class="logo-icon">
         <svg viewBox="0 0 16 16" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
           <path d="M3 13V7m0 0L8 3l5 4m-5-4v10m5-6v6M1 13h14"/>
@@ -22,27 +22,27 @@
       </div>
     </header>
 
-    <h1 style="margin-top:20px;" class="od-heading" id="login-heading">Welcome back</h1>
-    <p class="od-sub">Sign in to your workspace</p>
+    <h1 class="card-heading login-heading" id="login-heading">Welcome back</h1>
+    <p class="card-sub card-sub-spacious">Sign in to your workspace</p>
 
-    <p class="od-error" id="od-err">Invalid email or password. Please try again.</p>
+    <p class="form-error is-hidden" id="od-err">Invalid email or password. Please try again.</p>
 
-    <div class="field od-field">
+    <div class="field">
       <label for="od-email">Email</label>
       <input id="od-email" type="email" placeholder="you@company.com" autocomplete="email">
     </div>
-    <div class="field od-field">
+    <div class="field">
       <label for="od-pass">Password</label>
       <input id="od-pass" type="password" placeholder="Password" autocomplete="current-password">
     </div>
 
-    <button class="btn-primary od-btn" id="od-submit">
+    <button class="btn-primary full-width-action" id="od-submit">
       <svg viewBox="0 0 14 14"><path d="M2 7h10M7 2l5 5-5 5"/></svg>
       Sign in
     </button>
 
-    <hr class="od-divider">
-    <p class="od-footer">Contact your administrator to create an account</p>
+    <hr class="divider">
+    <p class="auth-footer">Contact your administrator to create an account</p>
   </section>
 
 
@@ -53,12 +53,12 @@
     const err = document.getElementById('od-err');
     if (!email || !pass) {
       err.textContent = !email ? 'Email is required.' : 'Password is required.';
-      err.classList.add('show');
+      err.classList.remove('is-hidden');
     } else {
-      err.classList.remove('show');
+      err.classList.add('is-hidden');
     }
   });
-  document.querySelectorAll('.od-input').forEach(i => {
+  document.querySelectorAll('#od-email, #od-pass').forEach(i => {
     i.addEventListener('keydown', e => {
       if (e.key === 'Enter') document.getElementById('od-submit').click();
     });

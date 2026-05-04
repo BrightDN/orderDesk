@@ -1,0 +1,22 @@
+.back-btn{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--text-muted);cursor:pointer;margin-bottom:16px;padding:4px 0;transition:color .12s;background:transparent;border:0;font-family:inherit}
+.back-btn:hover{color:var(--text)}
+.back-btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+.co-table{width:100%;border-collapse:collapse;table-layout:fixed}
+.co-table thead tr{font-size:10px;font-weight:500;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em}
+.co-table th{padding:0 0 8px;text-align:left;border-bottom:0.5px solid var(--border)}
+.co-table td{padding:10px 0;border-bottom:0.5px solid var(--border);vertical-align:middle}
+.co-table tbody tr:last-child td{border-bottom:none}
+.co-table tbody tr:hover{background:var(--bg);cursor:pointer}
+.co-table th:nth-child(2){width:180px}
+.co-table th:nth-child(3){width:80px}
+.co-table th:nth-child(4){width:90px}
+.co-table th:nth-child(5){width:80px}
+
+.co-name{font-size:13px;font-weight:500;color:var(--text)}
+.co-email{font-size:11px;color:var(--text-muted);margin-top:1px}
+.co-date{font-size:13px;color:var(--text-secondary)}
+
+.admin-emp-table th:nth-child(2){width:160px}
+.admin-emp-table th:nth-child(3){width:80px}
+.admin-emp-table th:nth-child(4){width:120px;text-align:right}

@@ -8,49 +8,10 @@
 <script src="/assets/scripts/modalOpener.js"></script>
 {{ end }}
 
+{{ define "stylesheets" }}
+  <link rel="stylesheet" href="/assets/stylesheets/settings.css">
+{{ end }}
 {{ define "content" }}
-
-<style>
-.info-grid{display:grid;grid-template-columns:140px 1fr;gap:8px 0;align-items:center}
-.info-label{font-size:12px;color:var(--text-muted);padding:6px 0}
-.info-value{font-size:13px;color:var(--text);padding:6px 0}
-.info-value.muted{color:var(--text-muted)}
-.info-input{width:100%;padding:6px 9px;border-radius:var(--radius-md);border:0.5px solid var(--border-mid);font-size:13px;font-family:inherit;background:var(--surface);color:var(--text);outline:none;transition:border-color .12s}
-.info-input:focus{border-color:var(--primary)}
-
-.emp-table{width:100%;border-collapse:collapse;table-layout:fixed}
-.emp-table thead tr{font-size:10px;font-weight:500;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em}
-.emp-table th{padding:0 0 8px;text-align:left;border-bottom:0.5px solid var(--border)}
-.emp-table td{padding:10px 0;border-bottom:0.5px solid var(--border);vertical-align:middle}
-.emp-table tbody tr:last-child td{border-bottom:none}
-.emp-table th:nth-child(2){width:180px}
-.emp-table th:nth-child(3){width:150px}
-.emp-table th:nth-child(4){width:72px;text-align:right}
-
-.emp-name{font-size:13px;font-weight:500;color:var(--text)}
-.emp-email{font-size:11px;color:var(--text-muted);margin-top:1px}
-
-.role-select{padding:4px 8px;border-radius:var(--radius-md);border:0.5px solid var(--border-mid);font-size:12px;font-family:inherit;background:var(--surface);color:var(--text-secondary);outline:none;cursor:pointer;width:140px}
-.role-select:focus{border-color:var(--primary)}
-
-.row-actions{display:flex;justify-content:flex-end;gap:6px}
-.add-row{padding:12px 0 2px}
-
-/* Modal */
-
-.perm-section{margin-bottom:14px}
-.perm-section:last-child{margin-bottom:0}
-.perm-section-title{font-size:11px;font-weight:500;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
-.perm-row{display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:0.5px solid var(--border)}
-.perm-row:last-child{border-bottom:none}
-.perm-label{font-size:13px;color:var(--text-secondary)}
-.toggle{position:relative;display:inline-block;width:32px;height:18px;flex-shrink:0}
-.toggle input{opacity:0;width:0;height:0}
-.toggle-slider{position:absolute;inset:0;background:var(--border-mid);border-radius:18px;transition:.2s;cursor:pointer}
-.toggle-slider:before{content:'';position:absolute;width:12px;height:12px;left:3px;top:3px;background:white;border-radius:50%;transition:.2s}
-.toggle input:checked+.toggle-slider{background:var(--primary)}
-.toggle input:checked+.toggle-slider:before{transform:translateX(14px)}
-</style>
 
 <p class="section-label">Company settings</p>
 
@@ -58,16 +19,16 @@
 <div class="module">
   <div class="module-header">
     <span class="module-title">Company information</span>
-    <div style="display:flex;gap:6px">
+    <div class="button-row">
       <button class="btn-ghost btn-sm" id="edit-btn">
         <svg viewBox="0 0 14 14"><path d="M9.5 2.5l2 2L4 12H2v-2L9.5 2.5z"/></svg>
         Edit
       </button>
-      <button class="btn-primary btn-sm" id="save-btn" style="display:none">
+      <button class="btn-primary btn-sm is-hidden" id="save-btn">
         <svg viewBox="0 0 14 14"><path d="M2 7l4 4 6-7"/></svg>
         Save
       </button>
-      <button class="btn btn-sm" id="cancel-btn" style="display:none">Cancel</button>
+      <button class="btn btn-sm is-hidden" id="cancel-btn">Cancel</button>
     </div>
   </div>
 
@@ -75,18 +36,18 @@
     <span class="info-label">Company name</span>
     <span class="info-value">Markt Storeroom</span>
     <span class="info-label">Email</span>
-    <span class="info-value muted">markt@storeroom.nl <span style="font-size:11px;color:var(--text-muted)">(contact admin to change)</span></span>
+    <span class="info-value muted">markt@storeroom.nl <span class="muted-note">(contact admin to change)</span></span>
     <span class="info-label">Location</span>
     <span class="info-value">Amsterdam, NL</span>
   </div>
 
-  <div class="info-grid" id="edit-mode" style="display:none">
+  <div class="info-grid is-hidden" id="edit-mode">
     <span class="info-label">Company name</span>
-    <div style="padding:4px 0"><input class="info-input" value="Markt Storeroom"></div>
+    <div class="info-control"><input class="info-input" value="Markt Storeroom"></div>
     <span class="info-label">Email</span>
-    <span class="info-value muted">markt@storeroom.nl <span style="font-size:11px">(contact admin to change)</span></span>
+    <span class="info-value muted">markt@storeroom.nl <span class="muted-note">(contact admin to change)</span></span>
     <span class="info-label">Location</span>
-    <div style="padding:4px 0"><input class="info-input" value="Amsterdam, NL"></div>
+    <div class="info-control"><input class="info-input" value="Amsterdam, NL"></div>
   </div>
 </div>
 
@@ -100,7 +61,7 @@
     </button>
   </div>
 
-  <table class="emp-table">
+  <table class="emp-table settings-emp-table">
     <thead>
       <tr>
         <th>Employee</th>
@@ -113,10 +74,10 @@
       <tr>
         <td>
           <p class="emp-name">Jan V.</p>
-          <p class="emp-email" style="font-size:10px;color:var(--primary)">you</p>
+          <p class="emp-email emp-you">you</p>
         </td>
-        <td><span style="font-size:13px;color:var(--text-secondary)">jan@storeroom.nl</span></td>
-        <td><span style="font-size:12px;color:var(--text-muted)">Super admin</span></td>
+        <td><span class="table-text">jan@storeroom.nl</span></td>
+        <td><span class="table-text-muted">Super admin</span></td>
         <td></td>
       </tr>
       <tr>
@@ -124,7 +85,7 @@
           <p class="emp-name">Marie K.</p>
           <p class="emp-email">marie@storeroom.nl</p>
         </td>
-        <td><span style="font-size:13px;color:var(--text-secondary)">marie@storeroom.nl</span></td>
+        <td><span class="table-text">marie@storeroom.nl</span></td>
         <td>
           <select class="role-select" onchange="modalOpener(this, 'custom', '#modal-permissions')">
             <option>Admin</option>
@@ -146,7 +107,7 @@
           <p class="emp-name">Thomas B.</p>
           <p class="emp-email">thomas@storeroom.nl</p>
         </td>
-        <td><span style="font-size:13px;color:var(--text-secondary)">thomas@storeroom.nl</span></td>
+        <td><span class="table-text">thomas@storeroom.nl</span></td>
         <td>
           <select class="role-select" onchange="modalOpener(this, 'custom', '#modal-permissions')">
             <option>Admin</option>
@@ -174,12 +135,12 @@ const viewMode=document.getElementById('view-mode');
 const editMode=document.getElementById('edit-mode');
 
 editBtn.addEventListener('click',()=>{
-  viewMode.style.display='none';editMode.style.display='grid';
-  editBtn.style.display='none';saveBtn.style.display='inline-flex';cancelBtn.style.display='inline-flex';
+  viewMode.classList.add('is-hidden');editMode.classList.remove('is-hidden');
+  editBtn.classList.add('is-hidden');saveBtn.classList.remove('is-hidden');cancelBtn.classList.remove('is-hidden');
 });
 [saveBtn,cancelBtn].forEach(btn=>btn.addEventListener('click',()=>{
-  viewMode.style.display='grid';editMode.style.display='none';
-  editBtn.style.display='inline-flex';saveBtn.style.display='none';cancelBtn.style.display='none';
+  viewMode.classList.remove('is-hidden');editMode.classList.add('is-hidden');
+  editBtn.classList.remove('is-hidden');saveBtn.classList.add('is-hidden');cancelBtn.classList.add('is-hidden');
 }));
 
 document.querySelectorAll('.del-btn').forEach(btn=>{
