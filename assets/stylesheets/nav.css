@@ -8,9 +8,58 @@
     padding: 0;
   }
 
+  .nav-toggle-control {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
   .logo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
     padding: 20px 18px 18px;
     border-bottom: 0.5px solid var(--border);
+  }
+
+  .nav-toggle {
+    display: none;
+    width: 34px;
+    height: 34px;
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-md);
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  .nav-toggle:hover {
+    background: var(--bg);
+    color: var(--text);
+  }
+
+  .nav-toggle svg {
+    width: 18px;
+    height: 18px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 1.9;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .nav-toggle-close {
+    display: none;
+  }
+
+  .nav-drawer {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-height: 0;
   }
 
   .nav-section { padding: 10px 10px 0; }
@@ -70,6 +119,22 @@
   .nav-user { display: flex; align-items: center; gap: 9px; }
   .user-name  { font-size: 13px; font-weight: 500; color: var(--text); }
   .user-role  { font-size: 11px; color: var(--text-muted); }
+
+  .settings-button {
+    width: 28px;
+    height: 28px;
+    border: 0;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .settings-button:hover {
+    background: var(--bg);
+  }
  
 
 #settings-pop {
@@ -100,4 +165,59 @@
   border: none;
   border-top: 0.5px solid var(--border);
   margin: 4px 0;
+}
+
+@media (max-width: 760px) {
+  .app {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    border-right: 0;
+    border-bottom: 0.5px solid var(--border);
+    flex: 0 0 auto;
+    position: sticky;
+    top: 0;
+    z-index: 20;
+  }
+
+  .logo {
+    padding: 12px 14px;
+  }
+
+  .nav-toggle {
+    display: inline-flex;
+  }
+
+  .nav-drawer {
+    display: none;
+    max-height: calc(100vh - 55px);
+    overflow-y: auto;
+    padding-bottom: 8px;
+  }
+
+  .nav-toggle-control:checked ~ .logo .nav-toggle-open {
+    display: none;
+  }
+
+  .nav-toggle-control:checked ~ .logo .nav-toggle-close {
+    display: block;
+  }
+
+  .nav-toggle-control:checked ~ .nav-drawer {
+    display: flex;
+  }
+
+  .nav-section {
+    padding: 8px 10px 0;
+  }
+
+  .nav-bottom {
+    margin-top: 8px;
+  }
+
+  main {
+    min-height: 0;
+  }
 }
