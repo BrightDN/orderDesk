@@ -6,8 +6,10 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/brightDN/orderDesk/internal/app"
 	"github.com/brightDN/orderDesk/internal/configs"
 	"github.com/brightDN/orderDesk/internal/database"
+	"github.com/brightDN/orderDesk/internal/handlers"
 	"github.com/brightDN/orderDesk/internal/mailer"
 	"github.com/brightDN/orderDesk/internal/middlewares"
 	"github.com/gorilla/sessions"
@@ -28,19 +30,14 @@ func main() {
 	}
 
 	dbQueries := database.New(db)
+	mc, err := mailer.NewClient("smtp-relay.brevo.com", 587, os.Getenv("MAILER_USER"), os.Getenv("MAILER_SECRET"))
 
 	cfg := configs.Config{
-		Db:       dbQueries,
 		Platform: os.Getenv("PLATFORM"),
 	}
 
-	cfg = cfg
-
-	// Mail client setup
-	mc, err := mailer.NewClient("smtp-relay.brevo.com", 587, os.Getenv("MAILER_USER"), os.Getenv("MAILER_SECRET"))
-	mc = mc
-	// echo setup
-
+	app := app.New(dbQueries, cfg, mc)
+	h := handlers.NewHandler(&app)
 	e := echo.New()
 	e.Renderer = &configs.Template{}
 	e.HTTPErrorHandler = configs.HTTPErrorHandler
@@ -55,7 +52,7 @@ func main() {
 
 	// protected := e.Group("/dashboard")
 	// protected.Use(middlewares.RequireAuth())
-	// protected.Use(middlewares.LoadUser(&cfg))
+	// protected.Use(middlewares.LoadUser(app.Db))
 
 	e.Static("/assets", "assets")
 
@@ -112,6 +109,8 @@ func main() {
 	e.GET("/settings/user", func(c echo.Context) error {
 		return c.Render(http.StatusOK, "userSettings", nil)
 	})
+
+	e.POST("/admin/sendInvite", h.SendCompanyInvite)
 
 	httpPort := os.Getenv("PORT")
 	if httpPort == "" {

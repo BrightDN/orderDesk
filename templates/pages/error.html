@@ -4,32 +4,20 @@
 
 
 {{ define "title" }}OD - error{{ end }}
-{{ define "stylesheets" }}
-  <link rel="stylesheet" href="/assets/stylesheets/centerPages.css">
-{{ end }}
+
 {{ define "content" }}
-
-<div class="toggle-row toggle-row-spacious">
-  <button class="toggle-btn active" onclick="showError('404', this)">404</button>
-  <button class="toggle-btn" onclick="showError('500', this)">5xx</button>
-</div>
-
-<div class="error-wrap" id="error-404">
-  <header class="logo-mark logo-centered toggle-row-spacious">
+  <header class="logo-spaced">
     <div class="logo-icon">
       <svg viewBox="0 0 16 16" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
         <path d="M3 13V7m0 0L8 3l5 4m-5-4v10m5-6v6M1 13h14"/>
       </svg>
     </div>
-    <div>
       <p class="logo-text">OrderDesk</p>
-      <p class="logo-sub">Markt Storeroom</p>
-    </div>
   </header>
 
-  <p class="error-code">404</p>
-  <h1 class="error-title">Page not found</h1>
-  <p class="error-message">The page you're looking for doesn't exist or may have been moved.</p>
+  <p class="error-code">{{ .Code }}</p>
+  <h1 class="error-title">{{ if le .Code 500 }}Page not found{{ else}}Something went wrong{{end}}</h1>
+  <p class="error-message">{{ .Message }}</p>
 
   <div class="error-actions">
     <button class="btn-primary" onclick="history.back()">
@@ -37,49 +25,8 @@
       Go back
     </button>
     <hr class="vertical-divider">
-    <a href="/dashboard" class="btn">
-      <svg viewBox="0 0 14 14"><rect x="2" y="2" width="4" height="4" rx="0.5"/><rect x="8" y="2" width="4" height="4" rx="0.5"/><rect x="2" y="8" width="4" height="4" rx="0.5"/><rect x="8" y="8" width="4" height="4" rx="0.5"/></svg>
-      Dashboard
+    <a href="/support/contact" class="btn">
+      Contact
     </a>
   </div>
-</div>
-
-<div class="error-wrap is-hidden" id="error-500">
-  <header class="logo-mark logo-centered toggle-row-spacious">
-    <div class="logo-icon">
-      <svg viewBox="0 0 16 16" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M3 13V7m0 0L8 3l5 4m-5-4v10m5-6v6M1 13h14"/>
-      </svg>
-    </div>
-    <div>
-      <p class="logo-text">OrderDesk</p>
-      <p class="logo-sub">Markt Storeroom</p>
-    </div>
-  </header>
-
-  <p class="error-code">500</p>
-  <h1 class="error-title">Something went wrong</h1>
-  <p class="error-message">Something went wrong on our end. This has been noted — try again in a moment.</p>
-
-  <div class="error-actions">
-    <button class="btn-primary" onclick="location.reload()">
-      <svg viewBox="0 0 14 14"><path d="M2 7a5 5 0 1 0 1-3M2 2v3h3"/></svg>
-      Try again
-    </button>
-    <hr class="vertical-divider">
-    <a href="/dashboard" class="btn">
-      <svg viewBox="0 0 14 14"><rect x="2" y="2" width="4" height="4" rx="0.5"/><rect x="8" y="2" width="4" height="4" rx="0.5"/><rect x="2" y="8" width="4" height="4" rx="0.5"/><rect x="8" y="8" width="4" height="4" rx="0.5"/></svg>
-      Dashboard
-    </a>
-  </div>
-</div>
-
-<script>
-function showError(code, btn) {
-  document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById('error-404').classList.toggle('is-hidden', code !== '404');
-  document.getElementById('error-500').classList.toggle('is-hidden', code !== '500');
-}
-</script>
-{{ end }}
+  {{ end }}

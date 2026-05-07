@@ -4,12 +4,11 @@ import (
 	"net/http"
 	"net/mail"
 
-	"github.com/brightDN/orderDesk/internal/configs"
 	"github.com/brightDN/orderDesk/internal/database"
 	"github.com/labstack/echo/v4"
 )
 
-func verifyUser(c echo.Context, cfg *configs.Config) error {
+func verifyUser(c echo.Context, db *database.Queries) error {
 	email := c.Request().PostFormValue("email")
 	password := c.Request().PostFormValue("password")
 
@@ -32,7 +31,7 @@ func verifyUser(c echo.Context, cfg *configs.Config) error {
 		})
 	}
 
-	user, err := cfg.Db.GetUserByMail(c.Request().Context(), email)
+	user, err := db.GetUserByMail(c.Request().Context(), email)
 	if err != nil {
 		return c.Render(http.StatusInternalServerError, "login", map[string]any{
 			"error": "Something went wrong, please try again later",

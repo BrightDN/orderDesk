@@ -168,7 +168,9 @@
   }
 
   /* LOGO  */
-  .logo-mark {
+  .logo-mark,
+  .logo-spaced,
+  .logo-centered {
     display: flex;
     align-items: center;
     gap: 9px;
@@ -312,7 +314,6 @@
 .vertical-divider{width:1px;height:16px;background:var(--border-mid);border:0}
 
 .toggle-row{display:flex;gap:8px;margin-bottom:24px}
-.toggle-row-spacious{margin-bottom:32px}
 .toggle-btn{
   padding:6px 16px;
   border-radius:var(--radius-md);

@@ -1,5 +1,5 @@
 {{ define "adminPanel" }}
- {{ template "centerBase" . }}
+ {{ template "adminBase" . }}
 {{ end }}
 
 {{ define "title" }}OD - adminpanel{{ end }}
@@ -160,28 +160,32 @@
 <dialog id="modal-create-company">
     <div class="modal-header">
       <span class="modal-title">Create company</span>
-      <button class="modal-close" command="close" commandfor="modal-create-company">
+      <button type="button" class="modal-close" command="close" commandfor="modal-create-company">
         <svg viewBox="0 0 12 12"><path d="M2 2l8 8M10 2L2 10"/></svg>
       </button>
     </div>
-    <div class="modal-body">
+
+    <form method="POST" action="/admin/sendInvite" class="modal-body">
+
       <div class="field">
         <label>Company name</label>
-        <input type="text" placeholder="e.g. Markt Amsterdam BV">
+        <input type="text" name="company-name" placeholder="e.g. Markt Amsterdam BV">
       </div>
+
       <div class="field">
         <label>Email address</label>
-        <input type="email" placeholder="admin@company.nl">
+        <input type="email" name="email" placeholder="company@example.com">
         <p class="field-hint">An invite will be sent to this address to create the first account</p>
       </div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn-ghost" command="close" commandfor="modal-create-company">Cancel</button>
-      <button class="btn-primary" command="close" commandfor="modal-create-company">
-        <svg viewBox="0 0 14 14"><path d="M2 7l4 4 6-7"/></svg>
-        Create & send invite
-      </button>
-    </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn-ghost" command="close" commandfor="modal-create-company">Cancel</button>
+        <button type="submit" class="btn-primary">
+          <svg viewBox="0 0 14 14"><path d="M2 7l4 4 6-7"/></svg>
+          Create & send invite
+        </button>
+      </div>
+    </form>
 </dialog>
 
 <!-- Ban modal -->
@@ -201,7 +205,7 @@
     </div>
     <div class="modal-footer">
       <button class="btn-ghost" command="close" commandfor="modal-ban">Cancel</button>
-      <button class="btn-danger" command="close" commandfor="modal-ban">Ban account</button>
+      <button class="btn-danger">Ban account</button>
     </div>
   </dialog>
 
