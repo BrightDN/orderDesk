@@ -1,7 +1,6 @@
 package mailer
 
 import (
-	"bytes"
 	"fmt"
 	"strings"
 
@@ -37,7 +36,7 @@ func NewClient(provider string, port int, username, password string) (*mail.Clie
 	return c, nil
 }
 
-func SendMail(to, from, subject, msg string, client *mail.Client, orders ...[]byte) error {
+func SendMail(to, from, subject, msg string, client *mail.Client) error {
 	m := mail.NewMsg()
 	if err := m.To(to); err != nil {
 		return fmt.Errorf(`Failed to set "to" address: %s`, err)
@@ -47,12 +46,6 @@ func SendMail(to, from, subject, msg string, client *mail.Client, orders ...[]by
 	}
 	m.Subject(subject)
 	m.SetBodyString(mail.TypeTextPlain, msg)
-
-	if len(orders) != 0 {
-		for i, a := range orders {
-			m.AttachReader(fmt.Sprintf("order%d.pdf", i), bytes.NewReader(a))
-		}
-	}
 
 	if err := client.DialAndSend(m); err != nil {
 		return fmt.Errorf(`Failed to send the mail: %s`, err)

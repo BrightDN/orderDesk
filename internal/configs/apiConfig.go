@@ -1,5 +1,6 @@
 package configs
 
 type Config struct {
-	Platform string
+	Platform    string
+	MailAccount string
 }

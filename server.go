@@ -33,10 +33,11 @@ func main() {
 	mc, err := mailer.NewClient("smtp-relay.brevo.com", 587, os.Getenv("MAILER_USER"), os.Getenv("MAILER_SECRET"))
 
 	cfg := configs.Config{
-		Platform: os.Getenv("PLATFORM"),
+		Platform:    os.Getenv("PLATFORM"),
+		MailAccount: os.Getenv("MAILER_MAIL"),
 	}
 
-	app := app.New(dbQueries, cfg, mc)
+	app := app.New(dbQueries, cfg, mc, "OrderDesk")
 	h := handlers.NewHandler(&app)
 	e := echo.New()
 	e.Renderer = &configs.Template{}

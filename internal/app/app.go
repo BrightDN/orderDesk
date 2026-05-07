@@ -10,12 +10,14 @@ type App struct {
 	Db     *database.Queries
 	Cfg    configs.Config
 	Mailer *mail.Client
+	Name   string
 }
 
-func New(db *database.Queries, cfg configs.Config, mailer *mail.Client) App {
+func New(db *database.Queries, cfg configs.Config, mailer *mail.Client, name string) App {
 	return App{
 		Db:     db,
 		Cfg:    cfg,
 		Mailer: mailer,
+		Name:   name,
 	}
 }
