@@ -15,10 +15,10 @@
   <div class="module">
     <div class="module-header">
       <span class="module-title">All companies</span>
-      <button class="btn-primary btn-sm" command="show-modal" commandfor="modal-create-company">
+      <a class="btn-primary btn-sm" href="/admin/companies/new">
         <svg viewBox="0 0 14 14"><path d="M7 2v10M2 7h10"/></svg>
         Create company
-      </button>
+      </a>
     </div>
     <table class="co-table">
       <thead>
@@ -32,25 +32,25 @@
       </thead>
       <tbody>
         <tr onclick="showDetail('freshveg')">
-          <td><p class="co-name">Markt Storeroom</p><p class="co-email">markt@storeroom.nl</p></td>
-          <td><span class="table-text">markt@storeroom.nl</span></td>
-          <td><span class="table-text">3</span></td>
-          <td><span class="co-date">12 Jan 2026</span></td>
-          <td><span class="badge badge-green">Active</span></td>
+          <td data-label="Company"><p class="co-name">Markt Storeroom</p><p class="co-email">markt@storeroom.nl</p></td>
+          <td data-label="Email"><span class="table-text">markt@storeroom.nl</span></td>
+          <td data-label="Employees"><span class="table-text">3</span></td>
+          <td data-label="Created"><span class="co-date">12 Jan 2026</span></td>
+          <td data-label="Status"><span class="badge badge-green">Active</span></td>
         </tr>
         <tr onclick="showDetail('demo')">
-          <td><p class="co-name">Demo Company</p><p class="co-email">demo@orderdesk.nl</p></td>
-          <td><span class="table-text">demo@orderdesk.nl</span></td>
-          <td><span class="table-text">1</span></td>
-          <td><span class="co-date">1 Jan 2026</span></td>
-          <td><span class="badge badge-green">Active</span></td>
+          <td data-label="Company"><p class="co-name">Demo Company</p><p class="co-email">demo@orderdesk.nl</p></td>
+          <td data-label="Email"><span class="table-text">demo@orderdesk.nl</span></td>
+          <td data-label="Employees"><span class="table-text">1</span></td>
+          <td data-label="Created"><span class="co-date">1 Jan 2026</span></td>
+          <td data-label="Status"><span class="badge badge-green">Active</span></td>
         </tr>
         <tr onclick="showDetail('suspended')">
-          <td><p class="co-name">OldCorp BV</p><p class="co-email">info@oldcorp.nl</p></td>
-          <td><span class="table-text">info@oldcorp.nl</span></td>
-          <td><span class="table-text">2</span></td>
-          <td><span class="co-date">3 Feb 2026</span></td>
-          <td><span class="badge badge-red">Suspended</span></td>
+          <td data-label="Company"><p class="co-name">OldCorp BV</p><p class="co-email">info@oldcorp.nl</p></td>
+          <td data-label="Email"><span class="table-text">info@oldcorp.nl</span></td>
+          <td data-label="Employees"><span class="table-text">2</span></td>
+          <td data-label="Created"><span class="co-date">3 Feb 2026</span></td>
+          <td data-label="Status"><span class="badge badge-red">Suspended</span></td>
         </tr>
       </tbody>
     </table>
@@ -122,16 +122,16 @@
       </thead>
       <tbody>
         <tr>
-          <td><p class="emp-name">Jan V.</p><p class="emp-email">jan@storeroom.nl</p></td>
-          <td><span class="table-text">jan@storeroom.nl</span></td>
-          <td><span class="table-text-muted">Super admin</span></td>
-          <td><div class="emp-actions"></div></td>
+          <td data-label="Employee"><p class="emp-name">Jan V.</p><p class="emp-email">jan@storeroom.nl</p></td>
+          <td data-label="Email"><span class="table-text">jan@storeroom.nl</span></td>
+          <td data-label="Role"><span class="table-text-muted">Super admin</span></td>
+          <td data-label="Actions"><div class="emp-actions"></div></td>
         </tr>
         <tr>
-          <td><p class="emp-name">Marie K.</p><p class="emp-email">marie@storeroom.nl</p></td>
-          <td><span class="table-text">marie@storeroom.nl</span></td>
-          <td><span class="table-text-muted">Manager</span></td>
-          <td>
+          <td data-label="Employee"><p class="emp-name">Marie K.</p><p class="emp-email">marie@storeroom.nl</p></td>
+          <td data-label="Email"><span class="table-text">marie@storeroom.nl</span></td>
+          <td data-label="Role"><span class="table-text-muted">Manager</span></td>
+          <td data-label="Actions">
             <div class="emp-actions">
               <button class="btn-ghost btn-xs">
                 Suspend
@@ -141,10 +141,10 @@
           </td>
         </tr>
         <tr>
-          <td><p class="emp-name">Thomas B.</p><p class="emp-email">thomas@storeroom.nl</p></td>
-          <td><span class="table-text">thomas@storeroom.nl</span></td>
-          <td><span class="table-text-muted">Employee</span></td>
-          <td>
+          <td data-label="Employee"><p class="emp-name">Thomas B.</p><p class="emp-email">thomas@storeroom.nl</p></td>
+          <td data-label="Email"><span class="table-text">thomas@storeroom.nl</span></td>
+          <td data-label="Role"><span class="table-text-muted">Employee</span></td>
+          <td data-label="Actions">
             <div class="emp-actions">
               <button class="btn-ghost btn-xs">Suspend</button>
               <button class="btn-danger btn-xs" command="show-modal" commandfor="modal-ban">Ban</button>
@@ -155,38 +155,6 @@
     </table>
   </div>
 </div>
-
-<!-- Create company modal -->
-<dialog id="modal-create-company">
-    <div class="modal-header">
-      <span class="modal-title">Create company</span>
-      <button type="button" class="modal-close" command="close" commandfor="modal-create-company">
-        <svg viewBox="0 0 12 12"><path d="M2 2l8 8M10 2L2 10"/></svg>
-      </button>
-    </div>
-
-    <form method="POST" action="/admin/sendInvite" class="modal-body">
-
-      <div class="field">
-        <label>Company name</label>
-        <input type="text" name="company-name" required min="3" placeholder="company name...">
-      </div>
-
-      <div class="field">
-        <label>Email address</label>
-        <input type="email" name="email" required placeholder="company@example.com">
-        <p class="field-hint">An invite will be sent to this address to create the first account</p>
-      </div>
-
-      <div class="modal-footer">
-        <button type="button" class="btn-ghost" command="close" commandfor="modal-create-company">Cancel</button>
-        <button type="submit" class="btn-primary">
-          <svg viewBox="0 0 14 14"><path d="M2 7l4 4 6-7"/></svg>
-          Create & send invite
-        </button>
-      </div>
-    </form>
-</dialog>
 
 <!-- Ban modal -->
 <dialog id="modal-ban">

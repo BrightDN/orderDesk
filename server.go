@@ -37,8 +37,6 @@ func main() {
 		MailAccount: os.Getenv("MAILER_MAIL"),
 	}
 
-	app := app.New(dbQueries, cfg, mc, "OrderDesk")
-	h := handlers.NewHandler(&app)
 	e := echo.New()
 	e.Renderer = &configs.Template{}
 	e.HTTPErrorHandler = configs.HTTPErrorHandler
@@ -50,6 +48,9 @@ func main() {
 		[]byte(os.Getenv("SESSION_AUTH_KEY")),
 		[]byte(os.Getenv("SESSION_ENCRYPT_KEY")),
 	)))
+
+	app := app.New(dbQueries, cfg, mc, "OrderDesk")
+	h := handlers.NewHandler(&app)
 
 	// protected := e.Group("/dashboard")
 	// protected.Use(middlewares.RequireAuth())
@@ -93,6 +94,10 @@ func main() {
 
 	e.GET("/admin/controlpanel", func(c echo.Context) error {
 		return c.Render(http.StatusOK, "adminPanel", nil)
+	})
+
+	e.GET("/admin/companies/new", func(c echo.Context) error {
+		return c.Render(http.StatusOK, "createCompany", nil)
 	})
 
 	e.GET("/auth/login", func(c echo.Context) error {
