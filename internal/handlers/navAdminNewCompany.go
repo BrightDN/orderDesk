@@ -9,11 +9,7 @@ import (
 
 func (h *Handler) NavAdminNewCompany(c echo.Context) error {
 	invs := invites.GetCompanyInvites(h.App.Db, c, h.App.Name)
-	return c.Render(http.StatusOK, "createCompany", map[string]any{
-		// "feedback": map[string]string{
-		// 	"message": "Company invite created and sent.",
-		// 	"type":    "pass",
-		// },
+	return c.Render(http.StatusOK, "inviteCompany", map[string]any{
 		"invites": invs,
 	})
 }

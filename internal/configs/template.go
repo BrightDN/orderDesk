@@ -8,6 +8,7 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/brightDN/orderDesk/internal/flash"
 	"github.com/labstack/echo/v4"
 )
 
@@ -45,28 +46,39 @@ func (t *Template) Render(w io.Writer, name string, data any, c echo.Context) er
 
 func templateData(data any, c echo.Context) any {
 	csrf, _ := c.Get("csrf").(string)
+	feedback, _ := flash.Pop(c)
 
 	switch values := data.(type) {
 	case nil:
-		return map[string]any{
+		withGlobals := map[string]any{
 			"csrf": csrf,
 		}
+		if feedback != nil {
+			withGlobals["feedback"] = feedback
+		}
+		return withGlobals
 	case map[string]any:
-		withGlobals := make(map[string]any, len(values)+1)
+		withGlobals := make(map[string]any, len(values)+2)
 		for key, value := range values {
 			withGlobals[key] = value
 		}
 		if _, ok := withGlobals["csrf"]; !ok {
 			withGlobals["csrf"] = csrf
+		}
+		if _, ok := withGlobals["feedback"]; !ok && feedback != nil {
+			withGlobals["feedback"] = feedback
 		}
 		return withGlobals
 	case map[string]string:
-		withGlobals := make(map[string]any, len(values)+1)
+		withGlobals := make(map[string]any, len(values)+2)
 		for key, value := range values {
 			withGlobals[key] = value
 		}
 		if _, ok := withGlobals["csrf"]; !ok {
 			withGlobals["csrf"] = csrf
+		}
+		if _, ok := withGlobals["feedback"]; !ok && feedback != nil {
+			withGlobals["feedback"] = feedback
 		}
 		return withGlobals
 	default:

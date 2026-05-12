@@ -2,6 +2,8 @@ package main
 
 import (
 	"database/sql"
+	"encoding/hex"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -24,6 +26,12 @@ import (
 func main() {
 	godotenv.Load()
 	dbURL := os.Getenv("DB_URL")
+	sessionAuthKey := []byte(os.Getenv("SESSION_AUTH_KEY"))
+	sessionEncryptKey, err := sessionEncryptionKey(os.Getenv("SESSION_ENCRYPT_KEY"))
+	if err != nil {
+		log.Fatalf("Invalid SESSION_ENCRYPT_KEY: %v", err)
+	}
+
 	db, err := sql.Open("postgres", dbURL)
 	if err != nil {
 		log.Fatalf("Something went wrong loading the postgres db: %v", err)
@@ -47,8 +55,8 @@ func main() {
 	}))
 	e.Use(middlewares.ChangeMethod())
 	e.Use(session.Middleware(sessions.NewCookieStore(
-		[]byte(os.Getenv("SESSION_AUTH_KEY")),
-		[]byte(os.Getenv("SESSION_ENCRYPT_KEY")),
+		sessionAuthKey,
+		sessionEncryptKey,
 	)))
 
 	app := app.New(dbQueries, cfg, mc, "OrderDesk")
@@ -124,4 +132,20 @@ func main() {
 	}
 
 	e.Logger.Fatal(e.Start(":" + httpPort))
+}
+
+func sessionEncryptionKey(value string) ([]byte, error) {
+	if len(value) == 32 || len(value) == 24 || len(value) == 16 {
+		return []byte(value), nil
+	}
+
+	key, err := hex.DecodeString(value)
+	if err != nil {
+		return nil, err
+	}
+	if len(key) != 32 && len(key) != 24 && len(key) != 16 {
+		return nil, fmt.Errorf("must be 16, 24, or 32 bytes after hex decoding; got %d bytes", len(key))
+	}
+
+	return key, nil
 }
