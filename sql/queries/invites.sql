@@ -8,9 +8,13 @@ SELECT *
 FROM invites;
 
 -- name: GetCompanyInvites :many
-SELECT *
+SELECT
+    invites.*,
+    companies.name AS company_name
 FROM invites
-WHERE invite_type = "company";
+JOIN companies
+    ON invites.company_id = companies.id
+WHERE invites.invite_type = 'company';
 
 -- name: GetEmployeeInvites :many
 SELECT *

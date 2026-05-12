@@ -42,7 +42,9 @@ func main() {
 	e.HTTPErrorHandler = configs.HTTPErrorHandler
 	e.Use(middleware.RequestLogger())
 	e.Use(middleware.Recover())
-	e.Use(middleware.CSRF())
+	e.Use(middleware.CSRFWithConfig(middleware.CSRFConfig{
+		TokenLookup: "form:_csrf,header:" + echo.HeaderXCSRFToken,
+	}))
 	e.Use(middlewares.ChangeMethod())
 	e.Use(session.Middleware(sessions.NewCookieStore(
 		[]byte(os.Getenv("SESSION_AUTH_KEY")),
@@ -96,9 +98,7 @@ func main() {
 		return c.Render(http.StatusOK, "adminPanel", nil)
 	})
 
-	e.GET("/admin/companies/new", func(c echo.Context) error {
-		return c.Render(http.StatusOK, "createCompany", nil)
-	})
+	e.GET("/admin/companies/new", h.NavAdminNewCompany)
 
 	e.GET("/auth/login", func(c echo.Context) error {
 		return c.Render(http.StatusOK, "login", nil)

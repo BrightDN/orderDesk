@@ -2,23 +2,39 @@ package handlers
 
 import (
 	"errors"
-	"fmt"
 	"net/http"
 
+	"github.com/brightDN/orderDesk/internal/companies"
 	"github.com/brightDN/orderDesk/internal/invites"
 	"github.com/labstack/echo/v4"
 )
 
-var ErrCompanyCreationFailure = errors.New("Failed to create the company")
+var ErrDBDataRetrieval = errors.New("Something went wrong retrieving data")
 
 func (h *Handler) SendCompanyInvite(c echo.Context) error {
-	org := h.App.Name
-	orgmail := h.App.Cfg.MailAccount
 
-	err := invites.SendCompany(h.App.Db, c, org, orgmail, h.App.Mailer)
+	err := invites.SendCompany(h.App.Db, c, h.App.Name, h.App.Cfg.MailAccount, h.App.Mailer)
+	invs := invites.GetCompanyInvites(h.App.Db, c, h.App.Name)
 	if err != nil {
-		return fmt.Errorf("%w: %v", ErrCompanyCreationFailure, err)
+		statusCode := http.StatusInternalServerError
+		if errors.Is(err, companies.ErrDuplicateEmail) ||
+			errors.Is(err, companies.ErrDuplicateName) ||
+			errors.Is(err, invites.ErrMaxAttempts) {
+			statusCode = http.StatusUnprocessableEntity
+		}
+		return c.Render(statusCode, "inviteCompany", map[string]any{
+			"feedback": map[string]string{
+				"message": err.Error(),
+				"type":    "error",
+			},
+			"invites": invs,
+		})
 	}
-
-	return c.Redirect(http.StatusSeeOther, "/admin/companies/new")
+	return c.Render(http.StatusOK, "inviteCompany", map[string]any{
+		"feedback": map[string]string{
+			"message": "Company invite created and sent.",
+			"type":    "pass",
+		},
+		"invites": invs,
+	})
 }

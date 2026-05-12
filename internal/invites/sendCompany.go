@@ -15,14 +15,14 @@ import (
 	"github.com/wneessen/go-mail"
 )
 
-var ErrMaxAttempts = errors.New("Maximum attempts passed")
-var ErrInviteCreation = errors.New("Failed to generate an invitation")
+var ErrMaxAttempts = errors.New("maximum attempts passed")
+var ErrInviteCreation = errors.New("failed to generate an invitation")
 
 func SendCompany(db *database.Queries, c echo.Context, org, orgmail string, mailclient *mail.Client) error {
-	cm := c.Request().PostFormValue("email")
-	name := c.Request().PostFormValue("name")
+	m := c.Request().PostFormValue("email")
+	name := c.Request().PostFormValue("company-name")
 
-	company, err := companies.Create(db, name, cm)
+	company, err := companies.Create(db, c, name, m)
 	if err != nil {
 		return err
 	}
@@ -31,14 +31,14 @@ func SendCompany(db *database.Queries, c echo.Context, org, orgmail string, mail
 	var pqErr *pq.Error
 
 	for i := range 5 {
-		token, err := generateToken(32)
+		token, err = generateToken(32)
 		if err != nil {
 			return err
 		}
 
 		if err := db.CreateInvite(c.Request().Context(), database.CreateInviteParams{
-			Email:      cm,
-			InviteType: string(Employee),
+			Email:      m,
+			InviteType: string(Company),
 			Token:      token,
 			CompanyID:  company.ID,
 			ExpiresAt:  time.Now().AddDate(0, 0, 2),
@@ -56,13 +56,15 @@ func SendCompany(db *database.Queries, c echo.Context, org, orgmail string, mail
 		}
 		return fmt.Errorf("%w: %v", ErrInviteCreation, err)
 	}
+
 	link := fmt.Sprintf("https://www.%s/invites/%s", strings.ToLower(org), token)
 	content := fmt.Sprintf("Hello,\n\nThank you for choosing %s.\nYour company account has been created successfully. To complete the setup process, please activate your account using the link below:\n%s\nPlease note that this activation link will expire in 48 hours.\nIf you did not request this account, you can safely ignore this email.\nBest regards,\nThe %s team",
 		org,
 		link,
 		org)
+
 	mail := mailer.Mail{
-		Receiver: cm,
+		Receiver: m,
 		Sender:   orgmail,
 		Subject:  fmt.Sprintf("Activate your %s account", org),
 		Body:     content,

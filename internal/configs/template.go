@@ -40,7 +40,38 @@ func (t *Template) Render(w io.Writer, name string, data any, c echo.Context) er
 		return err
 	}
 
-	return tmpl.ExecuteTemplate(w, name, data)
+	return tmpl.ExecuteTemplate(w, name, templateData(data, c))
+}
+
+func templateData(data any, c echo.Context) any {
+	csrf, _ := c.Get("csrf").(string)
+
+	switch values := data.(type) {
+	case nil:
+		return map[string]any{
+			"csrf": csrf,
+		}
+	case map[string]any:
+		withGlobals := make(map[string]any, len(values)+1)
+		for key, value := range values {
+			withGlobals[key] = value
+		}
+		if _, ok := withGlobals["csrf"]; !ok {
+			withGlobals["csrf"] = csrf
+		}
+		return withGlobals
+	case map[string]string:
+		withGlobals := make(map[string]any, len(values)+1)
+		for key, value := range values {
+			withGlobals[key] = value
+		}
+		if _, ok := withGlobals["csrf"]; !ok {
+			withGlobals["csrf"] = csrf
+		}
+		return withGlobals
+	default:
+		return data
+	}
 }
 
 func templateFiles(page string) ([]string, error) {

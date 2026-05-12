@@ -70,6 +70,86 @@
     display: none !important;
   }
 
+  .feedback-banner {
+    position: fixed;
+    top: 18px;
+    left: 18px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: min(360px, calc(100vw - 32px));
+    padding: 12px 14px;
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--surface);
+    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.14);
+    color: var(--text);
+    animation: feedback-enter 0.18s ease-out;
+  }
+
+  .feedback-banner p {
+    flex: 1;
+    font-size: 13px;
+    line-height: 1.35;
+  }
+
+  .feedback-pass {
+    background: var(--primary-light);
+    border-color: rgba(29, 158, 117, 0.32);
+    color: var(--primary-deeper);
+  }
+
+  .feedback-error {
+    background: var(--red-bg);
+    border-color: var(--red-border);
+    color: var(--red-text);
+  }
+
+  .feedback-close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    border: 0;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: currentColor;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  .feedback-close:hover {
+    background: rgba(255, 255, 255, 0.58);
+  }
+
+  .feedback-close svg {
+    width: 13px;
+    height: 13px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+  }
+
+  .feedback-banner.is-leaving {
+    opacity: 0;
+    transform: translateY(-8px);
+    transition: opacity 0.18s ease, transform 0.18s ease;
+  }
+
+  @keyframes feedback-enter {
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
   .button-row {
     display: flex;
     gap: 6px;

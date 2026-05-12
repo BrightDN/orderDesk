@@ -11,9 +11,11 @@
 
   {{ block "stylesheets" . }}{{end}}
   {{ block "scripts" . }}{{end}}
+  <script defer src="/assets/scripts/feedback.js"></script>
 
 </head>
 <body>
+  {{ template "feedback" . }}
   <div class="app">
     {{ template "navbar" . }}
     

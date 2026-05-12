@@ -1,14 +1,13 @@
 package invites
 
-import "time"
-
-type invite struct {
+type Invite struct {
 	IType       Type
 	Url         string
 	InviteeName string
 	InviteeMail string
-	ExpiryDate  time.Time
+	ExpiryDate  string
 	IsExpired   bool
+	IsUsed      bool
 	ID          int
 }
 

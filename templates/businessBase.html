@@ -12,10 +12,12 @@
 
   {{ block "stylesheets" . }}{{end}}
   {{ block "scripts" . }}{{end}}
+  <script defer src="/assets/scripts/feedback.js"></script>
   <script defer src="/assets/scripts/supplierList.js"></script>
 
 </head>
 <body>
+  {{ template "feedback" . }}
   <div class="app">
     {{ template "navbar" . }}
     

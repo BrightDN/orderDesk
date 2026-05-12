@@ -5,3 +5,6 @@ VALUES (
     $1,
     $2
 )RETURNING *;
+
+-- name: GetCompanies :many
+SELECT * FROM companies;
