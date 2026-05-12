@@ -4,6 +4,7 @@ import (
 	"html/template"
 	"io"
 	"io/fs"
+	"maps"
 	"os"
 	"path/filepath"
 	"strings"
@@ -14,22 +15,15 @@ import (
 
 type Template struct{}
 
-// func (t *Template) Render(w io.Writer, name string, data any, c echo.Context) error {
-// 	files := []string{"templates/*.html"}
-
-// 	components, err := filepath.Glob("templates/components/*.html")
-// 	if err != nil {
-// 		return err
-// 	}
-// 	files = append(files, components...)
-// 	files = append(files, "templates/pages/"+name+".html")
-
-// 	tmpl := template.Must(template.ParseFiles(files...))
-// 	return tmpl.ExecuteTemplate(w, name, data)
-// }
-
 func (t *Template) Render(w io.Writer, name string, data any, c echo.Context) error {
-	page := filepath.Join("templates", "pages", name+".html")
+	var page string
+
+	if strings.HasPrefix(name, "pages/") ||
+		strings.HasPrefix(name, "partials/") {
+		page = filepath.Join("templates/", name+".html")
+	} else {
+		page = filepath.Join("templates/", "pages", name+".html")
+	}
 
 	files, err := templateFiles(page)
 	if err != nil {
@@ -59,9 +53,7 @@ func templateData(data any, c echo.Context) any {
 		return withGlobals
 	case map[string]any:
 		withGlobals := make(map[string]any, len(values)+2)
-		for key, value := range values {
-			withGlobals[key] = value
-		}
+		maps.Copy(withGlobals, values)
 		if _, ok := withGlobals["csrf"]; !ok {
 			withGlobals["csrf"] = csrf
 		}
@@ -87,6 +79,41 @@ func templateData(data any, c echo.Context) any {
 }
 
 func templateFiles(page string) ([]string, error) {
+	page = filepath.Clean(page)
+
+	rel, err := filepath.Rel("templates", page)
+	if err != nil {
+		return nil, err
+	}
+
+	parts := strings.Split(rel, string(filepath.Separator))
+
+	// HTMX partials:
+	// templates/partials/*
+	// skip base layouts entirely
+	if len(parts) > 0 && parts[0] == "partials" {
+		files := []string{}
+
+		err = filepath.WalkDir("templates/components", func(path string, d fs.DirEntry, err error) error {
+			if err != nil {
+				return err
+			}
+
+			if d.IsDir() || filepath.Ext(path) != ".html" {
+				return nil
+			}
+
+			files = append(files, path)
+			return nil
+		})
+		if err != nil {
+			return nil, err
+		}
+
+		files = append(files, page)
+		return files, nil
+	}
+
 	base, err := templateBase(page)
 	if err != nil {
 		return nil, err
@@ -99,11 +126,13 @@ func templateFiles(page string) ([]string, error) {
 		if err != nil {
 			return err
 		}
+
 		if d.IsDir() || filepath.Ext(path) != ".html" {
 			return nil
 		}
 
 		path = filepath.Clean(path)
+
 		if path == filepath.Clean(page) || path == filepath.Clean(baseFile) {
 			return nil
 		}
@@ -112,8 +141,10 @@ func templateFiles(page string) ([]string, error) {
 		if err != nil {
 			return err
 		}
+
 		dir := strings.Split(rel, string(filepath.Separator))[0]
-		if dir == "pages" || dir == rel {
+
+		if dir == "pages" || dir == "partials" || dir == rel {
 			return nil
 		}
 

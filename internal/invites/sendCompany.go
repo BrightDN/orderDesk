@@ -15,9 +15,6 @@ import (
 	"github.com/wneessen/go-mail"
 )
 
-var ErrMaxAttempts = errors.New("maximum attempts passed")
-var ErrInviteCreation = errors.New("failed to generate an invitation")
-
 func SendCompany(db *database.Queries, c echo.Context, org, orgmail string, mailclient *mail.Client) error {
 	m := c.Request().PostFormValue("email")
 	name := c.Request().PostFormValue("company-name")

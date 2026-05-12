@@ -106,8 +106,6 @@ func main() {
 		return c.Render(http.StatusOK, "adminPanel", nil)
 	})
 
-	e.GET("/admin/companies/new", h.NavAdminNewCompany)
-
 	e.GET("/auth/login", func(c echo.Context) error {
 		return c.Render(http.StatusOK, "login", nil)
 	})
@@ -124,7 +122,9 @@ func main() {
 		return c.Render(http.StatusOK, "userSettings", nil)
 	})
 
+	e.GET("/admin/companies/new", h.NavAdminNewCompany)
 	e.POST("/admin/sendInvite", h.SendCompanyInvite)
+	e.DELETE("/admin/invite/delete/:id", h.DeleteCompanyInvite)
 
 	httpPort := os.Getenv("PORT")
 	if httpPort == "" {

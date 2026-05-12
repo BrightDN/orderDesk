@@ -1,0 +1,51 @@
+{{ define "inviteList" }}
+<p class="section-label">Company invites</p>
+  <div class="module">
+    <table class="invite-table" id="invite-table">
+      <thead>
+        <tr>
+          <th>Company</th>
+          <th>Invite link</th>
+          <th>Expires</th>
+          <th>Status</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {{ range .invites }}
+        <tr>
+          <td data-label="Company">
+            <p class="co-name">{{ .InviteeName }}</p>
+            <p class="co-email">{{ .InviteeMail }}</p>
+          </td>
+          <td data-label="Invite link">
+            <div class="invite-link-row">
+              <span class="invite-link" title="{{ .Url }}">{{ .Url }}</span>
+              <button type="button" class="btn-ghost btn-xs" data-copy-value="{{ .Url }}" onclick="copyInviteLink(this)">Copy</button>
+            </div>
+          </td>
+          {{ if or .IsUsed .IsExpired }}
+            <td data-label="Expires"><span class="table-text-muted">{{if .IsUsed }}Used{{ else }}Expired{{ end }}</span></td>
+                      <td data-label="Status"><span class="badge badge-red">{{ if .IsUsed }}Used{{ else }}Expired{{ end }}</span></td>
+          {{ else }}
+          <td data-label="Expires"><span class="table-text"> {{ .ExpiryDate }}</span></td>
+          <td data-label="Status"><span class="badge badge-green">Active</span></td>
+          {{ end }}
+
+          <td data-label="Actions">
+            <div class="invite-actions">
+              {{ if .IsUsed }}
+              <button type="button" class="btn-danger btn-xs">Delete</button>
+               {{ else }}
+              <button type="button" class="btn-ghost btn-xs">{{ if .IsExpired }}Re-activate{{ else }}Re-send{{ end }}</button>
+              <button type="button" class="btn-danger btn-xs" hx-delete="/admin/invite/delete/{{.ID}}" hx-target="#invite-table">Cancel</button>
+              {{ end }}
+            </div>
+          </td>
+        </tr>
+        {{ end }}
+      </tbody>
+    </table>
+  </section>
+  </div>
+{{ end }}

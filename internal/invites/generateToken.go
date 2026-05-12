@@ -3,11 +3,8 @@ package invites
 import (
 	"crypto/rand"
 	"encoding/base64"
-	"errors"
 	"fmt"
 )
-
-var ErrTokenCreation = errors.New("failed to generate a token")
 
 func generateToken(length int) (string, error) {
 	bytes := make([]byte, length)

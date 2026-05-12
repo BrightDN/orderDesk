@@ -18,8 +18,6 @@
   Back to companies
 </a>
 
-<p class="section-label">Company invites</p>
-
 <div class="admin-page-grid">
   <section class="module create-company-module">
     <div class="module-header">
@@ -50,9 +48,9 @@
     </form>
   </section>
   </div>
-<p class="section-label">Company invites</p>
+ <p class="section-label">Company invites</p>
   <div class="module">
-    <table class="invite-table">
+    <table class="invite-table" id="invite-table">
       <thead>
         <tr>
           <th>Company</th>
@@ -89,7 +87,7 @@
               <button type="button" class="btn-danger btn-xs">Delete</button>
                {{ else }}
               <button type="button" class="btn-ghost btn-xs">{{ if .IsExpired }}Re-activate{{ else }}Re-send{{ end }}</button>
-              <button type="button" class="btn-danger btn-xs" hx-delete="/admin/invite/delete/{{.ID}}">Cancel</button>
+              <button type="button" class="btn-danger btn-xs" hx-delete="/admin/invite/delete/{{.ID}}" hx-target="#invite-table">Cancel</button>
               {{ end }}
             </div>
           </td>
