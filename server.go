@@ -121,6 +121,7 @@ func main() {
 	e.GET("/admin/companies/invites", h.NavAdminNewCompany)
 	e.GET("/admin/companies/list", h.NavAdminCompanyList)
 	e.POST("/admin/companies/invites/sendInvite", h.SendCompanyInvite)
+	e.POST("/admin/companies/invites/resend/:id", h.ResendCompanyInvite)
 	e.DELETE("/admin/companies/invites/delete/:id", h.DeleteCompanyInvite)
 
 	httpPort := os.Getenv("PORT")

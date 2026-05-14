@@ -8,6 +8,8 @@ a[class*=" btn"]{text-decoration:none}
 .admin-page-grid{display:grid;gap:16px;max-width:1000px}
 .create-company-form{display:grid;gap:14px}
 .form-actions{display:flex;justify-content:flex-end;gap:8px;padding-top:2px}
+#invite-list-slot,
+#invite-list{max-width:1000px}
 
 .co-table{width:100%;border-collapse:collapse;table-layout:auto}
 .co-table thead tr{font-size:10px;font-weight:500;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em}
@@ -33,19 +35,74 @@ a[class*=" btn"]{text-decoration:none}
 .admin-emp-table th:nth-child(3){width:16%}
 .admin-emp-table th:nth-child(4){width:20%;text-align:right}
 
-.invite-table{width:100%;border-collapse:collapse;table-layout:auto}
+.invite-table{width:100%;border-collapse:collapse;table-layout:fixed}
 .invite-table thead tr{font-size:10px;font-weight:500;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em}
 .invite-table th{padding:0 0 8px;text-align:left;border-bottom:0.5px solid var(--border)}
 .invite-table td{padding:10px 0;border-bottom:0.5px solid var(--border);vertical-align:middle;overflow-wrap:anywhere}
 .invite-table tbody tr:last-child td{border-bottom:none}
-.invite-table th:nth-child(1){width:22%}
-.invite-table th:nth-child(2){width:36%}
+.invite-table th:nth-child(1){width:24%}
+.invite-table th:nth-child(2){width:37%}
 .invite-table th:nth-child(3){width:13%}
 .invite-table th:nth-child(4){width:12%}
-.invite-table th:nth-child(5){width:17%;text-align:right}
+.invite-table th:nth-child(5){width:14%;text-align:right}
 .invite-link-row{display:flex;align-items:center;gap:8px;min-width:0;max-width:100%}
-.invite-link{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px;color:var(--text-secondary)}
+.invite-link{display:block;flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px;color:var(--text-secondary)}
 .invite-actions{display:flex;justify-content:flex-end;gap:6px;flex-wrap:wrap}
+.invite-link-row .btn-xs,
+.invite-actions .btn-xs{flex:0 0 auto;white-space:nowrap}
+
+@media (max-width: 900px){
+  .invite-table,
+  .invite-table tbody,
+  .invite-table tr,
+  .invite-table td{display:block;width:100%;box-sizing:border-box}
+
+  .invite-table thead{display:none}
+
+  .invite-table tr{
+    padding:12px 0;
+    border-bottom:0.5px solid var(--border);
+  }
+
+  .invite-table tbody tr:last-child{border-bottom:none}
+
+  .invite-table td{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    padding:5px 0;
+    border-bottom:0;
+    text-align:right;
+  }
+
+  .invite-table td::before{
+    content:attr(data-label);
+    flex:0 0 auto;
+    font-size:10px;
+    font-weight:500;
+    color:var(--text-muted);
+    text-transform:uppercase;
+    letter-spacing:.05em;
+  }
+
+  .invite-table td:first-child{
+    align-items:flex-start;
+    text-align:left;
+  }
+
+  .invite-table td:first-child::before{padding-top:2px}
+
+  .invite-table td:nth-child(2){
+    align-items:flex-start;
+    flex-direction:column;
+    gap:6px;
+    text-align:left;
+  }
+
+  .invite-link-row{width:100%;max-width:100%}
+  .invite-actions{max-width:100%;justify-content:flex-end;flex-wrap:wrap}
+}
 
 @media (max-width: 760px){
   .admin-page-grid{display:block}
