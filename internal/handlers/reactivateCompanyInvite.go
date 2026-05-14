@@ -10,7 +10,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func (h *Handler) DeleteCompanyInvite(c echo.Context) error {
+func (h *Handler) Reactivate(c echo.Context) error {
 	id := c.Param("id")
 	if len(strings.TrimSpace(id)) == 0 {
 		if flashErr := flash.Set(c, flash.Error, ErrUnexpectedValue.Error()); flashErr != nil {
@@ -33,9 +33,9 @@ func (h *Handler) DeleteCompanyInvite(c echo.Context) error {
 		})
 	}
 
-	if err := invites.Delete(h.App.Db, c, int32(nid)); err != nil {
-		if err := flash.Set(c, flash.Error, ErrInternalError.Error()); err != nil {
-			return err
+	if err := invites.Reactivate(h.App.Db, c, int32(nid)); err != nil {
+		if flashErr := flash.Set(c, flash.Error, ErrInternalError.Error()); flashErr != nil {
+			return flashErr
 		}
 		invs := invites.GetCompanyInvites(h.App.Db, c, h.App.Name)
 		return c.Render(http.StatusOK, "partials/inviteList", map[string]any{
@@ -43,9 +43,6 @@ func (h *Handler) DeleteCompanyInvite(c echo.Context) error {
 		})
 	}
 
-	if err := flash.Set(c, flash.Pass, "Company invite successfully deleted."); err != nil {
-		return err
-	}
 	invs := invites.GetCompanyInvites(h.App.Db, c, h.App.Name)
 	return c.Render(http.StatusOK, "partials/inviteList", map[string]any{
 		"invites": invs,

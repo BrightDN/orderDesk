@@ -40,9 +40,22 @@
               <button type="button" class="btn-danger btn-xs">Delete</button>
                {{ else }}
                {{ if .IsExpired }}
-              <button type="button" class="btn-ghost btn-xs">Re-activate</button>
+              <button 
+                type="button"
+                class="btn-ghost btn-xs"
+                hx-patch="/admin/companies/invites/reactivate/{{ .ID }}"
+                hx-target="#invite-list-slot"
+                hx-swap="innerHTML"
+                hx-headers='{"X-CSRF-Token":"{{ $.csrf }}"}'>
+              Re-activate</button>
               {{ else }}
-              <button type="button" class="btn-ghost" btn-xs hx-post="/admin/companies/invites/resend/{{.ID}}" hx-swap="none" hx-headers='{"X-CSRF-Token":"{{ $.csrf }}"}'>Re-send</button>
+              <button
+                type="button"
+                class="btn-ghost btn-xs"
+                hx-post="/admin/companies/invites/resend/{{.ID}}"
+                hx-swap="none"
+                hx-headers='{"X-CSRF-Token":"{{ $.csrf }}"}'>
+              Re-send</button>
               {{ end }}
               <button type="button" class="btn-danger btn-xs" onclick="openDeleteWithData({{.ID}})">Cancel</button>
               {{ end }}

@@ -15,14 +15,14 @@ import (
 func Resend(db *database.Queries, c echo.Context, mailc *mail.Client, appname, appmail string) error {
 	id := c.Param("id")
 	if len(strings.TrimSpace(id)) == 0 {
-		if flashErr := flash.Set(c, "error", ErrUnexpectedValue.Error()); flashErr != nil {
+		if flashErr := flash.Set(c, flash.Error, ErrUnexpectedValue.Error()); flashErr != nil {
 			return flashErr
 		}
 	}
 
 	nid, err := strconv.ParseInt(id, 10, 32)
 	if err != nil {
-		if flashErr := flash.Set(c, "error", ErrUnexpectedValue.Error()); flashErr != nil {
+		if flashErr := flash.Set(c, flash.Error, ErrUnexpectedValue.Error()); flashErr != nil {
 			return flashErr
 		}
 		return err
@@ -30,14 +30,14 @@ func Resend(db *database.Queries, c echo.Context, mailc *mail.Client, appname, a
 
 	invite, err := db.GetInvite(c.Request().Context(), int32(nid))
 	if err != nil {
-		if flashErr := flash.Set(c, "error", ErrInternalError.Error()); flashErr != nil {
+		if flashErr := flash.Set(c, flash.Error, ErrInternalError.Error()); flashErr != nil {
 			return flashErr
 		}
 		return err
 	}
 
 	if invite.UsedAt.Valid {
-		if flashErr := flash.Set(c, "error", ErrAlreadyAccepted.Error()); flashErr != nil {
+		if flashErr := flash.Set(c, flash.Error, ErrAlreadyAccepted.Error()); flashErr != nil {
 			return flashErr
 		}
 		return err
