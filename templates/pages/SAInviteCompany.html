@@ -21,13 +21,15 @@
       <input type="hidden" name="_method" value="PUT">
 
       <div class="field">
-        <label>Company name</label>
-        <input type="text" name="company-name" required minlength="3" placeholder="company name...">
+        <label>Company name
+          <input type="text" name="company-name" required minlength="3" placeholder="company name...">
+        </label>
       </div>
 
       <div class="field">
-        <label>Email address</label>
-        <input type="email" name="email" required placeholder="company@example.com">
+        <label>Email address
+          <input type="email" name="email" required placeholder="company@example.com" autocomplete="email">
+        </label>
         <p class="field-hint">An invite will be sent to this address to create the first account</p>
       </div>
 
@@ -40,7 +42,9 @@
     </form>
   </section>
   </div>
-{{ template "inviteList" . }}
+<div id="invite-list-slot">
+  {{ template "inviteList" . }}
+</div>
 
 <dialog id="modal-delete">
     <div class="modal-header">
@@ -77,18 +81,19 @@ function copyInviteLink(button){
 }
 
 function openDeleteWithData(data) {
-  const modal = document.getElementById("#modal-delete")
-  let footer = modal.getElementsByClassName("modal-footer")
-  if (footer.length != 0) {
-    footer.pop()
+  const modal = document.getElementById("modal-delete")
+  let footer = modal.querySelector(".modal-footer")
+  if (footer) {
+    footer.remove()
   }
   footer = document.createElement("div")
-  footer.classList.Add("modal-footer")
+  footer.classList.add("modal-footer")
   footer.innerHTML = `
       <button class="btn-ghost" command="close" commandfor="modal-delete">Cancel</button>
-      <button class="btn-danger" command="close" commandfor="modal-delete" hx-delete="/admin/companies/invites/delete/${data}" hx-target="#invite-list" hx-swap="outerHTML" hx-headers='{"X-CSRF-Token":"{{ $.csrf }}"}'>Remove invitation</button>
+      <button class="btn-danger" command="close" commandfor="modal-delete" hx-delete="/admin/companies/invites/delete/${data}" hx-target="#invite-list-slot" hx-swap="innerHTML" hx-headers='{"X-CSRF-Token":"{{ $.csrf }}"}'>Remove invitation</button>
   `
-  footer.appendChild("deleteBTN")
+  modal.appendChild(footer)
+  htmx.process(footer)
   modal.showModal()
 }
 </script>

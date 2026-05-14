@@ -40,7 +40,7 @@
               <button type="button" class="btn-danger btn-xs">Delete</button>
                {{ else }}
               <button type="button" class="btn-ghost btn-xs">{{ if .IsExpired }}Re-activate{{ else }}Re-send{{ end }}</button>
-              <button type="button" class="btn-danger btn-xs">Cancel</button>
+              <button type="button" class="btn-danger btn-xs" onclick="openDeleteWithData({{.ID}})">Cancel</button>
               {{ end }}
             </div>
           </td>
