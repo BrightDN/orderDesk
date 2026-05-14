@@ -5,6 +5,10 @@ CREATE TABLE companies (
   name TEXT NOT NULL,
   email TEXT NOT NULL,
   deleted_at TIMESTAMPTZ DEFAULT NULL,
+
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+
   CONSTRAINT unique_name UNIQUE (name),
   CONSTRAINT unique_email UNIQUE (email)
 );

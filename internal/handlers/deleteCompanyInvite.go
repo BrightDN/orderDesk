@@ -12,11 +12,11 @@ import (
 
 func (h *Handler) DeleteCompanyInvite(c echo.Context) error {
 	id := c.Param("id")
-	invs := invites.GetCompanyInvites(h.App.Db, c, h.App.Name)
 	if len(strings.TrimSpace(id)) == 0 {
 		if flashErr := flash.Set(c, "error", ErrUnexpectedValue.Error()); flashErr != nil {
 			return flashErr
 		}
+		invs := invites.GetCompanyInvites(h.App.Db, c, h.App.Name)
 		return c.Render(http.StatusOK, "partials/inviteList", map[string]any{
 			"invites": invs,
 		})
@@ -27,6 +27,7 @@ func (h *Handler) DeleteCompanyInvite(c echo.Context) error {
 		if flashErr := flash.Set(c, "error", ErrUnexpectedValue.Error()); flashErr != nil {
 			return flashErr
 		}
+		invs := invites.GetCompanyInvites(h.App.Db, c, h.App.Name)
 		return c.Render(http.StatusOK, "partials/inviteList", map[string]any{
 			"invites": invs,
 		})
@@ -36,14 +37,16 @@ func (h *Handler) DeleteCompanyInvite(c echo.Context) error {
 		if err := flash.Set(c, "error", ErrInternalError.Error()); err != nil {
 			return err
 		}
+		invs := invites.GetCompanyInvites(h.App.Db, c, h.App.Name)
 		return c.Render(http.StatusOK, "partials/inviteList", map[string]any{
 			"invites": invs,
 		})
 	}
 
-	if err := flash.Set(c, "pass", "Company invite succesfully deleted."); err != nil {
+	if err := flash.Set(c, "pass", "Company invite successfully deleted."); err != nil {
 		return err
 	}
+	invs := invites.GetCompanyInvites(h.App.Db, c, h.App.Name)
 	return c.Render(http.StatusOK, "partials/inviteList", map[string]any{
 		"invites": invs,
 	})

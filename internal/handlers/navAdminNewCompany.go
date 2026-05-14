@@ -14,7 +14,7 @@ func (h *Handler) NavAdminNewCompany(c echo.Context) error {
 		Title: "Invite companies",
 		Type:  pages.OwnerType,
 	}
-	return c.Render(http.StatusOK, "inviteCompany", map[string]any{
+	return c.Render(http.StatusOK, "SAInviteCompany", map[string]any{
 		"invites":  invs,
 		"pageData": pageData,
 	})

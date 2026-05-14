@@ -16,14 +16,9 @@ import (
 type Template struct{}
 
 func (t *Template) Render(w io.Writer, name string, data any, c echo.Context) error {
-	var page string
-
-	if strings.HasPrefix(name, "pages/") ||
-		strings.HasPrefix(name, "partials/") {
-		page = filepath.Join("templates/", name+".html")
-	} else {
-		page = filepath.Join("templates/", "pages", name+".html")
-	}
+	page := templatePath(name)
+	executeName := templateName(name)
+	isPartial := strings.HasPrefix(name, "partials/")
 
 	files, err := templateFiles(page)
 	if err != nil {
@@ -35,17 +30,31 @@ func (t *Template) Render(w io.Writer, name string, data any, c echo.Context) er
 		return err
 	}
 
-	return tmpl.ExecuteTemplate(w, name, templateData(data, c))
+	return tmpl.ExecuteTemplate(w, executeName, templateData(data, c, isPartial))
 }
 
-func templateData(data any, c echo.Context) any {
+func templatePath(name string) string {
+	if strings.HasPrefix(name, "pages/") ||
+		strings.HasPrefix(name, "partials/") {
+		return filepath.Join("templates", name+".html")
+	}
+
+	return filepath.Join("templates", "pages", name+".html")
+}
+
+func templateName(name string) string {
+	return strings.TrimSuffix(filepath.Base(name), filepath.Ext(name))
+}
+
+func templateData(data any, c echo.Context, isPartial bool) any {
 	csrf, _ := c.Get("csrf").(string)
 	feedback, _ := flash.Pop(c)
 
 	switch values := data.(type) {
 	case nil:
 		withGlobals := map[string]any{
-			"csrf": csrf,
+			"csrf":      csrf,
+			"isPartial": isPartial,
 		}
 		if feedback != nil {
 			withGlobals["feedback"] = feedback
@@ -56,6 +65,9 @@ func templateData(data any, c echo.Context) any {
 		maps.Copy(withGlobals, values)
 		if _, ok := withGlobals["csrf"]; !ok {
 			withGlobals["csrf"] = csrf
+		}
+		if _, ok := withGlobals["isPartial"]; !ok {
+			withGlobals["isPartial"] = isPartial
 		}
 		if _, ok := withGlobals["feedback"]; !ok && feedback != nil {
 			withGlobals["feedback"] = feedback
@@ -68,6 +80,9 @@ func templateData(data any, c echo.Context) any {
 		}
 		if _, ok := withGlobals["csrf"]; !ok {
 			withGlobals["csrf"] = csrf
+		}
+		if _, ok := withGlobals["isPartial"]; !ok {
+			withGlobals["isPartial"] = isPartial
 		}
 		if _, ok := withGlobals["feedback"]; !ok && feedback != nil {
 			withGlobals["feedback"] = feedback
@@ -144,7 +159,7 @@ func templateFiles(page string) ([]string, error) {
 
 		dir := strings.Split(rel, string(filepath.Separator))[0]
 
-		if dir == "pages" || dir == "partials" || dir == rel {
+		if dir == "pages" || dir == rel {
 			return nil
 		}
 

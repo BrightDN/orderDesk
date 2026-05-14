@@ -1,0 +1,95 @@
+{{ define "SAInviteCompany" }}
+ {{ template "adminBase" . }}
+{{ end }}
+
+{{ define "title" }}OD - Create company{{ end }}
+
+{{ define "stylesheets" }}
+  <link rel="stylesheet" href="/assets/stylesheets/adminPanel.css">
+{{ end }}
+
+{{ define "scripts" }}
+<script src="/assets/scripts/htmx.min.js"></script>
+{{ end }}
+
+{{ define "content" }}
+<p class="section-label">Create company</p>
+<div class="admin-page-grid">
+  <section class="module create-company-module">
+    <form method="POST" action="/admin/companies/invites/sendInvite" class="create-company-form">
+      <input type="hidden" name="_csrf" value="{{ .csrf }}">
+      <input type="hidden" name="_method" value="PUT">
+
+      <div class="field">
+        <label>Company name</label>
+        <input type="text" name="company-name" required minlength="3" placeholder="company name...">
+      </div>
+
+      <div class="field">
+        <label>Email address</label>
+        <input type="email" name="email" required placeholder="company@example.com">
+        <p class="field-hint">An invite will be sent to this address to create the first account</p>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn-primary">
+          <svg viewBox="0 0 14 14"><path d="M2 7l4 4 6-7"/></svg>
+          Create & send invite
+        </button>
+      </div>
+    </form>
+  </section>
+  </div>
+{{ template "inviteList" . }}
+
+<dialog id="modal-delete">
+    <div class="modal-header">
+      <span class="modal-title modal-title-danger">Remove invitation</span>
+      <button class="modal-close" command="close" commandfor="modal-delete">
+        <svg viewBox="0 0 12 12"><path d="M2 2l8 8M10 2L2 10"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p class="warning-text">This will permanently remove the invitation.</p>
+    </div>
+  </dialog>
+
+
+<script>
+function copyInviteLink(button){
+  const value = button.dataset.copyValue;
+  const copy = navigator.clipboard
+    ? navigator.clipboard.writeText(value)
+    : Promise.reject();
+
+  copy.catch(() => {
+    const field = document.createElement('textarea');
+    field.value = value;
+    document.body.appendChild(field);
+    field.select();
+    document.execCommand('copy');
+    field.remove();
+  }).finally(() => {
+    const original = button.textContent;
+    button.textContent = 'Copied';
+    setTimeout(() => { button.textContent = original; }, 1400);
+  });
+}
+
+function openDeleteWithData(data) {
+  const modal = document.getElementById("#modal-delete")
+  let footer = modal.getElementsByClassName("modal-footer")
+  if (footer.length != 0) {
+    footer.pop()
+  }
+  footer = document.createElement("div")
+  footer.classList.Add("modal-footer")
+  footer.innerHTML = `
+      <button class="btn-ghost" command="close" commandfor="modal-delete">Cancel</button>
+      <button class="btn-danger" command="close" commandfor="modal-delete" hx-delete="/admin/companies/invites/delete/${data}" hx-target="#invite-list" hx-swap="outerHTML" hx-headers='{"X-CSRF-Token":"{{ $.csrf }}"}'>Remove invitation</button>
+  `
+  footer.appendChild("deleteBTN")
+  modal.showModal()
+}
+</script>
+{{ end }}

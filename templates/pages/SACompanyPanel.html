@@ -1,4 +1,4 @@
-{{ define "adminPanel" }}
+{{ define "SACompanyPanel" }}
  {{ template "adminBase" . }}
 {{ end }}
 
@@ -13,45 +13,29 @@
 <div id="list-view">
   <p class="section-label">Companies</p>
   <div class="module">
-    <div class="module-header">
-      <span class="module-title">All companies</span>
-      <a class="btn-primary btn-sm" href="/admin/companies/new">
-        <svg viewBox="0 0 14 14"><path d="M7 2v10M2 7h10"/></svg>
-        Create company
-      </a>
-    </div>
     <table class="co-table">
       <thead>
         <tr>
           <th>Company</th>
-          <th>Email</th>
-          <th>Employees</th>
           <th>Created</th>
           <th>Status</th>
         </tr>
       </thead>
       <tbody>
+        {{ range .companies}}
         <tr onclick="showDetail('freshveg')">
-          <td data-label="Company"><p class="co-name">Markt Storeroom</p><p class="co-email">markt@storeroom.nl</p></td>
-          <td data-label="Email"><span class="table-text">markt@storeroom.nl</span></td>
-          <td data-label="Employees"><span class="table-text">3</span></td>
-          <td data-label="Created"><span class="co-date">12 Jan 2026</span></td>
-          <td data-label="Status"><span class="badge badge-green">Active</span></td>
+          <td data-label="Company">
+            <p class="co-name">{{ .Name }}</p>
+            <p class="co-email">{{ .Email }}</p>
+          </td>
+          <td data-label="Created">
+            <span class="co-date">{{ .CreatedAt }}</span>
+          </td>
+          <td data-label="Status">
+            <span class="badge badge-{{ if .IsDeleted }}red{{ else }}green{{ end }}">{{if .IsDeleted }}Removed{{ else }}Active{{ end }}</span>
+          </td>
         </tr>
-        <tr onclick="showDetail('demo')">
-          <td data-label="Company"><p class="co-name">Demo Company</p><p class="co-email">demo@orderdesk.nl</p></td>
-          <td data-label="Email"><span class="table-text">demo@orderdesk.nl</span></td>
-          <td data-label="Employees"><span class="table-text">1</span></td>
-          <td data-label="Created"><span class="co-date">1 Jan 2026</span></td>
-          <td data-label="Status"><span class="badge badge-green">Active</span></td>
-        </tr>
-        <tr onclick="showDetail('suspended')">
-          <td data-label="Company"><p class="co-name">OldCorp BV</p><p class="co-email">info@oldcorp.nl</p></td>
-          <td data-label="Email"><span class="table-text">info@oldcorp.nl</span></td>
-          <td data-label="Employees"><span class="table-text">2</span></td>
-          <td data-label="Created"><span class="co-date">3 Feb 2026</span></td>
-          <td data-label="Status"><span class="badge badge-red">Suspended</span></td>
-        </tr>
+        {{ end }}
       </tbody>
     </table>
   </div>

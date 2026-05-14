@@ -51,6 +51,27 @@
         </a>
       </nav>
 
+      {{ with .pageData}}
+      <nav class="nav-section nav-section-spaced" aria-label="Admin menu">
+        <p class="nav-label">Site</p>
+        <a href="/admin/companies/invites" class='nav-item {{ if eq .Title "Invite companies" }} active {{end }}'>
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="4" width="12" height="9" rx="1"/>
+            <path d="M2 4l6 5 6-5"/>
+          </svg>
+          Invites
+        </a>
+        <a href="/admin/companies/list" class='nav-item {{ if eq .Title "Companies" }} active {{end }}'>
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 14V5l5-3 5 3v9"/>
+            <path d="M1 14h14"/>
+            <path d="M6 14v-4h4v4"/>
+          </svg>
+          Companies
+        </a>
+      </nav>
+      {{ end }}
+
       <div class="nav-bottom">
         <div class="nav-user">
           <div>

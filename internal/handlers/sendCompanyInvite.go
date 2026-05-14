@@ -8,7 +8,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-const adminNewCompanyPath = "/admin/companies/new"
+const adminNewCompanyPath = "/admin/companies/invites"
 
 func (h *Handler) SendCompanyInvite(c echo.Context) error {
 	err := invites.SendCompany(h.App.Db, c, h.App.Name, h.App.Cfg.MailAccount, h.App.Mailer)

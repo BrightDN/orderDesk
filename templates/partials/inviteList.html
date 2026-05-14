@@ -1,7 +1,9 @@
 {{ define "inviteList" }}
-<p class="section-label">Company invites</p>
+{{ if .isPartial }}{{ template "feedback" . }}{{ end }}
+<div id="invite-list">
+  <p class="section-label">Company invites</p>
   <div class="module">
-    <table class="invite-table" id="invite-table">
+    <table class="invite-table">
       <thead>
         <tr>
           <th>Company</th>
@@ -38,7 +40,7 @@
               <button type="button" class="btn-danger btn-xs">Delete</button>
                {{ else }}
               <button type="button" class="btn-ghost btn-xs">{{ if .IsExpired }}Re-activate{{ else }}Re-send{{ end }}</button>
-              <button type="button" class="btn-danger btn-xs" hx-delete="/admin/invite/delete/{{.ID}}" hx-target="#invite-table">Cancel</button>
+              <button type="button" class="btn-danger btn-xs">Cancel</button>
               {{ end }}
             </div>
           </td>
@@ -46,6 +48,6 @@
         {{ end }}
       </tbody>
     </table>
-  </section>
   </div>
+</div>
 {{ end }}
