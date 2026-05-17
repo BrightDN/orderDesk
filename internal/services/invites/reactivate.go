@@ -8,7 +8,11 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func Reactivate(db *database.Queries, c echo.Context, id int32) error {
+func Reactivate(db *database.Queries, c echo.Context) error {
+	id, err := convertIDParam(c)
+	if err != nil {
+		return err
+	}
 	newExpiry := time.Now().Add(time.Hour * 48)
 	if err := db.RenewInvite(c.Request().Context(), database.RenewInviteParams{
 		ExpiresAt: newExpiry,

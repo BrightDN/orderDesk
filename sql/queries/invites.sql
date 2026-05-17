@@ -41,5 +41,6 @@ WHERE used_at < now();
 
 -- name: RenewInvite :exec
 UPDATE invites
-SET expires_at = $1
+SET expires_at = $1,
+    updated_at = now()
 WHERE id = $2;

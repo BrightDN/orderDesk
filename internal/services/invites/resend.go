@@ -7,7 +7,7 @@ import (
 
 	"github.com/brightDN/orderDesk/internal/database"
 	"github.com/brightDN/orderDesk/internal/flash"
-	"github.com/brightDN/orderDesk/internal/mailer"
+	"github.com/brightDN/orderDesk/internal/services/mailer"
 	"github.com/labstack/echo/v4"
 	"github.com/wneessen/go-mail"
 )

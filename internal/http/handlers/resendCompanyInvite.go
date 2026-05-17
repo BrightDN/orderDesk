@@ -4,12 +4,12 @@ import (
 	"net/http"
 
 	"github.com/brightDN/orderDesk/internal/flash"
-	"github.com/brightDN/orderDesk/internal/invites"
+	"github.com/brightDN/orderDesk/internal/services/invites"
 	"github.com/labstack/echo/v4"
 )
 
-func (h *Handler) ResendCompanyInvite(c echo.Context) error {
-	if err := invites.Resend(h.App.Db, c, h.App.Mailer, h.App.Name, h.App.Cfg.MailAccount); err != nil {
+func (h *Handler) resendCompanyInvite(c echo.Context) error {
+	if err := invites.Resend(h.App.Db, c, h.App.Mailer, h.App.Name, h.App.Cfg.Mail.Email); err != nil {
 		if flashErr := flash.Trigger(c, flash.Error, err.Error()); flashErr != nil {
 			return flashErr
 		}

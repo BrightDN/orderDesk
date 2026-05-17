@@ -9,7 +9,8 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func GetCompanyInvites(db *database.Queries, c echo.Context, appName string) []Invite {
+func GetCompanyInvites(db *database.Queries, c echo.Context) []Invite {
+	appName := "orderdesk"
 	cinvs, _ := db.GetCompanyInvites(c.Request().Context())
 	var invs = []Invite{}
 	now := time.Now()

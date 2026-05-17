@@ -1,0 +1,61 @@
+{{ define "adminCompanyOverview" }}
+ {{ template "adminBase" . }}
+{{ end }}
+
+{{ define "title" }}OD - adminpanel{{ end }}
+
+{{ define "stylesheets" }}
+  <link rel="stylesheet" href="/assets/stylesheets/adminPanel.css">
+{{ end }}
+{{ define "scripts" }}
+<script src="/assets/scripts/htmx.min.js"></script>
+{{ end }}
+{{ define "content" }}
+
+<!-- LIST VIEW -->
+<div id="list-view">
+  <div id="company-list-slot">
+    {{ template "companyList" . }}
+  </div>
+</div>
+
+<dialog id="modal-delete">
+  <div class="modal-header">
+    <span class="modal-title modal-title-danger">Remove company</span>
+    <button class="modal-close" command="close" commandfor="modal-delete">
+      <svg viewBox="0 0 12 12"><path d="M2 2l8 8M10 2L2 10"/></svg>
+    </button>
+  </div>
+  <div class="modal-body">
+  </div>
+</dialog>
+
+<script>
+function openCompanyDeleteWithData(button) {
+  const id = button.dataset.companyId
+  const name = button.dataset.companyName
+  const modal = document.getElementById("modal-delete")
+  let footer = modal.querySelector(".modal-footer")
+  let body = modal.querySelector(".modal-body")
+  if (footer) {
+    footer.remove()
+  }
+
+  body.textContent = ""
+  const warning = document.createElement("p")
+  warning.classList.add("warning-text")
+  warning.textContent = `This will remove ${name} and mark the company as inactive.`
+  body.appendChild(warning)
+
+  footer = document.createElement("div")
+  footer.classList.add("modal-footer")
+  footer.innerHTML = `
+      <button class="btn-ghost" command="close" commandfor="modal-delete">Cancel</button>
+      <button class="btn-danger" command="close" commandfor="modal-delete" hx-delete="/admin/companies/delete/${id}" hx-target="#company-list-slot" hx-swap="innerHTML" hx-headers='{"X-CSRF-Token":"{{ $.csrf }}"}'>Remove company</button>
+  `
+  modal.appendChild(footer)
+  htmx.process(footer)
+  modal.showModal()
+}
+</script>
+{{ end }}

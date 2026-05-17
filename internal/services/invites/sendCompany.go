@@ -7,9 +7,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/brightDN/orderDesk/internal/companies"
 	"github.com/brightDN/orderDesk/internal/database"
-	"github.com/brightDN/orderDesk/internal/mailer"
+	"github.com/brightDN/orderDesk/internal/services/companies"
+	"github.com/brightDN/orderDesk/internal/services/mailer"
 	"github.com/labstack/echo/v4"
 	"github.com/lib/pq"
 	"github.com/wneessen/go-mail"

@@ -4,14 +4,14 @@ import (
 	"net/http"
 
 	"github.com/brightDN/orderDesk/internal/flash"
-	"github.com/brightDN/orderDesk/internal/invites"
+	"github.com/brightDN/orderDesk/internal/services/invites"
 	"github.com/labstack/echo/v4"
 )
 
 const adminNewCompanyPath = "/admin/companies/invites"
 
-func (h *Handler) SendCompanyInvite(c echo.Context) error {
-	err := invites.SendCompany(h.App.Db, c, h.App.Name, h.App.Cfg.MailAccount, h.App.Mailer)
+func (h *Handler) sendCompanyInvite(c echo.Context) error {
+	err := invites.SendCompany(h.App.Db, c, h.App.Name, h.App.Cfg.Mail.Email, h.App.Mailer)
 	if err != nil {
 		if flashErr := flash.Set(c, flash.Error, err.Error()); flashErr != nil {
 			return flashErr

@@ -4,29 +4,30 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/brightDN/orderDesk/internal/configs"
 	"github.com/wneessen/go-mail"
 )
 
-func NewClient(provider string, port int, username, password string) (*mail.Client, error) {
-	if len(strings.TrimSpace(provider)) == 0 {
+func NewClient(cfg configs.MailConfig) (*mail.Client, error) {
+	if len(strings.TrimSpace(cfg.Provider)) == 0 {
 		return nil, fmt.Errorf("Mail provider can not be empty")
 	}
-	if len(strings.TrimSpace(username)) == 0 {
+	if len(strings.TrimSpace(cfg.Username)) == 0 {
 		return nil, fmt.Errorf("username can not be empty")
 	}
-	if len(strings.TrimSpace(password)) == 0 {
+	if len(strings.TrimSpace(cfg.Password)) == 0 {
 		return nil, fmt.Errorf("password can not be empty")
 	}
 
-	if port < 0 {
-		port = 587
+	if cfg.Port < 0 {
+		cfg.Port = 587
 	}
 	c, err := mail.NewClient(
-		provider,
-		mail.WithPort(port),
+		cfg.Provider,
+		mail.WithPort(cfg.Port),
 		mail.WithSMTPAuth(mail.SMTPAuthPlain),
-		mail.WithUsername(username),
-		mail.WithPassword(password),
+		mail.WithUsername(cfg.Username),
+		mail.WithPassword(cfg.Password),
 	)
 
 	if err != nil {
