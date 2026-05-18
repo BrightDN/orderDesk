@@ -13,7 +13,7 @@
 
 {{ define "content" }}
   <button class="back-btn"
-  onclick="window.location.href = '/admin/companies/list';">
+  onclick="window.location.href = '/admin/companies/overview';">
     <svg viewBox="0 0 14 14"><path d="M9 2L3 7l6 5"/></svg>
     Back to companies
   </button>
@@ -42,21 +42,27 @@
       <span class="info-label">Created</span>
       <span class="info-value" id="co-view-created"> {{ .CreatedAt }}</span>
     </div>
-    <div class="info-grid is-hidden" id="co-edit-mode">
-      <span class="info-label">Company name</span>
-      <div class="info-control"><input class="info-input" id="co-input-name" value="Markt Storeroom"></div>
-      <span class="info-label">Email</span>
-      <div class="info-control"><input class="info-input" id="co-input-email" type="email" value="markt@storeroom.nl"></div>
-      <span class="info-label">Status</span>
-      <div class="info-control">
+    <form class="info-grid is-hidden" id="co-edit-mode" method="POST" action="/admin/companies/update/{{ .ID }}">
+      <input disabled class="is-hidden" name="_method" value="PUT" />
+      <input disabled class="is-hidden" name="_csrf" value="{{ $.csrf }}" />
+
+      <label class="info-label">Company name
+          <input class="info-input" id="co-input-name" value="{{ .Name }}">
+      </label>
+
+      <label class="info-label">Email
+        <input class="info-input" id="co-input-email" type="email" value="markt@storeroom.nl">
+      </label>
+
+      <label class="info-label">Status
         <select class="info-input info-input-auto" id="co-input-status">
           <option value="active">Active</option>
           <option value="suspended">Suspended</option>
         </select>
-      </div>
-    </div>
+      </label>
+    </form>
   </div>
-
+  {{ end }}
   <p class="section-label">Employees</p>
   <div class="module">
     <div class="module-header">

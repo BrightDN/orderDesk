@@ -11,7 +11,9 @@ import (
 )
 
 func LoadConfigs() Config {
-	godotenv.Load()
+	if err := godotenv.Load(); err != nil {
+		log.Println("no .env file found, using system env")
+	}
 
 	var cfg = Config{}
 
@@ -20,6 +22,7 @@ func LoadConfigs() Config {
 		Driver: os.Getenv("DB_DRIVER"),
 		Url:    os.Getenv("DB_URL"),
 	}
+
 	// MAILING CONFIGS
 	port, err := strconv.Atoi(os.Getenv("MAILER_PORT"))
 	if err != nil {
@@ -34,12 +37,12 @@ func LoadConfigs() Config {
 	}
 
 	// SESSIONS
-	sessionEncryptKey, err := validateAndEncrypt(os.Getenv("SESSION_ENCRYPT_KEY"))
+	sessionEncryptKey, err := parseSessionKey(os.Getenv("SESSION_ENCRYPT_KEY"))
 	if err != nil {
 		log.Fatalf("Invalid SESSION_ENCRYPT_KEY: %v", err)
 	}
 
-	sessionAuthKey, err := validateAndEncrypt(os.Getenv("SESSION_AUTH_KEY"))
+	sessionAuthKey, err := parseSessionKey(os.Getenv("SESSION_AUTH_KEY"))
 	if err != nil {
 		log.Fatalf("Invalid SESSION_AUTH_KEY: %v", err)
 	}
@@ -52,7 +55,7 @@ func LoadConfigs() Config {
 	return cfg
 }
 
-func validateAndEncrypt(value string) ([]byte, error) {
+func parseSessionKey(value string) ([]byte, error) {
 	if len(value) == 32 || len(value) == 24 || len(value) == 16 {
 		return []byte(value), nil
 	}

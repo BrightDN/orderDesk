@@ -3,17 +3,20 @@ package routing
 import (
 	"net/http"
 
+	"github.com/brightDN/orderDesk/internal/app"
 	"github.com/brightDN/orderDesk/internal/database"
 	"github.com/labstack/echo/v4"
 )
 
 type Navigation struct {
-	db *database.Queries
+	app *app.App
+	db  *database.Queries
 }
 
-func NewNav(db *database.Queries) *Navigation {
+func NewNav(db *database.Queries, app *app.App) *Navigation {
 	return &Navigation{
-		db: db,
+		db:  db,
+		app: app,
 	}
 }
 

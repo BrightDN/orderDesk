@@ -12,10 +12,12 @@ import (
 var ErrDuplicateName = errors.New("this name already exists")
 var ErrDuplicateEmail = errors.New("this email already exists")
 
-func Create(db *database.Queries, c echo.Context, name, email string) (database.Company, error) {
-	comp, err := db.CreateCompany(c.Request().Context(), database.CreateCompanyParams{
+func (cs *CompanyService) Create(c echo.Context) (database.Company, error) {
+	mail := c.Request().PostFormValue("email")
+	name := c.Request().PostFormValue("company-name")
+	comp, err := cs.db.CreateCompany(c.Request().Context(), database.CreateCompanyParams{
 		Name:  name,
-		Email: email,
+		Email: mail,
 	})
 
 	if err != nil {

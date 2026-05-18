@@ -23,26 +23,17 @@
             <span class="co-date">{{ .CreatedAt }}</span>
           </td>
           <td data-label="Status">
-            <span class="badge badge-{{ if .IsDeleted }}red{{ else }}green{{ end }}">{{ if .IsDeleted }}Removed{{ else }}Active{{ end }}</span>
+            <span class="badge badge-{{ if .IsDeleted }}red{{ else }}green{{ end }}">{{ if .IsDeleted }}Inactive{{ else }}Active{{ end }}</span>
           </td>
           <td data-label="Actions">
             <div class="invite-actions">
-              {{ if .IsDeleted }}
-              <span class="table-text-muted">Removed</span>
-              {{ else }}
+
               <button 
                 type="button"
-                class="btn-ghost btn-xs"
+                class="btn-primary btn-xs"
                 onclick="window.location.href = '/admin/companies/details/{{.ID}}';">
-              Details</a>
-              <button
-                type="button"
-                class="btn-danger btn-xs"
-                data-company-id="{{ .ID }}"
-                data-company-name="{{ .Name }}"
-                onclick="openCompanyDeleteWithData(this)">
-              Remove</button>
-              {{ end }}
+              Details
+
             </div>
           </td>
         </tr>

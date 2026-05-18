@@ -10,7 +10,26 @@ a[class*=" btn"]{text-decoration:none}
 .form-actions{display:flex;justify-content:flex-end;gap:8px;padding-top:2px}
 #invite-list-slot,
 #invite-list{max-width:1000px}
-
+#co-edit-mode{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:12px;
+  max-width:420px;
+}
+#co-edit-mode .info-label{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  width:100%;
+  padding:0;
+}
+#co-edit-mode .info-input{
+  box-sizing:border-box;
+}
+#co-edit-mode .info-input-auto{
+  width:100%;
+}
 .co-table{width:100%;border-collapse:collapse;table-layout:auto}
 .co-table thead tr{font-size:10px;font-weight:500;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em}
 .co-table th{padding:0 0 8px;text-align:left;border-bottom:0.5px solid var(--border)}

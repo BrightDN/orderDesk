@@ -4,12 +4,11 @@ import (
 	"net/http"
 
 	"github.com/brightDN/orderDesk/internal/pages"
-	"github.com/brightDN/orderDesk/internal/services/companies"
 	"github.com/labstack/echo/v4"
 )
 
 func (n *Navigation) adminCompanyOverview(c echo.Context) error {
-	companies, err := companies.GetCompanies(n.db, c)
+	companies, err := n.app.Services.Companies.GetCompanies(c)
 	if err != nil {
 		return err
 	}

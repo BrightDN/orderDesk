@@ -1,17 +1,16 @@
 package companies
 
 import (
-	"github.com/brightDN/orderDesk/internal/database"
 	"github.com/labstack/echo/v4"
 )
 
-func GetCompany(db *database.Queries, c echo.Context) (Company, error) {
+func (cs *CompanyService) GetCompany(c echo.Context) (Company, error) {
 	id, err := convertIDParam(c)
 	if err != nil {
 		return Company{}, err
 	}
 
-	data, err := db.GetCompany(c.Request().Context(), int32(id))
+	data, err := cs.db.GetCompany(c.Request().Context(), int32(id))
 	if err != nil {
 		return Company{}, err
 	}

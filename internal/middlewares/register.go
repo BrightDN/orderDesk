@@ -2,13 +2,14 @@ package middlewares
 
 import (
 	"github.com/brightDN/orderDesk/internal/configs"
+	"github.com/brightDN/orderDesk/internal/database"
 	"github.com/gorilla/sessions"
 	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
 
-func Register(e *echo.Echo, cfg configs.Config) {
+func Register(e *echo.Echo, cfg configs.Config, q *database.Queries) {
 	e.Use(middleware.RequestLogger())
 	e.Use(middleware.Recover())
 	e.Use(middleware.CSRFWithConfig(middleware.CSRFConfig{
@@ -20,7 +21,7 @@ func Register(e *echo.Echo, cfg configs.Config) {
 		cfg.Session.SessionEncryptionKey,
 	)))
 
-	// protected := e.Group("/dashboard")
-	// protected.Use(middlewares.RequireAuth())
-	// protected.Use(middlewares.loadUser(app.Db))
+	protected := e.Group("/app")
+	protected.Use(requireAuth())
+	protected.Use(loadUser(q))
 }

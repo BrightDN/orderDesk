@@ -1,17 +1,16 @@
 package companies
 
 import (
-	"github.com/brightDN/orderDesk/internal/database"
 	"github.com/labstack/echo/v4"
 )
 
-func GetCompanies(db *database.Queries, c echo.Context) ([]Company, error) {
-	companiesData, err := db.GetCompanies(c.Request().Context())
+func (cs *CompanyService) GetCompanies(c echo.Context) ([]Company, error) {
+	companiesData, err := cs.db.GetCompanies(c.Request().Context())
 	if err != nil {
 		return nil, ErrInternalError
 	}
 
-	companies := make([]Company, 0, len(companiesData))
+	companies := make([]Company, len(companiesData))
 
 	for i, company := range companiesData {
 		companies[i] = Company{

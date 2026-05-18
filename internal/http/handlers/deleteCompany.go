@@ -4,12 +4,11 @@ import (
 	"net/http"
 
 	"github.com/brightDN/orderDesk/internal/flash"
-	"github.com/brightDN/orderDesk/internal/services/companies"
 	"github.com/labstack/echo/v4"
 )
 
 func (h *Handler) deleteCompany(c echo.Context) error {
-	if err := companies.Delete(h.App.Db, c); err != nil {
+	if err := h.App.Services.Companies.Delete(c); err != nil {
 		if flashErr := flash.Set(c, flash.Error, ErrInternalError.Error()); flashErr != nil {
 			return flashErr
 		}
@@ -23,7 +22,7 @@ func (h *Handler) deleteCompany(c echo.Context) error {
 }
 
 func (h *Handler) renderCompanyListPartial(c echo.Context) error {
-	companyList, err := companies.GetCompanies(h.App.Db, c)
+	companyList, err := h.App.Services.Companies.GetCompanies(c)
 	if err != nil {
 		return err
 	}

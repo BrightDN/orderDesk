@@ -5,13 +5,12 @@ import (
 	"strings"
 	"time"
 
-	"github.com/brightDN/orderDesk/internal/database"
 	"github.com/labstack/echo/v4"
 )
 
-func GetCompanyInvites(db *database.Queries, c echo.Context) []Invite {
+func (is *InvitationService) GetCompanyInvites(c echo.Context) []Invite {
 	appName := "orderdesk"
-	cinvs, _ := db.GetCompanyInvites(c.Request().Context())
+	cinvs, _ := is.db.GetCompanyInvites(c.Request().Context())
 	var invs = []Invite{}
 	now := time.Now()
 	for _, cinv := range cinvs {

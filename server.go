@@ -11,6 +11,7 @@ import (
 	"github.com/brightDN/orderDesk/internal/http/handlers"
 	"github.com/brightDN/orderDesk/internal/http/routing"
 	"github.com/brightDN/orderDesk/internal/middlewares"
+	"github.com/brightDN/orderDesk/internal/services"
 	"github.com/brightDN/orderDesk/internal/services/mailer"
 	"github.com/labstack/echo/v4"
 
@@ -22,26 +23,28 @@ func main() {
 
 	db, err := sql.Open(cfg.Db.Driver, cfg.Db.Url)
 	if err != nil {
-		log.Fatalf("failed to load the %s database: %v", cfg.DBConfig.Driver, err)
+		log.Fatalf("failed to load the %s database: %v", cfg.Db.Driver, err)
 	}
 	defer db.Close()
 	dbQueries := database.New(db)
 
-	mc, err := mailer.NewClient(cfg.Mail)
+	ms, err := mailer.NewMailerService(cfg.Mail)
 	if err != nil {
 		log.Fatalf("Creating mailerclient failed: %v", err)
 	}
+	defer ms.Close()
 
 	e := echo.New()
+	defer e.Close()
 	e.Renderer = &configs.Template{}
 	e.HTTPErrorHandler = configs.HTTPErrorHandler
 	e.Static("/assets", "assets")
 
-	middlewares.Register(e, cfg)
+	middlewares.Register(e, cfg, dbQueries)
+	services := services.NewServices(dbQueries, ms)
+	app := app.New(services, dbQueries, cfg, "OrderDesk")
 
-	app := app.New(dbQueries, cfg, mc, "OrderDesk")
-
-	n := routing.NewNav(dbQueries)
+	n := routing.NewNav(dbQueries, &app)
 	n.Register(e)
 
 	h := handlers.NewHandler(&app)

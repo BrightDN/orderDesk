@@ -9,7 +9,8 @@ CREATE TABLE invites (
 
     token TEXT NOT NULL,
 
-    created_at TIMESTAMPTZ DEFAULT now(),
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
     expires_at TIMESTAMPTZ NOT NULL,
     used_at TIMESTAMPTZ DEFAULT NULL,
 

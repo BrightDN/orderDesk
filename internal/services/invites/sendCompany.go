@@ -8,18 +8,14 @@ import (
 	"time"
 
 	"github.com/brightDN/orderDesk/internal/database"
-	"github.com/brightDN/orderDesk/internal/services/companies"
 	"github.com/brightDN/orderDesk/internal/services/mailer"
 	"github.com/labstack/echo/v4"
 	"github.com/lib/pq"
-	"github.com/wneessen/go-mail"
 )
 
-func SendCompany(db *database.Queries, c echo.Context, org, orgmail string, mailclient *mail.Client) error {
-	m := c.Request().PostFormValue("email")
-	name := c.Request().PostFormValue("company-name")
+func (is *InvitationService) SendCompany(c echo.Context, org string) error {
 
-	company, err := companies.Create(db, c, name, m)
+	company, err := is.companyService.Create(c)
 	if err != nil {
 		return err
 	}
@@ -28,13 +24,13 @@ func SendCompany(db *database.Queries, c echo.Context, org, orgmail string, mail
 	var pqErr *pq.Error
 
 	for i := range 5 {
-		token, err = generateToken(32)
+		token, err = is.generateToken(32)
 		if err != nil {
 			return err
 		}
 
-		if err := db.CreateInvite(c.Request().Context(), database.CreateInviteParams{
-			Email:      m,
+		if err := is.db.CreateInvite(c.Request().Context(), database.CreateInviteParams{
+			Email:      company.Email,
 			InviteType: string(Company),
 			Token:      token,
 			CompanyID:  company.ID,
@@ -61,13 +57,12 @@ func SendCompany(db *database.Queries, c echo.Context, org, orgmail string, mail
 		org)
 
 	mail := mailer.Mail{
-		Receiver: m,
-		Sender:   orgmail,
+		Receiver: company.Email,
 		Subject:  fmt.Sprintf("Activate your %s account", org),
 		Body:     content,
 	}
 
-	if err := mailer.SendMail(mail, mailclient); err != nil {
+	if err := is.mailService.Send(mail); err != nil {
 		return echo.NewHTTPError(http.StatusInternalServerError, fmt.Errorf("Could not send the invitationmail: %v", err))
 	}
 	return nil

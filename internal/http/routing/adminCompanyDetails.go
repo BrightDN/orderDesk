@@ -6,14 +6,13 @@ import (
 
 	"github.com/brightDN/orderDesk/internal/flash"
 	"github.com/brightDN/orderDesk/internal/pages"
-	"github.com/brightDN/orderDesk/internal/services/companies"
 	"github.com/labstack/echo/v4"
 )
 
 var ErrCompanyDetailsLoading = errors.New("the requested company could not be loaded")
 
 func (n *Navigation) adminCompanyDetails(c echo.Context) error {
-	company, err := companies.GetCompany(n.db, c)
+	company, err := n.app.Services.Companies.GetCompany(c)
 	if err != nil {
 		if flashErr := flash.Set(c, flash.Error, ErrCompanyDetailsLoading.Error()); flashErr != nil {
 			return flashErr

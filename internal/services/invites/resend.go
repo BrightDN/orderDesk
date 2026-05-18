@@ -2,33 +2,20 @@ package invites
 
 import (
 	"fmt"
-	"strconv"
 	"strings"
 
-	"github.com/brightDN/orderDesk/internal/database"
 	"github.com/brightDN/orderDesk/internal/flash"
 	"github.com/brightDN/orderDesk/internal/services/mailer"
 	"github.com/labstack/echo/v4"
-	"github.com/wneessen/go-mail"
 )
 
-func Resend(db *database.Queries, c echo.Context, mailc *mail.Client, appname, appmail string) error {
-	id := c.Param("id")
-	if len(strings.TrimSpace(id)) == 0 {
-		if flashErr := flash.Set(c, flash.Error, ErrUnexpectedValue.Error()); flashErr != nil {
-			return flashErr
-		}
-	}
-
-	nid, err := strconv.ParseInt(id, 10, 32)
+func (is *InvitationService) Resend(c echo.Context, appname string) error {
+	id, err := convertIDParam(c)
 	if err != nil {
-		if flashErr := flash.Set(c, flash.Error, ErrUnexpectedValue.Error()); flashErr != nil {
-			return flashErr
-		}
 		return err
 	}
 
-	invite, err := db.GetInvite(c.Request().Context(), int32(nid))
+	invite, err := is.db.GetInvite(c.Request().Context(), id)
 	if err != nil {
 		if flashErr := flash.Set(c, flash.Error, ErrInternalError.Error()); flashErr != nil {
 			return flashErr
@@ -51,11 +38,10 @@ func Resend(db *database.Queries, c echo.Context, mailc *mail.Client, appname, a
 
 	m := mailer.Mail{
 		Receiver: invite.Email,
-		Sender:   appmail,
 		Subject:  fmt.Sprintf("Activate your %s account", appname),
 		Body:     content,
 	}
-	if err := mailer.SendMail(m, mailc); err != nil {
+	if err := is.mailService.Send(m); err != nil {
 		return err
 	}
 	return nil

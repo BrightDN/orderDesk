@@ -6,7 +6,7 @@ import (
 	"fmt"
 )
 
-func generateToken(length int) (string, error) {
+func (is *InvitationService) generateToken(length int) (string, error) {
 	bytes := make([]byte, length)
 
 	if _, err := rand.Read(bytes); err != nil {
