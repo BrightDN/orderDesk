@@ -4,6 +4,7 @@ type Config struct {
 	Mail     MailConfig
 	Session  SessionConfig
 	Db       DBConfig
+	Identity IdentityConfig
 	Platform string
 }
 
@@ -23,4 +24,10 @@ type SessionConfig struct {
 type DBConfig struct {
 	Driver string
 	Url    string
+}
+
+type IdentityConfig struct {
+	AppName   string
+	BrandName string
+	BaseURL   string
 }

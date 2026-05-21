@@ -10,12 +10,19 @@ import (
 )
 
 func Register(e *echo.Echo, cfg configs.Config, q *database.Queries) {
+	e.Pre(middleware.MethodOverrideWithConfig(middleware.MethodOverrideConfig{
+		Getter: func(c echo.Context) string {
+			m := c.FormValue("_method")
+			return m
+		},
+	}))
+
 	e.Use(middleware.RequestLogger())
 	e.Use(middleware.Recover())
 	e.Use(middleware.CSRFWithConfig(middleware.CSRFConfig{
 		TokenLookup: "form:_csrf,header:" + echo.HeaderXCSRFToken,
 	}))
-	e.Use(changeMethod())
+
 	e.Use(session.Middleware(sessions.NewCookieStore(
 		cfg.Session.SessionAuthKey,
 		cfg.Session.SessionEncryptionKey,

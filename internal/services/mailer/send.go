@@ -14,7 +14,7 @@ func (ms *MailerService) Send(m Mail) error {
 	if err := msg.To(m.Receiver); err != nil {
 		return fmt.Errorf("%w: %v", ErrMailSending, err)
 	}
-	if err := msg.From(ms.Email); err != nil {
+	if err := msg.From(ms.email); err != nil {
 		return fmt.Errorf("%w: %v", ErrMailSending, err)
 	}
 	msg.Subject(m.Subject)
@@ -23,7 +23,7 @@ func (ms *MailerService) Send(m Mail) error {
 	for _, attachment := range m.Attachments {
 		msg.AttachFile(attachment)
 	}
-	if err := ms.Client.DialAndSend(msg); err != nil {
+	if err := ms.client.DialAndSend(msg); err != nil {
 		return fmt.Errorf("%w: %v", ErrMailSending, err)
 	}
 	return nil

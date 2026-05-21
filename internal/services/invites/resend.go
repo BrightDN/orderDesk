@@ -9,12 +9,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func (is *InvitationService) Resend(c echo.Context, appname string) error {
-	id, err := convertIDParam(c)
-	if err != nil {
-		return err
-	}
-
+func (is *InvitationService) Resend(c echo.Context, appname string, id int32) error {
 	invite, err := is.db.GetInvite(c.Request().Context(), id)
 	if err != nil {
 		if flashErr := flash.Set(c, flash.Error, ErrInternalError.Error()); flashErr != nil {

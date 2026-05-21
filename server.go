@@ -41,10 +41,10 @@ func main() {
 	e.Static("/assets", "assets")
 
 	middlewares.Register(e, cfg, dbQueries)
-	services := services.NewServices(dbQueries, ms)
+	services := services.NewServices(dbQueries, ms, &cfg.Identity)
 	app := app.New(services, dbQueries, cfg, "OrderDesk")
 
-	n := routing.NewNav(dbQueries, &app)
+	n := routing.NewNav(dbQueries, &app, &cfg.Identity)
 	n.Register(e)
 
 	h := handlers.NewHandler(&app)

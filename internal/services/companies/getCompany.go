@@ -4,15 +4,10 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func (cs *CompanyService) GetCompany(c echo.Context) (Company, error) {
-	id, err := convertIDParam(c)
+func (cs *CompanyService) GetCompany(c echo.Context, id int32) (Company, error) {
+	data, err := cs.db.GetCompany(c.Request().Context(), id)
 	if err != nil {
-		return Company{}, err
-	}
-
-	data, err := cs.db.GetCompany(c.Request().Context(), int32(id))
-	if err != nil {
-		return Company{}, err
+		return Company{}, ErrInternalError
 	}
 
 	company := Company{

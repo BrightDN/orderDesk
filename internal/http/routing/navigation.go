@@ -4,19 +4,22 @@ import (
 	"net/http"
 
 	"github.com/brightDN/orderDesk/internal/app"
+	"github.com/brightDN/orderDesk/internal/configs"
 	"github.com/brightDN/orderDesk/internal/database"
 	"github.com/labstack/echo/v4"
 )
 
 type Navigation struct {
-	app *app.App
-	db  *database.Queries
+	app      *app.App
+	db       *database.Queries
+	identity *configs.IdentityConfig
 }
 
-func NewNav(db *database.Queries, app *app.App) *Navigation {
+func NewNav(db *database.Queries, app *app.App, identity *configs.IdentityConfig) *Navigation {
 	return &Navigation{
-		db:  db,
-		app: app,
+		db:       db,
+		app:      app,
+		identity: identity,
 	}
 }
 
@@ -74,4 +77,6 @@ func (n *Navigation) Register(e *echo.Echo) {
 	e.GET("/admin/companies/invites", n.adminCompanyInvite)
 	e.GET("/admin/companies/overview", n.adminCompanyOverview)
 	e.GET("/admin/companies/details/:id", n.adminCompanyDetails)
+
+	e.GET("/auth/company/:token", n.authSignUp)
 }

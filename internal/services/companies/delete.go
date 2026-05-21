@@ -4,11 +4,6 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func (cs *CompanyService) Delete(c echo.Context) error {
-	id, err := convertIDParam(c)
-	if err != nil {
-		return err
-	}
-
+func (cs *CompanyService) Delete(c echo.Context, id int32) error {
 	return cs.db.DeleteCompany(c.Request().Context(), id)
 }

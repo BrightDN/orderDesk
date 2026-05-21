@@ -3,6 +3,22 @@ SELECT *
 FROM invites
 WHERE id = $1;
 
+-- name: GetInviteByToken :one
+SELECT
+    invites.email,
+    invites.token,
+    invites.invite_type,
+    invites.expires_at,
+    invites.used_at,
+    companies.name AS company_name 
+FROM
+    invites 
+INNER JOIN
+    companies 
+        ON invites.company_id = companies.id 
+WHERE
+    invites.token = $1;
+
 -- name: GetInvites :many
 SELECT *
 FROM invites;

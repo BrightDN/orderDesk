@@ -6,8 +6,8 @@ import (
 )
 
 type MailerService struct {
-	Client *mail.Client
-	Email  string
+	client *mail.Client
+	email  string
 }
 
 func NewMailerService(cfg configs.MailConfig) (*MailerService, error) {
@@ -17,7 +17,7 @@ func NewMailerService(cfg configs.MailConfig) (*MailerService, error) {
 	}
 
 	return &MailerService{
-		Client: client,
-		Email:  cfg.Email,
+		client: client,
+		email:  cfg.Email,
 	}, nil
 }

@@ -52,6 +52,14 @@ func LoadConfigs() Config {
 		SessionEncryptionKey: sessionEncryptKey,
 	}
 
+	// IDENTITY
+
+	cfg.Identity = IdentityConfig{
+		AppName:   os.Getenv("APPNAME"),
+		BrandName: os.Getenv("BRANDNAME"),
+		BaseURL:   os.Getenv("BASE_URL"),
+	}
+
 	return cfg
 }
 

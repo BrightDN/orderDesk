@@ -24,11 +24,20 @@
     <div class="module-header">
       <span class="module-title" id="detail-name">{{ .Name }}</span>
       <div class="button-row button-row-center">
+        {{ if .IsDeleted }}
+        <span class="badge badge-red" id="detail-status">Inactive</span>
+        {{ else }}
         <span class="badge badge-green" id="detail-status">Active</span>
+        {{ end }}
         <button class="btn-ghost btn-sm" id="co-edit-btn">
           <svg viewBox="0 0 14 14"><path d="M9.5 2.5l2 2L4 12H2v-2L9.5 2.5z"/></svg>Edit
         </button>
-        <button class="btn-primary btn-sm is-hidden" id="co-save-btn">
+        <button class="btn-primary
+                btn-sm
+                is-hidden"
+                id="co-save-btn"
+                type="submit"
+                form="co-edit-mode">
           <svg viewBox="0 0 14 14"><path d="M2 7l4 4 6-7"/></svg>Save
         </button>
         <button class="btn-sm is-hidden" id="co-cancel-btn">Cancel</button>
@@ -43,26 +52,27 @@
       <span class="info-value" id="co-view-created"> {{ .CreatedAt }}</span>
     </div>
     <form class="info-grid is-hidden" id="co-edit-mode" method="POST" action="/admin/companies/update/{{ .ID }}">
-      <input disabled class="is-hidden" name="_method" value="PUT" />
-      <input disabled class="is-hidden" name="_csrf" value="{{ $.csrf }}" />
+      <input type="hidden" name="_method" value="PUT" />
+      <input type="hidden" name="_csrf" value="{{ $.csrf }}" />
 
       <label class="info-label">Company name
-          <input class="info-input" id="co-input-name" value="{{ .Name }}">
+          <input class="info-input" id="co-input-name" name="name" value="{{ .Name }}">
       </label>
 
       <label class="info-label">Email
-        <input class="info-input" id="co-input-email" type="email" value="markt@storeroom.nl">
+        <input class="info-input" id="co-input-email" type="email" name="email" value="markt@storeroom.nl">
       </label>
 
       <label class="info-label">Status
-        <select class="info-input info-input-auto" id="co-input-status">
-          <option value="active">Active</option>
-          <option value="suspended">Suspended</option>
+        <select class="info-input info-input-auto" name="status" id="co-input-status">
+          <option value="active" {{ if .IsDeleted }}{{ else }}selected{{ end }}>Active</option>
+          <option value="inactive" {{ if .IsDeleted }}selected{{ end }}>Inactive</option>
         </select>
       </label>
     </form>
   </div>
   {{ end }}
+
   <p class="section-label">Employees</p>
   <div class="module">
     <div class="module-header">
@@ -78,8 +88,26 @@
         </tr>
       </thead>
       <tbody>
+
+          {{ range .employee }}
         <tr>
-          <td data-label="Employee"><p class="emp-name">Jan V.</p><p class="emp-email">jan@storeroom.nl</p></td>
+          <td data-label="Employee"><p class="emp-name"> {{ .Name }} </p><p class="emp-email"> {{ .Email }}</p></td>
+          <td data-label="Email"><span class="table-text"> {{ .Email }}</span></td>
+          <td data-label="Role"><span class="table-text-muted"> {{ .Role }}</span></td>
+          <td data-label="Actions">
+            <div class="emp-actions">
+              <button class="btn-ghost btn-xs">
+                Kick
+              </button>
+              <button class="btn-danger btn-xs" command="show-modal" commandfor="modal-ban">
+                Ban
+              </button>
+            </div>
+          </td>
+        </tr>
+        {{ end }}
+        <tr>
+          <td data-label="Employee"><p class="emp-name">Jan V.</p></td>
           <td data-label="Email"><span class="table-text">jan@storeroom.nl</span></td>
           <td data-label="Role"><span class="table-text-muted">Super admin</span></td>
           <td data-label="Actions"><div class="emp-actions"></div></td>

@@ -28,3 +28,11 @@ SET
 WHERE
   id = $1
   AND deleted_at IS NULL;
+
+-- name: UpdateCompany :exec
+UPDATE companies
+  SET
+    name = $2,
+    email = $3,
+    updated_at = NOW()
+WHERE id = $1;
