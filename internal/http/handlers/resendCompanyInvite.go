@@ -16,7 +16,7 @@ func (h *Handler) resendCompanyInvite(c echo.Context) error {
 		}
 		return c.NoContent(http.StatusNoContent)
 	}
-	if err := h.App.Services.Invitations.Resend(c, h.App.Name, id); err != nil {
+	if err := h.App.Services.Invitations.Resend(c, id); err != nil {
 		if flashErr := flash.Trigger(c, flash.Error, err.Error()); flashErr != nil {
 			return flashErr
 		}

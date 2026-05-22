@@ -10,7 +10,7 @@ import (
 const adminNewCompanyPath = "/admin/companies/invites"
 
 func (h *Handler) sendCompanyInvite(c echo.Context) error {
-	err := h.App.Services.Invitations.SendCompany(c, h.App.Name)
+	err := h.App.Services.Invitations.SendCompany(c)
 	if err != nil {
 		if flashErr := flash.Set(c, flash.Error, err.Error()); flashErr != nil {
 			return flashErr

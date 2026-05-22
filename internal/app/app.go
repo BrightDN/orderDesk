@@ -10,14 +10,12 @@ type App struct {
 	Services *services.Services
 	Db       *database.Queries
 	Cfg      configs.Config
-	Name     string
 }
 
-func New(services *services.Services, db *database.Queries, cfg configs.Config, name string) App {
+func New(services *services.Services, db *database.Queries, cfg configs.Config) App {
 	return App{
 		Services: services,
 		Db:       db,
 		Cfg:      cfg,
-		Name:     name,
 	}
 }

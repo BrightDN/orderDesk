@@ -1,4 +1,4 @@
-package auth
+package authentication
 
 import (
 	"net/http"
@@ -8,7 +8,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func verifyUser(c echo.Context, db *database.Queries) error {
+func (auth *AuthenticationService) VerifyUser(c echo.Context) error {
 	email := c.Request().PostFormValue("email")
 	password := c.Request().PostFormValue("password")
 
@@ -31,7 +31,7 @@ func verifyUser(c echo.Context, db *database.Queries) error {
 		})
 	}
 
-	user, err := db.GetUserByMail(c.Request().Context(), email)
+	user, err := auth.db.GetUserByMail(c.Request().Context(), email)
 	if err != nil {
 		return c.Render(http.StatusInternalServerError, "login", map[string]any{
 			"error": "Something went wrong, please try again later",
@@ -43,7 +43,7 @@ func verifyUser(c echo.Context, db *database.Queries) error {
 		})
 	}
 
-	isSame, err := ComparePasswordHash(password, user.Password)
+	isSame, err := auth.comparePasswordHash(password, user.Password)
 	if err != nil {
 		return c.Render(http.StatusInternalServerError, "login", map[string]any{
 			"error": "Something went wrong, please try again later",
