@@ -3,17 +3,19 @@ package middlewares
 import (
 	"net/http"
 
-	"github.com/labstack/echo-contrib/session"
+	"github.com/brightDN/orderDesk/internal/shared/session"
 	"github.com/labstack/echo/v4"
 )
 
 func requireAuth() echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
-			sess, _ := session.Get("session", c)
-			_, ok := sess.Values["userID"].(int64)
+			_, ok, err := session.GetValue[int32](c, session.UserIDKey)
+			if err != nil {
+				return err
+			}
 			if !ok {
-				return c.Render(http.StatusSeeOther, "login", nil)
+				return c.Redirect(http.StatusSeeOther, "/auth/login")
 			}
 			return next(c)
 		}

@@ -1,0 +1,48 @@
+{{ define "authLogin" }}
+    {{ template "centerBase" . }}
+{{ end }}
+
+{{ define "title"}}OD - Log in{{end}}
+
+{{ define "stylesheets" }}
+  <link rel="stylesheet" href="/assets/stylesheets/auth.css">
+{{ end }}
+{{ define "content" }}
+
+  <section class="card card-sm login-card" aria-labelledby="login-heading">
+    <header class="logo-mark logo-spaced">
+      <div class="logo-icon">
+        <svg viewBox="0 0 16 16" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 13V7m0 0L8 3l5 4m-5-4v10m5-6v6M1 13h14"/>
+        </svg>
+      </div>
+      <div>
+        <p class="logo-text">{{ .identity.AppName}}</p>
+        <p class="logo-sub">by {{ .identity.BrandName }}</p>
+      </div>
+    </header>
+
+    <h1 class="card-heading login-heading" id="login-heading">Welcome back</h1>
+    <p class="card-sub card-sub-spacious">Sign in to your workspace</p>
+
+    <form action="/auth/processLogin" method="post">
+
+    <div class="field">
+      <label for="od-email">Email</label>
+      <input id="od-email" type="email" name="email" autocomplete="email" required>
+    </div>
+    <div class="field">
+      <label for="od-pass">Password</label>
+      <input id="od-pass" type="password" name="password" autocomplete="current-password" required>
+    </div>
+
+    <button class="btn-primary full-width-action" type="submit">
+      <svg viewBox="0 0 14 14"><path d="M2 7h10M7 2l5 5-5 5"/></svg>
+      Sign in
+    </button>
+
+  </form>
+    <hr class="divider">
+    <p class="auth-footer">Contact your administrator to create an account</p>
+  </section>
+{{ end }}

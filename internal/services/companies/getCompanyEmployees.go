@@ -13,10 +13,12 @@ func (cs *CompanyService) GetCompanyEmployees(c echo.Context, id int32) ([]Emplo
 	var cEmployees = []Employee{}
 	for _, employee := range employees {
 		cEmployees = append(cEmployees, Employee{
-			Name:  employee.DisplayName,
-			Email: employee.Email,
-			Role:  employee.Role,
-			Id:    int(employee.UserID),
+			Name:       employee.DisplayName,
+			Email:      employee.Email,
+			Role:       employee.Role,
+			UserId:     int(employee.UserID),
+			CompanyId:  int(employee.CompanyID),
+			EmployeeId: int(employee.EmployeeID),
 		})
 	}
 

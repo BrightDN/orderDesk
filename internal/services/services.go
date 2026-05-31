@@ -1,6 +1,8 @@
 package services
 
 import (
+	"database/sql"
+
 	"github.com/brightDN/orderDesk/internal/configs"
 	"github.com/brightDN/orderDesk/internal/database"
 	"github.com/brightDN/orderDesk/internal/services/authentication"
@@ -16,10 +18,10 @@ type Services struct {
 	Auth        *authentication.AuthenticationService
 }
 
-func NewServices(db *database.Queries, ms *mailer.MailerService, identiy *configs.IdentityConfig) *Services {
-	companies := companies.NewCompanyService(db)
-	invitations := invites.NewInvitationService(db, ms, companies, identiy)
-	auth := authentication.NewAuthService(db)
+func NewServices(queries *database.Queries, db *sql.DB, ms *mailer.MailerService, identiy *configs.IdentityConfig) *Services {
+	companies := companies.NewCompanyService(queries)
+	invitations := invites.NewInvitationService(queries, ms, companies, identiy)
+	auth := authentication.NewAuthService(queries, db)
 	return &Services{
 		Mailer:      ms,
 		Companies:   companies,

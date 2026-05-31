@@ -1,13 +1,19 @@
 package authentication
 
-import "github.com/brightDN/orderDesk/internal/database"
+import (
+	"database/sql"
+
+	"github.com/brightDN/orderDesk/internal/database"
+)
 
 type AuthenticationService struct {
-	db *database.Queries
+	queries *database.Queries
+	db      *sql.DB
 }
 
-func NewAuthService(db *database.Queries) *AuthenticationService {
+func NewAuthService(queries *database.Queries, db *sql.DB) *AuthenticationService {
 	return &AuthenticationService{
-		db: db,
+		queries: queries,
+		db:      db,
 	}
 }

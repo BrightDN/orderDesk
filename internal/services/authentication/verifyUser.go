@@ -1,59 +1,32 @@
 package authentication
 
 import (
-	"net/http"
-	"net/mail"
+	"errors"
 
 	"github.com/brightDN/orderDesk/internal/database"
 	"github.com/labstack/echo/v4"
 )
 
-func (auth *AuthenticationService) VerifyUser(c echo.Context) error {
-	email := c.Request().PostFormValue("email")
-	password := c.Request().PostFormValue("password")
+var errInvalidCredentials = errors.New("invalid credentials")
+var errInternalError = errors.New("internal error")
 
-	if email == "" {
-		return c.Render(http.StatusBadRequest, "login", map[string]any{
-			"error": "Email is required",
-		})
-	}
+func (auth *AuthenticationService) VerifyUser(c echo.Context, email, password string) (database.User, error) {
 
-	_, err := mail.ParseAddress(email)
+	user, err := auth.queries.GetUserByMail(c.Request().Context(), email)
 	if err != nil {
-		return c.Render(http.StatusBadRequest, "login", map[string]any{
-			"error": "Invalid email address",
-		})
-	}
-
-	if password == "" {
-		return c.Render(http.StatusBadRequest, "login", map[string]any{
-			"error": "Password is required",
-		})
-	}
-
-	user, err := auth.db.GetUserByMail(c.Request().Context(), email)
-	if err != nil {
-		return c.Render(http.StatusInternalServerError, "login", map[string]any{
-			"error": "Something went wrong, please try again later",
-		})
+		return database.User{}, errInternalError
 	}
 	if (user == database.User{}) {
-		return c.Render(http.StatusUnauthorized, "login", map[string]any{
-			"error": "Invalid credentials",
-		})
+		return database.User{}, errInvalidCredentials
 	}
 
 	isSame, err := auth.comparePasswordHash(password, user.Password)
 	if err != nil {
-		return c.Render(http.StatusInternalServerError, "login", map[string]any{
-			"error": "Something went wrong, please try again later",
-		})
+		return database.User{}, errInternalError
 	}
 	if !isSame {
-		return c.Render(http.StatusUnauthorized, "login", map[string]any{
-			"error": "Invalid credentials",
-		})
+		return database.User{}, errInvalidCredentials
 	}
 
-	return c.Render(http.StatusOK, "suppliers", nil)
+	return user, nil
 }

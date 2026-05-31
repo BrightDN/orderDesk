@@ -6,15 +6,9 @@
 {{ define "stylesheets" }}
   <link rel="stylesheet" href="/assets/stylesheets/centerPages.css">
 {{ end }}
+
 {{ define "content" }}
-
-<div class="toggle-row">
-  <button class="toggle-btn active" onclick="showVariant('company', this)">Company invite</button>
-  <button class="toggle-btn" onclick="showVariant('employee', this)">Employee invite</button>
-</div>
-
-<!-- Company invite -->
-<section class="card card-md" id="variant-company" aria-labelledby="company-signup-heading">
+<section class="card card-md" aria-labelledby="signup-heading">
   <header class="logo-mark logo-spaced">
     <div class="logo-icon">
       <svg viewBox="0 0 16 16" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -22,112 +16,118 @@
       </svg>
     </div>
     <div>
-      <p class="logo-text">OrderDesk</p>
-      <p class="logo-sub">Welcome</p>
+      <p class="logo-text">{{ .identity.AppName}}</p>
+      <p class="logo-sub">by {{ .identity.BrandName }}</p>
     </div>
   </header>
-
-  <div class="invite-banner">
-    <svg viewBox="0 0 14 14"><rect x="1" y="4" width="12" height="9" rx="1"/><path d="M4 4V3a3 3 0 016 0v1"/></svg>
-    <div class="invite-banner-text">
-      <p class="invite-banner-title">You've been invited to set up your company</p>
-      <p>Complete the form below to create your account and get started with OrderDesk.</p>
+  {{ with .invitation }}
+    <div class="invite-banner">
+      <svg viewBox="0 0 14 14"><rect x="1" y="4" width="12" height="9" rx="1"/><path d="M4 4V3a3 3 0 016 0v1"/></svg>
+      <div class="invite-banner-text">
+        {{ if eq .Type "company" }}
+          <p class="invite-banner-title">You've been invited to set up your company</p>
+          <p>Complete the form below to create your account and get started with {{ $.identity.AppName }}.</p>
+        {{ else }}
+          <p class="invite-banner-title">You've been invited to join {{ .Company }}</p>
+          <p>Your account has been set up by your administrator. Just choose a display name and password to get started.</p>
+        {{ end }}
+      </div>
     </div>
+    {{ if eq .Type "company" }}
+      <h1 class="card-heading" id="signup-heading">Create your account</h1>
+      <p class="card-sub">Set up the first account for your company.</p>
+    {{ else }}
+      <h1 class="card-heading" id="signup-heading">Join your team</h1>
+      <p class="card-sub">Complete your account to get started.</p>
+    {{ end }}
+
+    <div class="field">
+      <label>Company name
+        <input disabled type="text" value="{{ .Company }}" />
+      </label>
+      {{ if eq .Type "company" }}
+        <p class="field-hint">Set by the site administrator — contact them if this is incorrect</p>
+        </div>
+        <div class="field">
+        <label>Email address
+          <input disabled type="email" value="{{ .Email }}" />
+        </label>
+        <p class="field-hint">Set by the site administrator — contact them if this is incorrect</p>
+      {{ end }}
+    </div>
+    {{ if eq .Type "employee"}}
+      <div class="field">
+      <label>Email address
+        <input disabled type="email" value="{{ .Email }}" />
+      </label>
+      <p class="field-hint">Set by your administrator — contact them if this is incorrect</p>
+    </div>
+    {{ end }}
+
+  <form method="POST" action="/auth/create">
+    <input type="hidden" name="_csrf" value="{{ $.csrf }}" />
+    <input type="hidden" name="token" value="{{ .Token }}" />
+    <input type="hidden" name="email" value="{{ .Email }}" />
+    <div class="field">
+      <label>Your display name
+        <input type="text" name="name" autocomplete="name" required />
+      </label>
+      <p class="field-hint">Shown on orders and to other employees</p>
+    </div>
+
+  <div class="field">
+    <label>Password
+      <input
+        id="password"
+        name="password"
+        type="password"
+        required
+      >
+    </label>
   </div>
 
-  <h1 class="card-heading" id="company-signup-heading">Create your account</h1>
-  <p class="card-sub">Set up the first account for your company.</p>
-
   <div class="field">
-    <label>Company name</label>
-    <input type="text" value="Markt Storeroom" disabled>
-    <p class="field-hint">Set by your administrator — contact them if this is incorrect</p>
+    <label>Confirm password
+      <input
+        id="password-confirm"
+        name="password-confirm"
+        type="password"
+        required
+      >
+    </label>
   </div>
-  <div class="field">
-    <label>Email address</label>
-    <input type="email" value="markt@storeroom.nl" disabled>
-  </div>
-  <div class="field">
-    <label>Your display name</label>
-    <input type="text" placeholder="e.g. Jan V.">
-    <p class="field-hint">Shown on orders and to other employees</p>
-  </div>
-  <div class="field">
-    <label>Password</label>
-    <input type="password" placeholder="••••••••">
-  </div>
-  <div class="field">
-    <label>Confirm password</label>
-    <input type="password" placeholder="••••••••">
-  </div>
-
+  
   <hr class="divider divider-tight">
-  <button class="btn-primary">
+  <button type="submit" class="btn-primary">
     <svg viewBox="0 0 14 14"><path d="M2 7l4 4 6-7"/></svg>
     Create account
   </button>
+</form>
 </section>
-
-<!-- Employee invite -->
-<section class="card card-md is-hidden" id="variant-employee" aria-labelledby="employee-signup-heading">
-  <header class="logo-mark logo-spaced">
-    <div class="logo-icon">
-      <svg viewBox="0 0 16 16" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M3 13V7m0 0L8 3l5 4m-5-4v10m5-6v6M1 13h14"/>
-      </svg>
-    </div>
-    <div>
-      <p class="logo-text">OrderDesk</p>
-      <p class="logo-sub">Welcome</p>
-    </div>
-  </header>
-
-  <div class="invite-banner">
-    <svg viewBox="0 0 14 14"><circle cx="7" cy="5" r="3"/><path d="M1 13c0-3.3 2.7-6 6-6s6 2.7 6 6"/></svg>
-    <div class="invite-banner-text">
-      <p class="invite-banner-title">You've been invited to join Markt Storeroom</p>
-      <p>Your account has been set up by your administrator. Just choose a display name and password to get started.</p>
-    </div>
-  </div>
-
-  <h1 class="card-heading" id="employee-signup-heading">Join your team</h1>
-  <p class="card-sub">Complete your account to get started.</p>
-
-  <div class="field">
-    <label>Company</label>
-    <input type="text" value="Markt Storeroom" disabled>
-  </div>
-  <div class="field">
-    <label>Email address</label>
-    <input type="email" value="marie@storeroom.nl" disabled>
-  </div>
-  <div class="field">
-    <label>Your display name</label>
-    <input type="text" placeholder="e.g. Marie K.">
-    <p class="field-hint">Shown on orders and to other employees</p>
-  </div>
-  <div class="field">
-    <label>Password</label>
-    <input type="password" placeholder="••••••••">
-  </div>
-  <div class="field">
-    <label>Confirm password</label>
-    <input type="password" placeholder="••••••••">
-  </div>
-
-  <hr class="divider divider-tight">
-  <button class="btn-primary">
-    <svg viewBox="0 0 14 14"><path d="M2 7l4 4 6-7"/></svg>
-    Create account
-  </button>
-</section>
-
 <script>
-function showVariant(key, btn) {
-  document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById('variant-company').classList.toggle('is-hidden', key !== 'company');
-  document.getElementById('variant-employee').classList.toggle('is-hidden', key !== 'employee');
-}
+  const form = document.getElementById('signup-form');
+  const password = document.getElementById('password');
+  const confirmPassword = document.getElementById('password-confirm');
+
+  function validatePasswords() {
+    if (password.value !== confirmPassword.value) {
+      confirmPassword.setCustomValidity('Passwords do not match');
+    } else {
+      confirmPassword.setCustomValidity('');
+    }
+  }
+
+  password.addEventListener('input', validatePasswords);
+  confirmPassword.addEventListener('input', validatePasswords);
+
+  form.addEventListener('submit', (e) => {
+    validatePasswords();
+
+    if (!form.checkValidity()) {
+      e.preventDefault();
+      form.reportValidity();
+    }
+  });
 </script>
+{{ end }}
 {{ end }}

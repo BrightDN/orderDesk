@@ -60,3 +60,14 @@ UPDATE invites
 SET expires_at = $1,
     updated_at = now()
 WHERE id = $2;
+
+-- name: ValidateInvite :one
+SELECT
+  *
+FROM
+  invites
+WHERE
+  token = $1
+  AND email = $2
+  AND expires_at > NOW()
+  AND used_at IS NULL;

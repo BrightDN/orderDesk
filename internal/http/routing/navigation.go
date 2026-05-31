@@ -36,7 +36,7 @@ func (n *Navigation) Register(e *echo.Echo) {
 		})
 	})
 
-	e.GET("/dashboard/neworder", func(c echo.Context) error {
+	e.GET("/app/neworder", func(c echo.Context) error {
 		return c.Render(http.StatusOK, "newOrder", map[string]any{
 			"Page": "new order",
 		})
@@ -58,14 +58,6 @@ func (n *Navigation) Register(e *echo.Echo) {
 		return c.Render(http.StatusOK, "contactPage", nil)
 	})
 
-	e.GET("/auth/login", func(c echo.Context) error {
-		return c.Render(http.StatusOK, "login", nil)
-	})
-
-	e.GET("/auth/signup", func(c echo.Context) error {
-		return c.Render(http.StatusOK, "signup", nil)
-	})
-
 	e.GET("/settings/companies", func(c echo.Context) error {
 		return c.Render(http.StatusOK, "companies", nil)
 	})
@@ -78,5 +70,6 @@ func (n *Navigation) Register(e *echo.Echo) {
 	e.GET("/admin/companies/overview", n.adminCompanyOverview)
 	e.GET("/admin/companies/details/:id", n.adminCompanyDetails)
 
-	e.GET("/auth/company/:token", n.authSignUp)
+	e.GET("/auth/signup/:token", n.authSignUp)
+	e.GET("/auth/login", n.authLogin)
 }

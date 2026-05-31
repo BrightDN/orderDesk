@@ -14,6 +14,8 @@ CREATE TABLE invites (
     expires_at TIMESTAMPTZ NOT NULL,
     used_at TIMESTAMPTZ DEFAULT NULL,
 
+    role_id INTEGER NOT NULL default 2,
+
     UNIQUE (email, company_id),
 
     FOREIGN KEY (company_id)

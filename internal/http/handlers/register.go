@@ -10,4 +10,7 @@ func (h *Handler) Register(e *echo.Echo) {
 	e.POST("/admin/companies/invites/resend/:id", h.resendCompanyInvite)
 	e.DELETE("/admin/companies/invites/delete/:id", h.deleteCompanyInvite)
 	e.PATCH("/admin/companies/invites/reactivate/:id", h.reactivateCompanyInvite)
+
+	e.POST("/auth/create", h.authSignUp)
+	e.POST("/auth/processLogin", h.processLogin)
 }

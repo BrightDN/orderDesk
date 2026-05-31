@@ -30,5 +30,5 @@ func Register(e *echo.Echo, cfg configs.Config, q *database.Queries) {
 
 	protected := e.Group("/app")
 	protected.Use(requireAuth())
-	protected.Use(loadUser(q))
+	protected.Use(loadEmployee(q))
 }
