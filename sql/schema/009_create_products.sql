@@ -5,7 +5,6 @@ CREATE TABLE products (
     name TEXT NOT NULL,
     supplier_id INTEGER NOT NULL,
     company_id INTEGER NOT NULL,
-    price NUMERIC(10, 2),
     deleted_at TIMESTAMPTZ,
 
     FOREIGN KEY (supplier_id)

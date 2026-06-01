@@ -12,6 +12,7 @@ func (n *Navigation) appSuppliers(c echo.Context) error {
 		Title: "suppliers",
 		Type:  pages.BusinessType,
 	}
+
 	return c.Render(http.StatusOK, "app/suppliers", map[string]any{
 		"pageData": pageData,
 	})

@@ -27,17 +27,18 @@
     </header>
 
     <div class="nav-drawer">
+      {{ with .pageData}}
       <nav class="nav-section" aria-label="Main menu">
         <p class="nav-label">Menu</p>
-        <a href="/dashboard/suppliers" class='nav-item {{ if eq .Page "suppliers" }} active {{end }}'>
+        <a href="/app/suppliers" class='nav-item {{ if eq .Title "suppliers" }} active {{end }}'>
           <svg viewBox="0 0 16 16"><rect x="2" y="2" width="5" height="5" rx="1"/><rect x="9" y="2" width="5" height="5" rx="1"/><rect x="2" y="9" width="5" height="5" rx="1"/><rect x="9" y="9" width="5" height="5" rx="1"/></svg>
           Suppliers
         </a>
-        <a href="/app/neworder" class='nav-item {{ if eq .pageData.Title "new order" }} active {{end }}'>
+        <a href="/app/neworder" class='nav-item {{ if eq .Title "new order" }} active {{end }}'>
           <svg viewBox="0 0 16 16"><path d="M2 4h12M4 4V3a1 1 0 011-1h6a1 1 0 011 1v1m2 0l-1 9a1 1 0 01-1 1H4a1 1 0 01-1-1L2 4"/></svg>
           New order
         </a>
-        <a href="/dashboard/history" class='nav-item {{ if eq .Page "history" }} active {{end }}'>
+        <a href="/app/history" class='nav-item {{ if eq .Title "history" }} active {{end }}'>
           <svg viewBox="0 0 16 16"><path d="M2 3h12v2H2zm0 4h12v2H2zm0 4h7v2H2z"/></svg>
           Order history
         </a>
@@ -45,7 +46,7 @@
 
       <nav class="nav-section nav-section-spaced" aria-label="Admin menu">
         <p class="nav-label">Admin</p>
-        <a href="/dashboard/settings" class='nav-item {{ if eq .Page "company settings" }} active {{end }}'>
+        <a href="/app/settings/company" class='nav-item {{ if eq .Title "company settings" }} active {{end }}'>
           <svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"/><path d="M8 5v3l2 2"/></svg>
           Settings
         </a>
@@ -69,7 +70,7 @@
           Companies
         </a>
       </nav>
-
+      {{ end }}
       <div class="nav-bottom">
         <div class="nav-user">
           <div>
@@ -101,9 +102,9 @@
             </svg>
         </button>
         <div id="settings-pop" popover>
-          <a href="/settings/user">User settings</a>
+          <a href="/app/settings/user">User settings</a>
           {{ if .multiCompany }}
-          <a href="/settings/companies">Switch company</a>
+          <a href="/auth/select-companies">Switch company</a>
           {{ end }}
           <a href="/support/contact">Contact</a>
           <a href="/auth/logout">Logout</a>

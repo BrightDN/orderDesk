@@ -1,8 +1,6 @@
 package routing
 
 import (
-	"net/http"
-
 	"github.com/brightDN/orderDesk/internal/app"
 	"github.com/brightDN/orderDesk/internal/database"
 	"github.com/brightDN/orderDesk/internal/middlewares"
@@ -22,8 +20,6 @@ func NewNav(db *database.Queries, app *app.App) *Navigation {
 }
 
 func (n *Navigation) Register(e *echo.Echo) {
-	// TODO: forgot password routing and page
-
 	withEmployee := []echo.MiddlewareFunc{
 		middlewares.RequireAuth(),
 		middlewares.LoadEmployee(n.db),
@@ -32,31 +28,15 @@ func (n *Navigation) Register(e *echo.Echo) {
 
 	withOwner := []echo.MiddlewareFunc{
 		middlewares.RequireAuth(),
-		// middlewares.RequireOwner(n.db), // TODO: implement this middleware
+		middlewares.RequireOwner(n.db),
 	}
-
-	e.GET("/", func(c echo.Context) error {
-		return c.Redirect(http.StatusSeeOther, "/app/neworder")
-	})
-
-	e.GET("/dashboard/settings", func(c echo.Context) error {
-		return c.Render(http.StatusOK, "companySettings", map[string]any{
-			"Page": "company settings",
-		})
-	}, withEmployee...)
-
-	e.GET("/support/contact", func(c echo.Context) error {
-		return c.Render(http.StatusOK, "contactPage", nil)
-	}, withEmployee...)
-
-	e.GET("/settings/user", func(c echo.Context) error {
-		return c.Render(http.StatusOK, "userSettings", nil)
-	}, withEmployee...)
 
 	// Business
 	e.GET("/app/neworder", n.appNewOrder, withEmployee...)
-	e.GET("/app/history", n.appOrderHistory, withEmployee...)
 	e.GET("/app/suppliers", n.appSuppliers, withEmployee...)
+	e.GET("/app/history", n.appOrderHistory, withEmployee...)
+	e.GET("/app/settings/company", n.appCompanySettings, withEmployee...)
+	e.GET("/app/settings/user", n.appUserSettings, withEmployee...)
 
 	// Site admin
 	e.GET("/admin/companies/invites", n.adminCompanyInvite, withOwner...)
@@ -64,7 +44,13 @@ func (n *Navigation) Register(e *echo.Echo) {
 	e.GET("/admin/companies/details/:id", n.adminCompanyDetails, withOwner...)
 
 	// Authentication
+	e.GET("/auth/login", n.authLogin) // TODO: redirect to dashboard if already logged in
 	e.GET("/auth/signup/:token", n.authSignUp)
-	e.GET("/auth/login", n.authLogin)
+	e.GET("/auth/forgot-password", n.authForgotPassword)
+	e.POST("/auth/forgot-password", n.authForgotPasswordRequest)
 	e.GET("/auth/select-company", n.authSelectCompany, middlewares.RequireAuth())
+
+	// support, TODO: add FAQ, TOS&PP, landing page
+	e.GET("/", n.authLogin) // TODO: Create a landing page and redirect to it instead of login
+	e.GET("/support/contact", n.supportContact)
 }

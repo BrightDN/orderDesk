@@ -83,5 +83,5 @@ func (h *Handler) authSignUp(c echo.Context) error {
 		}
 		return c.Redirect(http.StatusSeeOther, "/auth/signup/"+token)
 	}
-	return c.Redirect(http.StatusSeeOther, "/dashboard/neworder")
+	return c.Redirect(http.StatusSeeOther, "/app/neworder")
 }

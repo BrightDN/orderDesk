@@ -40,10 +40,12 @@ SELECT
   company_users.company_id,
   company_users.id AS employee_id,
   users.email AS email,
-  roles.name AS role
+  roles.name AS role,
+  companies.name AS employed_at
 FROM
   company_users
   INNER JOIN users ON company_users.user_id = users.id
   INNER JOIN roles ON company_users.role_id = roles.id
+  INNER JOIN companies ON company_users.company_id = companies.id
 WHERE
   user_id = $1;

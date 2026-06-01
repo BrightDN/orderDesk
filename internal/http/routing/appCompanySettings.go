@@ -7,13 +7,12 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func (n *Navigation) appOrderHistory(c echo.Context) error {
+func (n *Navigation) appCompanySettings(c echo.Context) error {
 	pageData := pages.PageData{
-		Title: "history",
+		Title: "company settings",
 		Type:  pages.BusinessType,
 	}
-
-	return c.Render(http.StatusOK, "/app/orderHistory", map[string]any{
+	return c.Render(http.StatusOK, "/app/companySettings", map[string]any{
 		"pageData": pageData,
 	})
 }

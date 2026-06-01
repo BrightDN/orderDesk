@@ -1,50 +1,22 @@
 {{ define "supplierList" }}
-      <p class="section-label">Suppliers &mdash; 4 total</p>
+      <p class="section-label">Suppliers &mdash; {{ len .Suppliers }} total</p>
 
       <div class="supplier-grid">
-        <article class="supplier-card selected">
+      {{ range $index, $supplier := .Suppliers }}
+       <article class="supplier-card{{ if eq $index 0 }} selected{{ end }}">
           <div class="s-header">
-            <div>
-              <h2 class="s-name">FreshVeg BV</h2>
-              <p class="s-cat">Produce</p>
-            </div>
+              <h2 class="s-name">{{ $supplier.Name }}</h2>
+              <p class="s-cat">{{ $supplier.Email }}</p>
           </div>
           <div class="s-meta">
-            <p class="s-count">14 products</p>
-            {{ if eq .Page "suppliers"}}
+            <p class="s-count">{{ $supplier.Count }} products</p>
+            {{ if $supplier.Active }}
             <span class="badge badge-green">Active</span>
-            {{ end }}
-          </div>
-        </article>
-
-        <article class="supplier-card">
-          <div class="s-header">
-            <div>
-              <h2 class="s-name">DairyGo</h2>
-              <p class="s-cat">Dairy &amp; eggs</p>
-            </div>
-          </div>
-          <div class="s-meta">
-            <p class="s-count">8 products</p>
-            {{ if eq .Page "suppliers"}}
-            <span class="badge badge-green">Active</span>
-            {{ end }}
-          </div>
-        </article>
-
-        <article class="supplier-card">
-          <div class="s-header">
-            <div>
-              <h2 class="s-name">BakkerKoning</h2>
-              <p class="s-cat">Bakery</p>
-            </div>
-          </div>
-          <div class="s-meta">
-            <p class="s-count">6 products</p>
-            {{ if eq .Page "suppliers"}}
+            {{ else }}
             <span class="badge badge-red">Inactive</span>
             {{ end }}
           </div>
-        </article>
+       </article>
+      {{ end }}
       </div>
 {{ end }}

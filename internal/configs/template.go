@@ -10,17 +10,24 @@ import (
 	"strings"
 
 	"github.com/brightDN/orderDesk/internal/flash"
+	"github.com/brightDN/orderDesk/internal/services/companies"
+	"github.com/brightDN/orderDesk/internal/services/companies/suppliers"
 	"github.com/labstack/echo/v4"
 )
 
 type Template struct {
-	Identity IdentityConfig
+	Identity  IdentityConfig
+	Suppliers *suppliers.SupplierService
 }
 
 func (t *Template) Render(w io.Writer, name string, data any, c echo.Context) error {
 	page := templatePath(name)
 	executeName := templateName(name)
 	isPartial := strings.HasPrefix(name, "partials/")
+	base, err := templateBase(page)
+	if err != nil {
+		return err
+	}
 
 	files, err := templateFiles(page)
 	if err != nil {
@@ -32,7 +39,12 @@ func (t *Template) Render(w io.Writer, name string, data any, c echo.Context) er
 		return err
 	}
 
-	return tmpl.ExecuteTemplate(w, executeName, t.templateData(data, c, isPartial))
+	templateData, err := t.templateData(data, c, isPartial, base == "businessBase")
+	if err != nil {
+		return err
+	}
+
+	return tmpl.ExecuteTemplate(w, executeName, templateData)
 }
 
 func templatePath(name string) string {
@@ -48,7 +60,7 @@ func templateName(name string) string {
 	return strings.TrimSuffix(filepath.Base(name), filepath.Ext(name))
 }
 
-func (t *Template) templateData(data any, c echo.Context, isPartial bool) any {
+func (t *Template) templateData(data any, c echo.Context, isPartial bool, needsSuppliers bool) (any, error) {
 	csrf, _ := c.Get("csrf").(string)
 	feedback, _ := flash.Pop(c)
 	employee := c.Get("employee")
@@ -66,7 +78,10 @@ func (t *Template) templateData(data any, c echo.Context, isPartial bool) any {
 		if feedback != nil {
 			withGlobals["feedback"] = feedback
 		}
-		return withGlobals
+		if err := t.addSuppliers(withGlobals, employee, c, needsSuppliers); err != nil {
+			return nil, err
+		}
+		return withGlobals, nil
 	case map[string]any:
 		withGlobals := make(map[string]any, len(values)+4)
 		maps.Copy(withGlobals, values)
@@ -85,7 +100,10 @@ func (t *Template) templateData(data any, c echo.Context, isPartial bool) any {
 		if _, ok := withGlobals["feedback"]; !ok && feedback != nil {
 			withGlobals["feedback"] = feedback
 		}
-		return withGlobals
+		if err := t.addSuppliers(withGlobals, withGlobals["employee"], c, needsSuppliers); err != nil {
+			return nil, err
+		}
+		return withGlobals, nil
 	case map[string]string:
 		withGlobals := make(map[string]any, len(values)+4)
 		for key, value := range values {
@@ -106,10 +124,41 @@ func (t *Template) templateData(data any, c echo.Context, isPartial bool) any {
 		if _, ok := withGlobals["feedback"]; !ok && feedback != nil {
 			withGlobals["feedback"] = feedback
 		}
-		return withGlobals
+		if err := t.addSuppliers(withGlobals, withGlobals["employee"], c, needsSuppliers); err != nil {
+			return nil, err
+		}
+		return withGlobals, nil
 	default:
-		return data
+		return data, nil
 	}
+}
+
+func (t *Template) addSuppliers(data map[string]any, employee any, c echo.Context, needsSuppliers bool) error {
+	if !needsSuppliers || t.Suppliers == nil {
+		return nil
+	}
+
+	if _, ok := data["Suppliers"]; ok {
+		return nil
+	}
+
+	if existing, ok := data["suppliers"]; ok {
+		data["Suppliers"] = existing
+		return nil
+	}
+
+	empl, ok := employee.(companies.Employee)
+	if !ok {
+		return nil
+	}
+
+	suppliers, err := t.Suppliers.GetAllByCompany(c, int32(empl.CompanyId))
+	if err != nil {
+		return err
+	}
+
+	data["Suppliers"] = suppliers
+	return nil
 }
 
 func templateFiles(page string) ([]string, error) {
