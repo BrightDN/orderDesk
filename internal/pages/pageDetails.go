@@ -11,4 +11,5 @@ const (
 	OwnerType    pageType = "owner"
 	AdminType    pageType = "admin"
 	EmployeeType pageType = "employee"
+	BusinessType pageType = "business"
 )

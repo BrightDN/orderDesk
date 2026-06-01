@@ -4,11 +4,12 @@ import (
 	"net/http"
 
 	"github.com/brightDN/orderDesk/internal/database"
+	"github.com/brightDN/orderDesk/internal/services/companies"
 	"github.com/brightDN/orderDesk/internal/shared/session"
 	"github.com/labstack/echo/v4"
 )
 
-func loadEmployee(db *database.Queries) echo.MiddlewareFunc {
+func LoadEmployee(db *database.Queries) echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
 
@@ -33,7 +34,16 @@ func loadEmployee(db *database.Queries) echo.MiddlewareFunc {
 			if err != nil {
 				return c.Redirect(http.StatusSeeOther, "/auth/login")
 			}
-			c.Set("employee", employee)
+
+			employeeData := companies.Employee{
+				Name:       employee.DisplayName,
+				Email:      employee.Email,
+				Role:       employee.Role,
+				UserId:     int(employee.UserID),
+				CompanyId:  int(employee.CompanyID),
+				EmployeeId: int(employee.EmployeeID),
+			}
+			c.Set("employee", employeeData)
 			return next(c)
 		}
 	}

@@ -2,14 +2,13 @@ package middlewares
 
 import (
 	"github.com/brightDN/orderDesk/internal/configs"
-	"github.com/brightDN/orderDesk/internal/database"
 	"github.com/gorilla/sessions"
 	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
 
-func Register(e *echo.Echo, cfg configs.Config, q *database.Queries) {
+func Register(e *echo.Echo, cfg configs.Config) {
 	e.Pre(middleware.MethodOverrideWithConfig(middleware.MethodOverrideConfig{
 		Getter: func(c echo.Context) string {
 			m := c.FormValue("_method")
@@ -27,8 +26,4 @@ func Register(e *echo.Echo, cfg configs.Config, q *database.Queries) {
 		cfg.Session.SessionAuthKey,
 		cfg.Session.SessionEncryptionKey,
 	)))
-
-	protected := e.Group("/app")
-	protected.Use(requireAuth())
-	protected.Use(loadEmployee(q))
 }

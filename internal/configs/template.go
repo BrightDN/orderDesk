@@ -13,7 +13,9 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-type Template struct{}
+type Template struct {
+	Identity IdentityConfig
+}
 
 func (t *Template) Render(w io.Writer, name string, data any, c echo.Context) error {
 	page := templatePath(name)
@@ -30,7 +32,7 @@ func (t *Template) Render(w io.Writer, name string, data any, c echo.Context) er
 		return err
 	}
 
-	return tmpl.ExecuteTemplate(w, executeName, templateData(data, c, isPartial))
+	return tmpl.ExecuteTemplate(w, executeName, t.templateData(data, c, isPartial))
 }
 
 func templatePath(name string) string {
@@ -46,22 +48,27 @@ func templateName(name string) string {
 	return strings.TrimSuffix(filepath.Base(name), filepath.Ext(name))
 }
 
-func templateData(data any, c echo.Context, isPartial bool) any {
+func (t *Template) templateData(data any, c echo.Context, isPartial bool) any {
 	csrf, _ := c.Get("csrf").(string)
 	feedback, _ := flash.Pop(c)
+	employee := c.Get("employee")
 
 	switch values := data.(type) {
 	case nil:
 		withGlobals := map[string]any{
 			"csrf":      csrf,
 			"isPartial": isPartial,
+			"identity":  t.Identity,
+		}
+		if employee != nil {
+			withGlobals["employee"] = employee
 		}
 		if feedback != nil {
 			withGlobals["feedback"] = feedback
 		}
 		return withGlobals
 	case map[string]any:
-		withGlobals := make(map[string]any, len(values)+2)
+		withGlobals := make(map[string]any, len(values)+4)
 		maps.Copy(withGlobals, values)
 		if _, ok := withGlobals["csrf"]; !ok {
 			withGlobals["csrf"] = csrf
@@ -69,12 +76,18 @@ func templateData(data any, c echo.Context, isPartial bool) any {
 		if _, ok := withGlobals["isPartial"]; !ok {
 			withGlobals["isPartial"] = isPartial
 		}
+		if _, ok := withGlobals["identity"]; !ok {
+			withGlobals["identity"] = t.Identity
+		}
+		if _, ok := withGlobals["employee"]; !ok && employee != nil {
+			withGlobals["employee"] = employee
+		}
 		if _, ok := withGlobals["feedback"]; !ok && feedback != nil {
 			withGlobals["feedback"] = feedback
 		}
 		return withGlobals
 	case map[string]string:
-		withGlobals := make(map[string]any, len(values)+2)
+		withGlobals := make(map[string]any, len(values)+4)
 		for key, value := range values {
 			withGlobals[key] = value
 		}
@@ -83,6 +96,12 @@ func templateData(data any, c echo.Context, isPartial bool) any {
 		}
 		if _, ok := withGlobals["isPartial"]; !ok {
 			withGlobals["isPartial"] = isPartial
+		}
+		if _, ok := withGlobals["identity"]; !ok {
+			withGlobals["identity"] = t.Identity
+		}
+		if _, ok := withGlobals["employee"]; !ok && employee != nil {
+			withGlobals["employee"] = employee
 		}
 		if _, ok := withGlobals["feedback"]; !ok && feedback != nil {
 			withGlobals["feedback"] = feedback

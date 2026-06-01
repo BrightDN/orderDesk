@@ -36,15 +36,17 @@ func main() {
 
 	e := echo.New()
 	defer e.Close()
-	e.Renderer = &configs.Template{}
+	e.Renderer = &configs.Template{
+		Identity: cfg.Identity,
+	}
 	e.HTTPErrorHandler = configs.HTTPErrorHandler
 	e.Static("/assets", "assets")
 
-	middlewares.Register(e, cfg, dbQueries)
+	middlewares.Register(e, cfg)
 	services := services.NewServices(dbQueries, db, ms, &cfg.Identity)
 	app := app.New(services, dbQueries, cfg)
 
-	n := routing.NewNav(dbQueries, &app, &cfg.Identity)
+	n := routing.NewNav(dbQueries, &app)
 	n.Register(e)
 
 	h := handlers.NewHandler(&app)

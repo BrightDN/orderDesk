@@ -18,7 +18,6 @@ func (n *Navigation) authSignUp(c echo.Context) error {
 	}
 
 	return c.Render(http.StatusOK, "authSignUp", map[string]any{
-		"identity":   n.identity,
 		"invitation": invitation,
 	})
 }

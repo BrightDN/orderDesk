@@ -16,6 +16,5 @@ func (n *Navigation) adminCompanyInvite(c echo.Context) error {
 	return c.Render(http.StatusOK, "adminCompanyInvites", map[string]any{
 		"invites":  invs,
 		"pageData": pageData,
-		"csrf":     c.Get("csrf"),
 	})
 }
