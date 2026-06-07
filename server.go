@@ -53,6 +53,16 @@ func main() {
 	h := handlers.NewHandler(&app)
 	h.Register(e)
 
+	// hashedPassword, err := serviceSet.Auth.HashPassword("password")
+	// if err != nil {
+	// 	log.Fatalf("Failed to hash password: %v", err)
+	// }
+	// dbQueries.CreateUser(context.Background(), database.CreateUserParams{
+	// 	Email:    "hr@brightforge.dev",
+	// 	Password: hashedPassword,
+	// 	IsAdmin:  true,
+	// })
+
 	httpPort := os.Getenv("PORT")
 	if httpPort == "" {
 		httpPort = "8080"

@@ -1,14 +1,19 @@
 {{ define "supplierInformation" }}
+{{ with .supplier }}
   <p class="section-label">Supplier information</p>
 
   <div class="module">
     <div class="module-header">
       <div class="module-title-group">
-        <h2 class="module-title">FreshVeg BV</h2>
+        <h2 class="module-title">{{ .Name }}</h2>
+        {{ if .Active }}
         <span class="badge badge-green" id="status-badge">Active</span>
+        {{ else }}
+        <span class="badge badge-red" id="status-badge">Inactive</span>
+        {{ end }}
         <select class="status-select is-hidden" id="status-select">
-          <option value="active" selected>Active</option>
-          <option value="inactive">Inactive</option>
+          <option value="active" {{ if .Active }}selected{{ end }}>Active</option>
+          <option value="inactive" {{ if ne .Active true }}selected{{ end }}>Inactive</option>
         </select>
       </div>
 
@@ -27,29 +32,28 @@
 
     <dl class="info-grid" id="view-mode">
       <dt class="info-label">Name</dt>
-      <dd class="info-value">FreshVeg BV</dd>
-      <dt class="info-label">Product type</dt>
-      <dd class="info-value">Produce</dd>
+      <dd class="info-value">{{ .Name }}</dd>
       <dt class="info-label">Email</dt>
-      <dd class="info-value"><a href="#">orders@freshveg.nl</a></dd>
+      <dd class="info-value"><a href="#">{{ .Email }}</a></dd>
       <dt class="info-label">Contact person</dt>
-      <dd class="info-value muted-value">&mdash;</dd>
+      <dd class="info-value muted-value">{{if eq .ContactPerson "" }}&mdash;{{ else }} {{ .ContactPerson }} {{ end }}</dd>
       <dt class="info-label info-label-top">Order mail</dt>
       <dd>
-        <p class="mail-preview">Dear FreshVeg BV,<br><br>Please find our order attached. This order was placed by <strong>Jan V.</strong> on behalf of <strong>Markt Storeroom</strong>.</p>
+        <noscript>
+          <p>Requires javascript to render the preview correctly</p>
+        </noscript>
+        <p class="mail-preview">Dear {{ .Name }}<br><br>Please find our order attached. This order was placed by <strong>{{ $.employee.Name }}</strong> on behalf of <strong>{{ $.employee.EmployedAt }}</strong>.</p>
         <p class="legend legend-spaced">Variables: <code>{{ "{{" }} user {{ "}}" }}</code> name of person placing order &nbsp;&middot;&nbsp; <code>{{ "{{" }} company {{ "}}" }}</code> your company name</p>
       </dd>
     </dl>
 
     <dl class="info-grid is-hidden" id="edit-mode">
       <dt class="info-label">Name</dt>
-      <dd class="info-control"><input class="info-input" value="FreshVeg BV"></dd>
-      <dt class="info-label">Product type</dt>
-      <dd class="info-control"><input class="info-input" value="Produce"></dd>
+      <dd class="info-control"><input class="info-input" value="{{ .Name }}"></dd>
       <dt class="info-label">Email</dt>
-      <dd class="info-control"><input class="info-input" type="email" value="orders@freshveg.nl"></dd>
+      <dd class="info-control"><input class="info-input" type="email" value="{{ .Email }}"></dd>
       <dt class="info-label">Contact person</dt>
-      <dd class="info-control"><input class="info-input" placeholder="Optional"></dd>
+      <dd class="info-control"><input class="info-input" placeholder="Optional" {{ if ne .ContactPerson "" }} value="{{ .ContactPerson }}" {{ end }}></dd>
       <dt class="info-label info-label-top">Order mail</dt>
       <dd>
         <textarea class="info-textarea">Dear FreshVeg BV,
@@ -91,4 +95,5 @@ editBtn.addEventListener('click', () => {
   });
 });
 </script>
+{{ end }}
 {{ end }}

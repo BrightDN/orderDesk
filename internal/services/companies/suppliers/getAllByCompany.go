@@ -16,12 +16,17 @@ func (s *SupplierService) GetAllByCompany(c echo.Context, companyID int32) ([]Su
 
 	var suppliers []Supplier
 	for _, dbSupplier := range dbSuppliers {
+		contact := ""
+		if dbSupplier.Contact.Valid {
+			contact = dbSupplier.Contact.String
+		}
 		suppliers = append(suppliers, Supplier{
-			ID:     dbSupplier.ID,
-			Name:   dbSupplier.Name,
-			Email:  dbSupplier.Email,
-			Count:  dbSupplier.ProductCount,
-			Active: true,
+			ID:            dbSupplier.ID,
+			Name:          dbSupplier.Name,
+			Email:         dbSupplier.Email,
+			ContactPerson: contact,
+			Count:         dbSupplier.ProductCount,
+			Active:        true,
 		})
 	}
 	return suppliers, nil

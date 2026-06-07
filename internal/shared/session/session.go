@@ -10,6 +10,7 @@ type SessionData struct {
 	RoleName       string
 	CompanyID      int32
 	IsMultiCompany bool
+	IsSiteAdmin    bool
 }
 
 const (
@@ -17,4 +18,5 @@ const (
 	RoleNameKey  = "RoleName"
 	CompanyIDKey = "CompanyID"
 	MultiCompKey = "IsMultiCompany"
+	SiteAdminKey = "IsSiteAdmin"
 )

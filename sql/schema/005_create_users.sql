@@ -7,7 +7,7 @@ CREATE TABLE users (
   email TEXT UNIQUE NOT NULL,
   password TEXT NOT NULL,
   name TEXT NOT NULL,
-  is_admin BOOLEAN DEFAULT 'false'
+  is_admin BOOLEAN NOT NULL DEFAULT 'false'
 );
 
 -- +goose Down

@@ -15,11 +15,12 @@ func NewSupplierService(db *database.Queries) *SupplierService {
 }
 
 type Supplier struct {
-	ID     int32
-	Name   string
-	Email  string
-	Count  int64
-	Active bool
+	ID            int32
+	Name          string
+	Email         string
+	ContactPerson string
+	Count         int64
+	Active        bool
 }
 
 var ErrInternalError = errors.New("Something went wrong on our end, please try again later")

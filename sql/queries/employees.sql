@@ -20,18 +20,27 @@ RETURNING *;
 
 -- name: GetEmployee :one
 SELECT
-  company_users.display_name,
-  company_users.user_id,
-  company_users.company_id,
-  company_users.id AS employee_id,
-  users.email AS email,
-  roles.name AS role
-FROM
-  company_users
-  INNER JOIN users ON company_users.user_id = users.id
-  INNER JOIN roles ON company_users.role_id = roles.id
-WHERE
-  company_id = $1 AND user_id = $2;
+        company_users.display_name,
+        company_users.user_id,
+        company_users.company_id,
+        company_users.id AS employee_id,
+        companies.name AS employed_at,
+        users.email AS email,
+        roles.name AS role 
+    FROM
+        company_users 
+    INNER JOIN
+        users 
+            ON company_users.user_id = users.id 
+    INNER JOIN
+        roles 
+            ON company_users.role_id = roles.id 
+    INNER JOIN
+        companies 
+            ON companies.id = $3 
+    WHERE
+        company_users.company_id = $1 
+        AND company_users.user_id = $2;
 
 -- name: GetEmployeeByUserID :one
 SELECT

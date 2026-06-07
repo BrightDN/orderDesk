@@ -42,7 +42,7 @@ func (h *Handler) createSupplier(c echo.Context) error {
 		}
 		return ErrSessionError
 	}
-	fmt.Printf("\nContact: %s\n", contact)
+
 	if err := h.App.Services.Suppliers.Create(c, company, email, contact, id); err != nil {
 		return err
 	}

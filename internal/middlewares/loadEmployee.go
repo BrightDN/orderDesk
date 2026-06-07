@@ -20,17 +20,7 @@ func LoadEmployee(db *database.Queries) echo.MiddlewareFunc {
 			if !ok {
 				return c.Redirect(http.StatusSeeOther, "/auth/login")
 			}
-			companyID, ok, err := session.GetValue[int32](c, session.CompanyIDKey)
-			if err != nil {
-				return err
-			}
-			if !ok {
-				return c.Redirect(http.StatusSeeOther, "/auth/login")
-			}
-			employee, err := db.GetEmployee(c.Request().Context(), database.GetEmployeeParams{
-				UserID:    userID,
-				CompanyID: companyID,
-			})
+			employee, err := db.GetEmployeeByUserID(c.Request().Context(), userID)
 			if err != nil {
 				return c.Redirect(http.StatusSeeOther, "/auth/login")
 			}
@@ -39,6 +29,7 @@ func LoadEmployee(db *database.Queries) echo.MiddlewareFunc {
 				Name:       employee.DisplayName,
 				Email:      employee.Email,
 				Role:       employee.Role,
+				EmployedAt: employee.EmployedAt,
 				UserId:     int(employee.UserID),
 				CompanyId:  int(employee.CompanyID),
 				EmployeeId: int(employee.EmployeeID),

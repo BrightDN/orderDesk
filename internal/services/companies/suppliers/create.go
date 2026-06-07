@@ -2,13 +2,18 @@ package suppliers
 
 import (
 	"database/sql"
-	"fmt"
+	"errors"
 	"strings"
 
 	"github.com/brightDN/orderDesk/internal/database"
 	"github.com/brightDN/orderDesk/internal/flash"
+	"github.com/lib/pq"
+
 	"github.com/labstack/echo/v4"
 )
+
+var ErrSupplierNameExists = errors.New("a supplier with that name already exists")
+var ErrSupplierEmailExists = errors.New("a supplier with that email already exists")
 
 func (s *SupplierService) Create(c echo.Context, company, email, contact string, companyID int32) error {
 	contact = strings.TrimSpace(contact)
@@ -19,10 +24,21 @@ func (s *SupplierService) Create(c echo.Context, company, email, contact string,
 		Contact:   sql.NullString{String: contact, Valid: contact != ""},
 	})
 	if err != nil {
-		if flashErr := flash.Set(c, flash.Error, "Error creating supplier."); flashErr != nil {
+		var pgErr *pq.Error
+		if errors.As(err, &pgErr) {
+			if pgErr.Code == "23505" {
+				switch pgErr.Constraint {
+				case "suppliers_company_name_unique":
+					return ErrSupplierNameExists
+				case "suppliers_company_email_unique":
+					return ErrSupplierEmailExists
+				}
+			}
+		}
+		if flashErr := flash.Set(c, flash.Error, ErrInternalError.Error()); flashErr != nil {
 			return flashErr
 		}
-		return fmt.Errorf("error creating supplier: %w", err)
+		return ErrInternalError
 	}
 	return nil
 }

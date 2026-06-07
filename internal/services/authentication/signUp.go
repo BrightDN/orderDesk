@@ -44,5 +44,9 @@ func (auth *AuthenticationService) SignUp(c echo.Context, email, password, name 
 		return nil, errCreatingCompanyEmployee
 	}
 
+	if err = queries.SetInviteUsed(c.Request().Context(), invitation.ID); err != nil {
+		return nil, err
+	}
+
 	return &empl, tx.Commit()
 }

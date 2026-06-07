@@ -45,6 +45,7 @@ func (n *Navigation) Register(e *echo.Echo) {
 
 	// Authentication
 	e.GET("/auth/login", n.authLogin) // TODO: redirect to dashboard if already logged in
+	e.GET("/auth/logout", n.authLogout, middlewares.RequireAuth())
 	e.GET("/auth/signup/:token", n.authSignUp)
 	e.GET("/auth/forgot-password", n.authForgotPassword)
 	e.POST("/auth/forgot-password", n.authForgotPasswordRequest)

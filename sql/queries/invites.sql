@@ -71,3 +71,8 @@ WHERE
   AND email = $2
   AND expires_at > NOW()
   AND used_at IS NULL;
+
+-- name: SetInviteUsed :exec
+UPDATE invites
+SET used_at = now()
+WHERE id = $1;

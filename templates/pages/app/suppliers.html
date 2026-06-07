@@ -12,7 +12,7 @@
 {{ end }}
 
 {{ define "content" }}
-{{ with .Supplier }}
+{{ if .supplier }}
     {{ template "supplierInformation" . }}
     {{ template "itemList" . }}
 {{ end }}

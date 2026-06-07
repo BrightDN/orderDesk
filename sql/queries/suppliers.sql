@@ -3,6 +3,7 @@ SELECT
     suppliers.id,
     suppliers.name,
     suppliers.email,
+    suppliers.contact,
     COUNT(products.id) AS product_count
 FROM
     suppliers
