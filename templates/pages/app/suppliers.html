@@ -7,14 +7,12 @@
 <link rel="stylesheet" href="/assets/stylesheets/itemList.css">
 {{end}}
 
-{{ define "scripts" }}
-<script defer src="/assets/scripts/itemList.js"></script>
-{{ end }}
-
 {{ define "content" }}
 {{ if .supplier }}
     {{ template "supplierInformation" . }}
-    {{ template "itemList" . }}
+    <div id="item-list-slot">
+      {{ template "itemList" . }}
+    </div>
 {{ end }}
 {{ end }}
 
@@ -57,37 +55,28 @@
 <dialog id="modal-add-product">
     <div class="modal-header">
       <span class="modal-title">Add product</span>
-      <button class="modal-close" command="close" commandfor="modal-add-product">
+      <button class="modal-close" type="button" command="close" commandfor="modal-add-product">
         <svg viewBox="0 0 12 12"><path d="M2 2l8 8M10 2L2 10"/></svg>
       </button>
     </div>
     <div class="modal-body">
-      <div class="field">
-        <label>Product name</label>
-        <input type="text" placeholder="e.g. Iceberg lettuce">
+      <form
+        hx-post="/app/suppliers/create/product/{{ $.supplier.ID }}"
+        hx-target="#item-list-slot"
+        hx-swap="innerHTML"
+        hx-on::after-request="document.getElementById('modal-add-product').close()">
+        <div class="field">
+          <label>Product name</label>
+          <input type="text" name="product" placeholder="product..." required>
+        </div>
       </div>
-      <div class="field">
-        <label>Unit</label>
-        <select>
-          <option value="">Select unit</option>
-          <option>pieces</option>
-          <option>packs</option>
-          <option>kg</option>
-          <option>g</option>
-          <option>l</option>
-          <option>ml</option>
-          <option>boxes</option>
-          <option>crates</option>
-        </select>
-        <p class="field-hint">Unit determines how the quantity is shown on the order</p>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn-ghost" command="close" commandfor="modal-add-product">Cancel</button>
-      <button class="btn-primary" command="close" commandfor="modal-add-product">
-        <svg viewBox="0 0 14 14"><path d="M2 7l4 4 6-7"/></svg>
-        Add product
-      </button>
+      <div class="modal-footer">
+        <button class="btn-ghost" type="button" command="close" commandfor="modal-add-product">Cancel</button>
+        <button class="btn-primary" type="submit">
+          <svg viewBox="0 0 14 14"><path d="M2 7l4 4 6-7"/></svg>
+          Add product
+        </button>
+      </form>
     </div>
 </dialog>
 {{ end }}

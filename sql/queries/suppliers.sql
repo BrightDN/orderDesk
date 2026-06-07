@@ -17,3 +17,8 @@ GROUP BY
 INSERT INTO suppliers (name, email, company_id, contact)
 VALUES ($1, $2, $3, $4)
 RETURNING *;
+
+-- name: GetSupplierByID :one
+SELECT *
+FROM suppliers
+WHERE id = $1;

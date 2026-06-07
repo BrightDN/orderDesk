@@ -1,6 +1,6 @@
 {{ define "adminBase" }}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" hx-headers='{"X-CSRF-TOKEN": {{ $.csrf }} }'>
 <head>
   <title>{{ block "title" . }}OD{{ end }}</title>
   <meta charset="UTF-8">
@@ -12,6 +12,7 @@
   {{ block "stylesheets" . }}{{end}}
   {{ block "scripts" . }}{{end}}
   <script defer src="/assets/scripts/feedback.js"></script>
+  <script defer src="/assets/scripts/htmx.min.js"></script>
 
 </head>
 <body>

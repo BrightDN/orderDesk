@@ -8,10 +8,6 @@
   <link rel="stylesheet" href="/assets/stylesheets/adminPanel.css">
 {{ end }}
 
-{{ define "scripts" }}
-<script src="/assets/scripts/htmx.min.js"></script>
-{{ end }}
-
 {{ define "content" }}
 <p class="section-label">Create company</p>
 <div class="admin-page-grid">
@@ -89,7 +85,7 @@ function openDeleteWithData(data) {
   footer.classList.add("modal-footer")
   footer.innerHTML = `
       <button class="btn-ghost" command="close" commandfor="modal-delete">Cancel</button>
-      <button class="btn-danger" command="close" commandfor="modal-delete" hx-delete="/admin/companies/invites/delete/${data}" hx-target="#invite-list-slot" hx-swap="innerHTML" hx-headers='{"X-CSRF-Token":"{{ $.csrf }}"}'>Remove invitation</button>
+      <button class="btn-danger" command="close" commandfor="modal-delete" hx-delete="/admin/companies/invites/delete/${data}" hx-target="#invite-list-slot" hx-swap="innerHTML">Remove invitation</button>
   `
   modal.appendChild(footer)
   htmx.process(footer)

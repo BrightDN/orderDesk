@@ -17,7 +17,7 @@ func (h *Handler) reactivateCompanyInvite(c echo.Context) error {
 		return h.renderInviteListPartial(c)
 	}
 	if err := h.App.Services.Invitations.Reactivate(c, id); err != nil {
-		if flashErr := flash.Set(c, flash.Error, ErrInternalError.Error()); flashErr != nil {
+		if flashErr := flash.Trigger(c, flash.Error, ErrInternalError.Error()); flashErr != nil {
 			return flashErr
 		}
 		return h.renderInviteListPartial(c)

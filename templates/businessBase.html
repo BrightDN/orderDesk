@@ -1,5 +1,5 @@
 {{ define "businessBase" }}
-<!DOCTYPE html>
+<!DOCTYPE html hx-headers='{"X-CSRF-TOKEN": {{ $.csrf }} }'>
 <html lang="en">
 <head>
   <title>{{ block "title" . }}OD{{ end }}</title>
@@ -14,6 +14,7 @@
   {{ block "scripts" . }}{{end}}
   <script defer src="/assets/scripts/feedback.js"></script>
   <script defer src="/assets/scripts/supplierList.js"></script>
+  <script defer src="/assets/scripts/htmx.min.js"></script>
 
 </head>
 <body>

@@ -34,7 +34,7 @@
       <dt class="info-label">Name</dt>
       <dd class="info-value">{{ .Name }}</dd>
       <dt class="info-label">Email</dt>
-      <dd class="info-value"><a href="#">{{ .Email }}</a></dd>
+      <dd class="info-value"><a>{{ .Email }}</a></dd>
       <dt class="info-label">Contact person</dt>
       <dd class="info-value muted-value">{{if eq .ContactPerson "" }}&mdash;{{ else }} {{ .ContactPerson }} {{ end }}</dd>
       <dt class="info-label info-label-top">Order mail</dt>
@@ -42,7 +42,7 @@
         <noscript>
           <p>Requires javascript to render the preview correctly</p>
         </noscript>
-        <p class="mail-preview">Dear {{ .Name }}<br><br>Please find our order attached. This order was placed by <strong>{{ $.employee.Name }}</strong> on behalf of <strong>{{ $.employee.EmployedAt }}</strong>.</p>
+        <p class="mail-preview">Dear {{ .ContactPerson }}<br><br>Please find our order attached. This order was placed by <strong>{{ $.employee.Name }}</strong> on behalf of <strong>{{ $.employee.EmployedAt }}</strong>.</p>
         <p class="legend legend-spaced">Variables: <code>{{ "{{" }} user {{ "}}" }}</code> name of person placing order &nbsp;&middot;&nbsp; <code>{{ "{{" }} company {{ "}}" }}</code> your company name</p>
       </dd>
     </dl>
@@ -56,7 +56,7 @@
       <dd class="info-control"><input class="info-input" placeholder="Optional" {{ if ne .ContactPerson "" }} value="{{ .ContactPerson }}" {{ end }}></dd>
       <dt class="info-label info-label-top">Order mail</dt>
       <dd>
-        <textarea class="info-textarea">Dear FreshVeg BV,
+        <textarea class="info-textarea">Dear {{ .ContactPerson }},
 
 Please find our order attached. This order was placed by {{ "{{" }} user {{ "}}" }} on behalf of {{ "{{" }} company {{ "}}" }}.</textarea>
         <p class="legend legend-spaced">Variables: <code>{{ "{{" }} user {{ "}}" }}</code> name of person placing order &nbsp;&middot;&nbsp; <code>{{ "{{" }} company {{ "}}" }}</code> your company name</p>

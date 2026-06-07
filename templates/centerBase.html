@@ -1,6 +1,6 @@
 {{ define "centerBase" }}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" hx-headers='{"X-CSRF-TOKEN": {{ $.csrf }} }'>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,6 +10,7 @@
     {{ block "stylesheets" . }}{{end}}
     {{ block "scripts" . }}{{end}}
     <script defer src="/assets/scripts/feedback.js"></script>
+    <script defer src="/assets/scripts/htmx.min.js"></script>
     
     <title>{{ block "title" . }}OD{{ end }}</title>
 </head>

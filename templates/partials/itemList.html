@@ -1,0 +1,63 @@
+{{ define "itemList" }}
+{{ if .isPartial }}{{ template "feedback" . }}{{ end }}
+{{ with .pageData }}
+  <p class="section-label order-section-label">{{ if eq .Title "new order" }}New order {{ else if eq .Title "suppliers" }} Products {{ end }}&mdash; {{ $.supplier.Name }}</p>
+
+  <div class="order-panel">
+    <table class="order-table">
+      <thead>
+        <tr>
+          <th>Product</th>
+          {{ if eq .Title "new order" }} <th>Qty</th> {{ end }}
+          {{ if eq .Title "suppliers" }}
+            <th>Orderable</th>
+            <th class="col-action"></th>
+          {{ end }}
+        </tr>
+      </thead>
+      <tbody>
+        {{ range $.products }}
+        <tr>
+          <td>
+            <p class="order-product"> {{ .Name }}</p>
+          </td>
+          {{ if eq $.pageData.Title "new order"}}
+          <td>
+            <input class="qty-input" type="number" value="0" min="0">
+          </td>
+          {{ else if eq $.pageData.Title "suppliers" }}
+          <td>
+            <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+          </td>
+          <td class="col-action">
+            <button class="del-btn" title="Remove" hx-delete="/app/suppliers/delete/product/{{ .SupplierID }}/{{ .ID }}" hx-swap="innerHTML" hx-target="#item-list-slot">
+              <svg viewBox="0 0 12 12"><path d="M2 2l8 8M10 2L2 10"/></svg>
+            </button>
+          </td>
+          {{ end }}
+        </tr>
+        {{ end }}
+      </tbody>
+    </table>
+
+    {{ if eq .Title "suppliers" }}
+    <div class="add-product-row">
+      <button class="btn-compact" command="show-modal" commandfor="modal-add-product">
+        <svg viewBox="0 0 14 14"><path d="M7 2v10M2 7h10"/></svg>
+        Add product
+      </button>
+    </div>
+    {{ end }}
+
+    {{ if eq .Title "new order" }}
+    <div class="order-footer">
+      <p class="footer-note">Sending to <span> {{ $.supplier.Email }}</span></p>
+      <button class="btn-primary">
+        <svg viewBox="0 0 14 14"><path d="M2 7l4 4 6-7"/></svg>
+        Send order
+      </button>
+    </div>
+    {{ end }}
+  </div>
+{{ end }}
+{{ end }}

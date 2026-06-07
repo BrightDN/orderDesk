@@ -15,4 +15,6 @@ func (h *Handler) Register(e *echo.Echo) {
 	e.POST("/auth/processLogin", h.processLogin)
 
 	e.POST("/app/suppliers/create/new", h.createSupplier)
+	e.POST("/app/suppliers/create/product/:id", h.createProduct)
+	e.DELETE("/app/suppliers/delete/product/:supplierID/:productID", h.deleteProduct)
 }
