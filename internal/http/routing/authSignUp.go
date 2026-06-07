@@ -17,7 +17,7 @@ func (n *Navigation) authSignUp(c echo.Context) error {
 		return c.Redirect(http.StatusSeeOther, "/auth/login")
 	}
 
-	return c.Render(http.StatusOK, "/auth/signup", map[string]any{
+	return c.Render(http.StatusOK, "auth/signup", map[string]any{
 		"invitation": invitation,
 	})
 }

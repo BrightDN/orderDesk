@@ -16,14 +16,18 @@ CREATE TABLE invites (
 
     role_id INTEGER NOT NULL default 2,
 
-    UNIQUE (email, company_id),
-
     FOREIGN KEY (company_id)
         REFERENCES companies(id)
         ON DELETE RESTRICT,
 
     CONSTRAINT unique_invite_token
         UNIQUE (token),
+
+    CONSTRAINT unique_invite
+        UNIQUE (email, company_id),
+
+    CONSTRAINT valid_expiration
+        CHECK (expires_at > created_at),
 
     CONSTRAINT valid_invite_type
         CHECK (invite_type IN ('company', 'employee'))

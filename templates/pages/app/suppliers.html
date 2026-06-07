@@ -12,8 +12,10 @@
 {{ end }}
 
 {{ define "content" }}
+{{ with .Supplier }}
     {{ template "supplierInformation" . }}
     {{ template "itemList" . }}
+{{ end }}
 {{ end }}
 
 {{ define "modals" }}
@@ -24,31 +26,32 @@
         <svg viewBox="0 0 12 12"><path d="M2 2l8 8M10 2L2 10"/></svg>
       </button>
     </div>
-    <div class="modal-body">
-      <div class="field">
-        <label>Company name</label>
-        <input type="text" placeholder="e.g. FreshVeg BV">
+      <form class="modal-body" method="post" action="/app/suppliers/create/new">
+        <input type="hidden" name="_csrf" value="{{ .csrf }}">
+
+        <div class="field">
+          <label>Company name
+            <input type="text" name="company" placeholder="company..." required autocomplete="organization">
+          </label>
+        </div>
+        <div class="field">
+          <label>Email address
+            <input type="email" name="email" placeholder="example@org.com" required autocomplete="email">
+          </label>
+        </div>
+        <div class="field">
+          <label>Contact person<span class="field-optional">(optional)</span>
+            <input type="text" name="contact" placeholder="contact person..." autocomplete="name">
+          </label>
+        </div>
       </div>
-      <div class="field">
-        <label>Product type</label>
-        <input type="text" placeholder="e.g. Produce">
-      </div>
-      <div class="field">
-        <label>Email address</label>
-        <input type="email" placeholder="orders@supplier.nl">
-      </div>
-      <div class="field">
-        <label>Contact person<span class="field-optional">(optional)</span></label>
-        <input type="text" placeholder="Full name">
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn-ghost" command="close" commandfor="modal-add-supplier">Cancel</button>
-      <button class="btn-primary" command="close" commandfor="modal-add-supplier">
-        <svg viewBox="0 0 14 14"><path d="M2 7l4 4 6-7"/></svg>
-        Add supplier
-      </button>
-    </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-ghost" command="close" commandfor="modal-add-supplier">Cancel</button>
+        <button type="submit" class="btn-primary">
+          <svg viewBox="0 0 14 14"><path d="M2 7l4 4 6-7"/></svg>
+          Add supplier
+        </button>
+      </form>
 </dialog>
 
 <dialog id="modal-add-product">

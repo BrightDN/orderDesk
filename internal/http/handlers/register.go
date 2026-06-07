@@ -13,4 +13,6 @@ func (h *Handler) Register(e *echo.Echo) {
 
 	e.POST("/auth/create", h.authSignUp)
 	e.POST("/auth/processLogin", h.processLogin)
+
+	e.POST("/app/suppliers/create/new", h.createSupplier)
 }

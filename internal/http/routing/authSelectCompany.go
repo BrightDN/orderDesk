@@ -12,7 +12,7 @@ func (n *Navigation) authSelectCompany(c echo.Context) error {
 		Title: "Select company",
 		Type:  pages.BusinessType,
 	}
-	return c.Render(http.StatusOK, "/auth/select-company", map[string]any{
+	return c.Render(http.StatusOK, "auth/select-company", map[string]any{
 		"pageData": pageData,
 	})
 }

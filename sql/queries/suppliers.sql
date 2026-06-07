@@ -13,6 +13,6 @@ GROUP BY
     suppliers.id;
 
 -- name: CreateSupplier :one
-INSERT INTO suppliers (name, email, company_id)
-VALUES ($1, $2, $3)
+INSERT INTO suppliers (name, email, company_id, contact)
+VALUES ($1, $2, $3, $4)
 RETURNING *;

@@ -8,8 +8,7 @@ CREATE TABLE company_users (
 
     display_name TEXT NOT NULL,
     joined_at TIMESTAMPTZ DEFAULT now(),
-
-    UNIQUE (company_id, user_id),
+    left_at TIMESTAMPTZ DEFAULT NULL,
 
     FOREIGN KEY (company_id)
         REFERENCES companies(id)
@@ -21,7 +20,10 @@ CREATE TABLE company_users (
 
     FOREIGN KEY (role_id)
         REFERENCES roles(id)
-        ON DELETE RESTRICT
+        ON DELETE RESTRICT,
+
+    CONSTRAINT company_users_company_user_role_unique
+        UNIQUE (company_id, user_id, role_id)
 );
 
 -- +goose Down

@@ -7,5 +7,5 @@ import (
 )
 
 func (n *Navigation) authLogin(c echo.Context) error {
-	return c.Render(http.StatusOK, "/auth/login", nil)
+	return c.Render(http.StatusOK, "auth/login", nil)
 }

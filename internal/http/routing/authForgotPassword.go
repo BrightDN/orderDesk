@@ -8,7 +8,7 @@ import (
 )
 
 func (n *Navigation) authForgotPassword(c echo.Context) error {
-	return c.Render(http.StatusOK, "/auth/forgot-password", nil)
+	return c.Render(http.StatusOK, "auth/forgot-password", nil)
 }
 
 func (n *Navigation) authForgotPasswordRequest(c echo.Context) error {
