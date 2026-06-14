@@ -30,7 +30,10 @@
             <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
           </td>
           <td class="col-action">
-            <button class="del-btn" title="Remove" hx-delete="/app/suppliers/delete/product/{{ .SupplierID }}/{{ .ID }}" hx-swap="innerHTML" hx-target="#item-list-slot">
+            <button class="del-btn"
+            title="Remove"
+            hx-delete="/app/suppliers/delete/product/{{ .SupplierID }}/{{ .ID }}"
+            hx-swap="innerHTML" hx-target="#item-list-slot">
               <svg viewBox="0 0 12 12"><path d="M2 2l8 8M10 2L2 10"/></svg>
             </button>
           </td>

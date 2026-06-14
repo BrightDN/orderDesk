@@ -1,0 +1,137 @@
+{{ define "supplierInformation" }}
+{{ if .isPartial }}{{ template "feedback" . }}{{ end }}
+{{ with .supplier }}
+  <p class="section-label">Supplier information</p>
+
+  <div class="module">
+    <div class="module-header">
+      <div class="module-title-group">
+        <h2 class="module-title">{{ .Name }}</h2>
+        {{ if .Active }}
+        <span class="badge badge-green" id="status-badge">Active</span>
+        {{ else }}
+        <span class="badge badge-red" id="status-badge">Inactive</span>
+        {{ end }}
+      </div>
+
+      <div class="module-actions">
+        <button class="btn-ghost" id="edit-btn">
+          <svg viewBox="0 0 14 14"><path d="M9.5 2.5l2 2L4 12H2v-2L9.5 2.5z"/></svg>
+          Edit
+        </button>  
+
+
+        <button
+        class="btn-primary is-hidden"
+        id="save-btn" type="submit"
+        hx-swap="innerHTML"
+        hx-target="#supplier-information-slot"
+        hx-include="#edit-mode"
+        hx-put="/app/suppliers/information/edit/{{ .Name }}">
+          <svg viewBox="0 0 14 14"><path d="M2 7l4 4 6-7"/></svg>
+          Save
+        </button>
+        <button class="btn is-hidden" id="cancel-btn">Cancel</button>
+      </div>
+    </div>
+
+<dl class="info-grid" id="view-mode">
+  <dt class="info-label">Name</dt>
+  <dd class="info-value">{{ .Name }}</dd>
+
+  <dt class="info-label">Email</dt>
+  <dd class="info-value"><a>{{ .Email }}</a></dd>
+
+  <dt class="info-label">Contact person</dt>
+  <dd class="info-value muted-value">
+    {{ if eq .ContactPerson "" }}&mdash;{{ else }}{{ .ContactPerson }}{{ end }}
+  </dd>
+
+    <dt class="info-label">Mail subject</dt>
+  <dd class="info-control">
+    <input class="info-input" type="text" name="mail_subject">
+  </dd>
+
+  <dt class="info-label info-label-top">Order mail</dt>
+  <dd>
+    <noscript>
+      <p>Requires javascript to render the preview correctly</p>
+    </noscript>
+
+    <p class="mail-preview">
+      Dear {{ .ContactPerson }}<br><br>
+      Please find our order attached. This order was placed by
+      <strong>{{ $.employee.Name }}</strong> on behalf of
+      <strong>{{ $.employee.EmployedAt }}</strong>.
+    </p>
+
+    <p class="legend legend-spaced">
+      Variables:
+      <code>{{ "{{" }} user {{ "}}" }}</code>
+      Logged in user &nbsp;&middot;&nbsp;
+      <code>{{ "{{" }} company {{ "}}" }}</code>
+      Your company name
+      &nbsp;&middot;&nbsp;
+      <code>{{ "{{" }} contact {{ "}}" }}</code>
+      Supplier contact person
+    </p>
+  </dd>
+</dl>
+
+<form
+  class="info-grid is-hidden"
+  id="edit-mode"
+>
+  
+  <dt class="info-label">Active</dt>
+  <dd class="info-control">
+    <select class="status-select" name="status">
+      <option value="active" {{ if .Active }} selected {{ end }}>Active</option>
+      <option value="inactive" {{ if ne .Active true }} selected {{ end }}>Inactive</option>
+    </select>
+  </dd>
+  <dt class="info-label">Name</dt>
+  <dd class="info-control">
+    <input class="info-input" name="name" value="{{ .Name }}" required>
+  </dd>
+
+  <dt class="info-label">Email</dt>
+  <dd class="info-control">
+    <input class="info-input" type="email" name="email" value="{{ .Email }}" required>
+  </dd>
+
+  <dt class="info-label">Contact person</dt>
+  <dd class="info-control">
+    <input
+      class="info-input"
+      name="contact_person"
+      placeholder="Optional"
+      value="{{ .ContactPerson }}"
+      required
+    >
+  </dd>
+
+  <dt class="info-label">Mail subject</dt>
+  <dd class="info-control">
+    <input class="info-input" type="text" name="mail_subject" value="tempVal" placeholder="tempVal" required>
+  </dd>
+  <dt class="info-label info-label-top">Order mail</dt>
+  <dd>
+    <textarea class="info-textarea" name="order_mail" required>
+Dear {{ .ContactPerson }},
+
+Please find our order attached. This order was placed by {{ "{{" }} user {{ "}}" }} on behalf of {{ "{{" }} company {{ "}}" }}.
+    </textarea>
+
+    <p class="legend legend-spaced">
+      Variables:
+      <code>{{ "{{" }} user {{ "}}" }}</code>
+      name of person placing order &nbsp;&middot;&nbsp;
+      <code>{{ "{{" }} company {{ "}}" }}</code>
+      your company name
+    </p>
+  </dd>
+</form>
+  </div>
+{{ end }}
+{{ end }}

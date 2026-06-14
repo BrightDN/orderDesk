@@ -7,10 +7,16 @@
 <link rel="stylesheet" href="/assets/stylesheets/itemList.css">
 {{end}}
 
+{{ define "scripts" }}
+<script defer src="/assets/scripts/supplierPage.js"></script>
+{{ end }}
+
 {{ define "content" }}
 {{ if .supplier }}
+  <div id="supplier-information-slot">
     {{ template "supplierInformation" . }}
-    <div id="item-list-slot">
+  </div>
+    <div id="item-list-slot" hx-on::after-request="handleItemListAfterRequest(event)">
       {{ template "itemList" . }}
     </div>
 {{ end }}
@@ -26,7 +32,6 @@
     </div>
       <form class="modal-body" method="post" action="/app/suppliers/create/new">
         <input type="hidden" name="_csrf" value="{{ .csrf }}">
-
         <div class="field">
           <label>Company name
             <input type="text" name="company" placeholder="company..." required autocomplete="organization">
@@ -64,7 +69,7 @@
         hx-post="/app/suppliers/create/product/{{ $.supplier.ID }}"
         hx-target="#item-list-slot"
         hx-swap="innerHTML"
-        hx-on::after-request="document.getElementById('modal-add-product').close()">
+        hx-on::after-request="afterItemAdd('modal-add-product')">
         <div class="field">
           <label>Product name</label>
           <input type="text" name="product" placeholder="product..." required>

@@ -3,7 +3,7 @@
 
       <div class="supplier-grid">
       {{ range $index, $supplier := .Suppliers }}
-       <article class="supplier-card{{ if eq $index 0 }} selected{{ end }}">
+       <article class="supplier-card {{ if eq $index 0 }} selected {{ end }}">
           <div class="s-header">
               <h2 class="s-name">{{ $supplier.Name }}</h2>
               <p class="s-cat">{{ $supplier.Email }}</p>
