@@ -50,7 +50,7 @@ func (h *Handler) returnPartialProductList(c echo.Context, supplierID int32) err
 	if err != nil {
 		return err
 	}
-	supplier, err := h.App.Services.Suppliers.GetSupplier(c, supplierID)
+	supplier, err := h.App.Services.Suppliers.GetSupplierByID(c, supplierID)
 	if err != nil {
 		return err
 	}

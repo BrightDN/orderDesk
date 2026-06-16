@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/brightDN/orderDesk/internal/flash"
+	"github.com/brightDN/orderDesk/internal/http/routing"
 	"github.com/brightDN/orderDesk/internal/services/authentication"
 	"github.com/brightDN/orderDesk/internal/shared/session"
 	"github.com/labstack/echo/v4"
@@ -21,7 +22,7 @@ func (h *Handler) processLogin(c echo.Context) error {
 		if flashErr != nil {
 			return flashErr
 		}
-		return c.Redirect(http.StatusSeeOther, "/auth/login")
+		return c.Redirect(http.StatusSeeOther, routing.Login)
 	}
 
 	if password == "" {
@@ -30,7 +31,7 @@ func (h *Handler) processLogin(c echo.Context) error {
 		if flashErr != nil {
 			return flashErr
 		}
-		return c.Redirect(http.StatusSeeOther, "/auth/login")
+		return c.Redirect(http.StatusSeeOther, routing.Login)
 	}
 
 	user, err := h.App.Services.Auth.VerifyUser(c, email, password)
@@ -44,7 +45,7 @@ func (h *Handler) processLogin(c echo.Context) error {
 		if flashErr != nil {
 			return flashErr
 		}
-		return c.Redirect(http.StatusSeeOther, "/auth/login")
+		return c.Redirect(http.StatusSeeOther, routing.Login)
 	}
 
 	if user.IsAdmin {
@@ -65,7 +66,7 @@ func (h *Handler) processLogin(c echo.Context) error {
 		if flashErr != nil {
 			return flashErr
 		}
-		return c.Redirect(http.StatusSeeOther, "/auth/login")
+		return c.Redirect(http.StatusSeeOther, routing.Login)
 	}
 	if count == 1 {
 		employee, err := h.App.Db.GetEmployeeByUserID(c.Request().Context(), user.ID)
@@ -79,7 +80,7 @@ func (h *Handler) processLogin(c echo.Context) error {
 			RoleName:       employee.Role,
 			IsMultiCompany: false,
 		})
-		return c.Redirect(http.StatusSeeOther, "/app/neworder")
+		return c.Redirect(http.StatusSeeOther, routing.Neworder)
 	} else {
 		return c.Redirect(http.StatusSeeOther, "/auth/select")
 	}

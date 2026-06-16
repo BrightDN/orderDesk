@@ -193,6 +193,24 @@ func templateFiles(page string) ([]string, error) {
 			return nil, err
 		}
 
+		err = filepath.WalkDir("templates/partials", func(path string, d fs.DirEntry, err error) error {
+			if err != nil {
+				return err
+			}
+
+			if d.IsDir() || filepath.Ext(path) != ".html" {
+				return nil
+			}
+
+			if path != page {
+				files = append(files, path)
+			}
+			return nil
+		})
+		if err != nil {
+			return nil, err
+		}
+
 		files = append(files, page)
 		return files, nil
 	}

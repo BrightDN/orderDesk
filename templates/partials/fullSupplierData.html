@@ -1,0 +1,8 @@
+{{ define "fullSupplierData" }}
+  <div id="supplier-information-slot">
+    {{ template "supplierInformation" . }}
+  </div>
+  <div id="item-list-slot" hx-on::after-request="handleItemListAfterRequest(event)">
+    {{ template "itemList" . }}
+  </div>
+{{ end }}

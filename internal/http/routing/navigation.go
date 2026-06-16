@@ -19,6 +19,15 @@ func NewNav(db *database.Queries, app *app.App) *Navigation {
 	}
 }
 
+const (
+	Login  = "/auth/login"
+	Logout = "/auth/logout"
+	Signup = "auth/signup/:token"
+
+	Neworder   = "/app/neworder"
+	Csuppliers = "/app/suppliers"
+)
+
 func (n *Navigation) Register(e *echo.Echo) {
 	withEmployee := []echo.MiddlewareFunc{
 		middlewares.RequireAuth(),
@@ -32,11 +41,12 @@ func (n *Navigation) Register(e *echo.Echo) {
 	}
 
 	// Business
-	e.GET("/app/neworder", n.appNewOrder, withEmployee...)
-	e.GET("/app/suppliers", n.appSuppliers, withEmployee...)
+	e.GET(Neworder, n.appNewOrder, withEmployee...)
+	e.GET(Csuppliers, n.appSuppliers, withEmployee...)
 	e.GET("/app/history", n.appOrderHistory, withEmployee...)
 	e.GET("/app/settings/company", n.appCompanySettings, withEmployee...)
 	e.GET("/app/settings/user", n.appUserSettings, withEmployee...)
+	e.GET("/app/suppliers/get/:supplier-name", n.appGetSupplier, withEmployee...)
 
 	// Site admin
 	e.GET("/admin/companies/invites", n.adminCompanyInvite, withOwner...)
@@ -44,9 +54,9 @@ func (n *Navigation) Register(e *echo.Echo) {
 	e.GET("/admin/companies/details/:id", n.adminCompanyDetails, withOwner...)
 
 	// Authentication
-	e.GET("/auth/login", n.authLogin) // TODO: redirect to dashboard if already logged in
-	e.GET("/auth/logout", n.authLogout, middlewares.RequireAuth())
-	e.GET("/auth/signup/:token", n.authSignUp)
+	e.GET(Login, n.authLogin) // TODO: redirect to dashboard if already logged in
+	e.GET(Logout, n.authLogout, middlewares.RequireAuth())
+	e.GET(Signup, n.authSignUp)
 	e.GET("/auth/forgot-password", n.authForgotPassword)
 	e.POST("/auth/forgot-password", n.authForgotPasswordRequest)
 	e.GET("/auth/select-company", n.authSelectCompany, middlewares.RequireAuth())
