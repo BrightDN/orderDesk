@@ -66,7 +66,6 @@ func (h *Handler) updateSupplier(c echo.Context) error {
 		}
 		return renderPartialSuppInfo(c, suppliers.Supplier{})
 	}
-
 	mailCtx := c.Request().PostFormValue("order_mail")
 	if strings.TrimSpace(mailCtx) == "" {
 		logging.ErrorLog("Editing supplier", "Required mailcontext field is empty")

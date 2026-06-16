@@ -1,17 +1,22 @@
 package suppliers
 
 import (
+	"database/sql"
 	"errors"
 
 	"github.com/brightDN/orderDesk/internal/database"
 )
 
 type SupplierService struct {
-	db *database.Queries
+	queries *database.Queries
+	db      *sql.DB
 }
 
-func NewSupplierService(db *database.Queries) *SupplierService {
-	return &SupplierService{db: db}
+func NewSupplierService(queries *database.Queries, db *sql.DB) *SupplierService {
+	return &SupplierService{
+		queries: queries,
+		db:      db,
+	}
 }
 
 type Supplier struct {
@@ -21,6 +26,8 @@ type Supplier struct {
 	ContactPerson string
 	Count         int64
 	Active        bool
+	MailSubject   string
+	MailContext   string
 }
 
 var ErrInternalError = errors.New("Something went wrong on our end, please try again later")

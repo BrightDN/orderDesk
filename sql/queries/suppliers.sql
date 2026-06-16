@@ -5,14 +5,18 @@ SELECT
     suppliers.email,
     suppliers.contact,
     suppliers.deleted_at,
-    COUNT(products.id) AS product_count
-FROM
-    suppliers
-    LEFT JOIN products ON suppliers.id = products.supplier_id
-WHERE
-    suppliers.company_id = $1
-GROUP BY
-    suppliers.id;
+    COALESCE(order_mails.subject, 'Order') AS mail_subject,
+    COALESCE(order_mails.mail_content, 'See order in attachment') AS mail_content,
+    (
+        SELECT COUNT(*)
+        FROM products
+        WHERE products.supplier_id = suppliers.id
+    ) AS product_count
+FROM suppliers
+INNER JOIN order_mails
+    ON suppliers.id = order_mails.supplier_id
+WHERE suppliers.company_id = $1
+ORDER BY suppliers.created_at ASC;
 
 -- name: CreateSupplier :one
 INSERT INTO suppliers (name, email, company_id, contact)

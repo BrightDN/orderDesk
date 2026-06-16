@@ -6,7 +6,7 @@ import (
 )
 
 func (sc *SupplierService) GetProducts(c echo.Context, id int32) ([]Products, error) {
-	prodsDB, err := sc.db.GetProducts(c.Request().Context(), id)
+	prodsDB, err := sc.queries.GetProducts(c.Request().Context(), id)
 	if err != nil {
 		if flashErr := flash.Set(c, flash.Error, ErrInternalError.Error()); flashErr != nil {
 			return nil, flashErr

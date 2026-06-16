@@ -6,7 +6,7 @@ import (
 )
 
 func (s *SupplierService) GetAllByCompany(c echo.Context, companyID int32) ([]Supplier, error) {
-	dbSuppliers, err := s.db.GetCompanySuppliers(c.Request().Context(), companyID)
+	dbSuppliers, err := s.queries.GetCompanySuppliers(c.Request().Context(), companyID)
 	if err != nil {
 		if flashErr := flash.Set(c, flash.Error, ErrInternalError.Error()); flashErr != nil {
 			return nil, flashErr
@@ -27,6 +27,8 @@ func (s *SupplierService) GetAllByCompany(c echo.Context, companyID int32) ([]Su
 			ContactPerson: contact,
 			Count:         dbSupplier.ProductCount,
 			Active:        !dbSupplier.DeletedAt.Valid,
+			MailSubject:   dbSupplier.MailSubject,
+			MailContext:   dbSupplier.MailContent,
 		})
 	}
 	return suppliers, nil

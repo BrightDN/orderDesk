@@ -27,15 +27,16 @@ func (n *Navigation) appSuppliers(c echo.Context) error {
 	if err != nil {
 		return err
 	}
+	var products []suppliers.Products
 	var supp *suppliers.Supplier
 	if len(suppl) > 0 {
 		supp = &suppl[0]
+		products, err = n.app.Services.Suppliers.GetProducts(c, suppl[0].ID)
+		if err != nil {
+			return err
+		}
 	}
 
-	products, err := n.app.Services.Suppliers.GetProducts(c, suppl[0].ID)
-	if err != nil {
-		return err
-	}
 	return c.Render(http.StatusOK, "app/suppliers", map[string]any{
 		"pageData": pageData,
 		"supplier": supp,

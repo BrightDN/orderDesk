@@ -49,7 +49,7 @@
 
     <dt class="info-label">Mail subject</dt>
   <dd class="info-control">
-    <input class="info-input" type="text" name="mail_subject">
+    <input class="info-input" type="text" name="mail_subject" value="{{ .MailSubject }}">
   </dd>
 
   <dt class="info-label info-label-top">Order mail</dt>
@@ -59,10 +59,7 @@
     </noscript>
 
     <p class="mail-preview">
-      Dear {{ .ContactPerson }}<br><br>
-      Please find our order attached. This order was placed by
-      <strong>{{ $.employee.Name }}</strong> on behalf of
-      <strong>{{ $.employee.EmployedAt }}</strong>.
+      {{ .MailContext }}
     </p>
 
     <p class="legend legend-spaced">
@@ -113,14 +110,12 @@
 
   <dt class="info-label">Mail subject</dt>
   <dd class="info-control">
-    <input class="info-input" type="text" name="mail_subject" value="tempVal" placeholder="tempVal" required>
+    <input class="info-input" type="text" name="mail_subject" value="{{ .MailSubject }}" required>
   </dd>
   <dt class="info-label info-label-top">Order mail</dt>
   <dd>
     <textarea class="info-textarea" name="order_mail" required>
-Dear {{ .ContactPerson }},
-
-Please find our order attached. This order was placed by {{ "{{" }} user {{ "}}" }} on behalf of {{ "{{" }} company {{ "}}" }}.
+      {{ .MailContext }}
     </textarea>
 
     <p class="legend legend-spaced">

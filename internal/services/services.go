@@ -23,7 +23,7 @@ type Services struct {
 func NewServices(queries *database.Queries, db *sql.DB, ms *mailer.MailerService, identiy *configs.IdentityConfig) *Services {
 	companies := companies.NewCompanyService(queries)
 	invitations := invites.NewInvitationService(queries, ms, companies, identiy)
-	suppliers := suppliers.NewSupplierService(queries)
+	suppliers := suppliers.NewSupplierService(queries, db)
 	auth := authentication.NewAuthService(queries, db)
 	return &Services{
 		Mailer:      ms,

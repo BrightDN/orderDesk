@@ -11,7 +11,7 @@ import (
 var ErrSupplierProductNotUnique = errors.New("Error: product already exists for supplier")
 
 func (sc *SupplierService) CreateProduct(c echo.Context, supplierID int32, product string) error {
-	if err := sc.db.CreateProduct(c.Request().Context(), database.CreateProductParams{
+	if err := sc.queries.CreateProduct(c.Request().Context(), database.CreateProductParams{
 		SupplierID: supplierID,
 		Name:       product,
 	}); err != nil {

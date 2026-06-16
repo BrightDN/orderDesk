@@ -8,7 +8,7 @@ import (
 )
 
 func (sc *SupplierService) DeleteProduct(c echo.Context, supplierID, productID int32) error {
-	if err := sc.db.DeleteProduct(c.Request().Context(), database.DeleteProductParams{
+	if err := sc.queries.DeleteProduct(c.Request().Context(), database.DeleteProductParams{
 		SupplierID: supplierID,
 		ID:         productID,
 	}); err != nil {
