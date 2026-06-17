@@ -75,13 +75,13 @@ func (h *Handler) updateSupplier(c echo.Context) error {
 		return renderPartialSuppInfo(c, suppliers.Supplier{})
 	}
 
-	supp, err := h.App.Services.Suppliers.EditSupplier(c, oldName, compID, newName, email, contact, subject, mailCtx)
-	if err != nil {
-		logging.ErrorLog("Editing supplier", err.Error())
+	supp, appErr := h.App.Services.Suppliers.EditSupplier(c, oldName, compID, newName, email, contact, subject, mailCtx)
+	if appErr != nil {
+		logging.ErrorLog("Editing supplier", appErr.LogError.Error())
 		if flashErr := flash.Set(c, flash.Error, "Failed to update supplier"); flashErr != nil {
 			logging.ErrorLog("Editing supplier", flashErr.Error())
-			return c.Redirect(http.StatusSeeOther, "/app/suppliers")
 		}
+		return renderPartialSuppInfo(c, suppliers.Supplier{})
 	}
 	return renderPartialSuppInfo(c, supp)
 }

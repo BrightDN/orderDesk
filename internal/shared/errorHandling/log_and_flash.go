@@ -7,10 +7,10 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func log_and_flash(c echo.Context, error AppError) error {
-	fmt.Printf("Logging type: error\nEncountered at: %s\nError: %v", error.Action, error.LogError)
-	if error.UserError != nil {
-		if flashErr := flash.Set(c, flash.Error, error.UserError.Error()); flashErr != nil {
+func Log_and_flash(c echo.Context, err AppError) error {
+	fmt.Printf("Logging type: error\nEncountered at: %s\nError: %v", err.Action, err.LogError)
+	if err.UserError != nil {
+		if flashErr := flash.Set(c, flash.Error, err.UserError.Error()); flashErr != nil {
 			return flashErr
 		}
 	}

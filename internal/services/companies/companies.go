@@ -1,8 +1,6 @@
 package companies
 
 import (
-	"errors"
-
 	"github.com/brightDN/orderDesk/internal/database"
 )
 
@@ -15,7 +13,3 @@ func NewCompanyService(db *database.Queries) *CompanyService {
 		db: db,
 	}
 }
-
-// ERROR DECLARATIONS
-
-var ErrInternalError = errors.New("something went wrong on our end, try again later")

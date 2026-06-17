@@ -1,13 +1,20 @@
 package companies
 
 import (
+	"errors"
+
+	"github.com/brightDN/orderDesk/internal/shared/errorHandling"
 	"github.com/labstack/echo/v4"
 )
 
-func (cs *CompanyService) GetCompanies(c echo.Context) ([]Company, error) {
+func (cs *CompanyService) GetCompanies(c echo.Context) ([]Company, *errorHandling.AppError) {
 	companiesData, err := cs.db.GetCompanies(c.Request().Context())
 	if err != nil {
-		return nil, ErrInternalError
+		return nil, &errorHandling.AppError{
+			Action:    "Fetching companies",
+			LogError:  err,
+			UserError: errors.New("failed to fetch companies"),
+		}
 	}
 
 	companies := make([]Company, len(companiesData))

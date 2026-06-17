@@ -35,16 +35,16 @@ func (n *Navigation) appGetSupplier(c echo.Context) error {
 		return c.Redirect(http.StatusSeeOther, Login)
 	}
 
-	supplier, err := n.app.Services.Suppliers.GetSupplierByNameAndCompanyID(c, sname, compID)
-	if err != nil {
+	supplier, aerr := n.app.Services.Suppliers.GetSupplierByNameAndCompanyID(c, sname, compID)
+	if aerr != nil {
 		if flashErr := flash.Set(c, flash.Error, ErrFailedToRetrieveData.Error()); flashErr != nil {
 			return flashErr
 		}
 		return c.NoContent(http.StatusNoContent)
 	}
-	products, err := n.app.Services.Suppliers.GetProducts(c, supplier.ID)
-	if err != nil {
-		logging.ErrorLog(ACTION_GETSUPPLIER, err.Error())
+	products, aerr := n.app.Services.Suppliers.GetProducts(c, supplier.ID)
+	if aerr != nil {
+		logging.ErrorLog(ACTION_GETSUPPLIER, aerr.Error())
 		if flashErr := flash.Set(c, flash.Error, ErrFailedToRetrieveData.Error()); flashErr != nil {
 			return flashErr
 		}

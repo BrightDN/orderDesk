@@ -2,7 +2,6 @@ package suppliers
 
 import (
 	"database/sql"
-	"errors"
 
 	"github.com/brightDN/orderDesk/internal/database"
 )
@@ -29,5 +28,3 @@ type Supplier struct {
 	MailSubject   string
 	MailContext   string
 }
-
-var ErrInternalError = errors.New("Something went wrong on our end, please try again later")

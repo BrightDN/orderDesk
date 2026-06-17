@@ -2,15 +2,15 @@ package suppliers
 
 import (
 	"errors"
+	"fmt"
 
 	"github.com/brightDN/orderDesk/internal/database"
+	"github.com/brightDN/orderDesk/internal/shared/errorHandling"
 	"github.com/labstack/echo/v4"
 	"github.com/lib/pq"
 )
 
-var ErrSupplierProductNotUnique = errors.New("Error: product already exists for supplier")
-
-func (sc *SupplierService) CreateProduct(c echo.Context, supplierID int32, product string) error {
+func (sc *SupplierService) CreateProduct(c echo.Context, supplierID int32, product string) *errorHandling.AppError {
 	if err := sc.queries.CreateProduct(c.Request().Context(), database.CreateProductParams{
 		SupplierID: supplierID,
 		Name:       product,
@@ -18,10 +18,18 @@ func (sc *SupplierService) CreateProduct(c echo.Context, supplierID int32, produ
 		var pgErr *pq.Error
 		if errors.As(err, &pgErr) {
 			if pgErr.Code == "23505" {
-				return ErrSupplierProductNotUnique
+				return &errorHandling.AppError{
+					Action:    "Creating product for supplier",
+					LogError:  fmt.Errorf("Product already exists for supplier %d: %s", supplierID, product),
+					UserError: errors.New("product already exists for supplier"),
+				}
 			}
 		}
-		return ErrInternalError
+		return &errorHandling.AppError{
+			Action:    "Creating product for supplier",
+			LogError:  err,
+			UserError: errors.New("failed to create product"),
+		}
 	}
 	return nil
 }

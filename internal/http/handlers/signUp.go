@@ -15,18 +15,18 @@ import (
 func (h *Handler) authSignUp(c echo.Context) error {
 	token := c.Request().PostFormValue("token")
 	email := c.Request().PostFormValue("email")
-	_, err := mail.ParseAddress(email)
-	if err != nil {
+	_, parseErr := mail.ParseAddress(email)
+	if parseErr != nil {
 		fmt.Println("Error: Invalid email address")
 		if flashErr := flash.Set(c, flash.Error, "Invalid email address"); flashErr != nil {
 			return flashErr
 		}
 		return c.Redirect(http.StatusSeeOther, "/auth/signup/"+token)
 	}
-	inv, err := h.App.Services.Invitations.ValidateInvitation(c, token, email)
-	if err != nil {
+	inv, appErr := h.App.Services.Invitations.ValidateInvitation(c, token, email)
+	if appErr != nil {
 		fmt.Println("Error: Invalid invitation")
-		if flashErr := flash.Set(c, flash.Error, err.Error()); flashErr != nil {
+		if flashErr := flash.Set(c, flash.Error, appErr.UserError.Error()); flashErr != nil {
 			return flashErr
 		}
 		return c.Redirect(http.StatusSeeOther, "/auth/signup/"+token)
@@ -55,18 +55,18 @@ func (h *Handler) authSignUp(c echo.Context) error {
 		return c.Redirect(http.StatusSeeOther, "/auth/signup/"+token)
 	}
 
-	employee, err := h.App.Services.Auth.SignUp(c, email, password, name, inv)
-	if err != nil {
+	employee, appErr := h.App.Services.Auth.SignUp(c, email, password, name, inv)
+	if appErr != nil {
 		fmt.Println("Error: Failed to sign up user")
-		if flashErr := flash.Set(c, flash.Error, err.Error()); flashErr != nil {
+		if flashErr := flash.Set(c, flash.Error, appErr.UserError.Error()); flashErr != nil {
 			return flashErr
 		}
 		return c.Redirect(http.StatusSeeOther, "/auth/signup/"+token)
 	}
-	empl, err := h.App.Db.GetEmployeeByUserID(c.Request().Context(), employee.UserID)
-	if err != nil {
+	empl, dbErr := h.App.Db.GetEmployeeByUserID(c.Request().Context(), employee.UserID)
+	if dbErr != nil {
 		fmt.Println("Error: Failed to get employee")
-		if flashErr := flash.Set(c, flash.Error, err.Error()); flashErr != nil {
+		if flashErr := flash.Set(c, flash.Error, dbErr.Error()); flashErr != nil {
 			return flashErr
 		}
 		return c.Redirect(http.StatusSeeOther, "/auth/signup/"+token)

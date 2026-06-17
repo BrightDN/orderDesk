@@ -1,13 +1,21 @@
 package companies
 
 import (
+	"errors"
+	"fmt"
+
+	"github.com/brightDN/orderDesk/internal/shared/errorHandling"
 	"github.com/labstack/echo/v4"
 )
 
-func (cs *CompanyService) GetCompany(c echo.Context, id int32) (Company, error) {
+func (cs *CompanyService) GetCompany(c echo.Context, id int32) (Company, *errorHandling.AppError) {
 	data, err := cs.db.GetCompany(c.Request().Context(), id)
 	if err != nil {
-		return Company{}, ErrInternalError
+		return Company{}, &errorHandling.AppError{
+			Action:    "Fetching company details",
+			LogError:  fmt.Errorf("Company not found with ID %d: %v", id, err),
+			UserError: errors.New("failed to fetch company"),
+		}
 	}
 
 	company := Company{

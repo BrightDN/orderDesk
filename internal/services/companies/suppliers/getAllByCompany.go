@@ -1,17 +1,21 @@
 package suppliers
 
 import (
-	"github.com/brightDN/orderDesk/internal/flash"
+	"errors"
+	"fmt"
+
+	"github.com/brightDN/orderDesk/internal/shared/errorHandling"
 	"github.com/labstack/echo/v4"
 )
 
-func (s *SupplierService) GetAllByCompany(c echo.Context, companyID int32) ([]Supplier, error) {
+func (s *SupplierService) GetAllByCompany(c echo.Context, companyID int32) ([]Supplier, *errorHandling.AppError) {
 	dbSuppliers, err := s.queries.GetCompanySuppliers(c.Request().Context(), companyID)
 	if err != nil {
-		if flashErr := flash.Set(c, flash.Error, ErrInternalError.Error()); flashErr != nil {
-			return nil, flashErr
+		return nil, &errorHandling.AppError{
+			Action:    "Fetching company suppliers",
+			LogError:  fmt.Errorf("Failed to fetch suppliers for company %d: %v", companyID, err),
+			UserError: errors.New("failed to fetch suppliers"),
 		}
-		return nil, err
 	}
 
 	var suppliers []Supplier

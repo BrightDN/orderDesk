@@ -1,17 +1,22 @@
 package suppliers
 
 import (
+	"errors"
+	"fmt"
+
 	"github.com/brightDN/orderDesk/internal/database"
-	"github.com/brightDN/orderDesk/internal/shared/logging"
+	"github.com/brightDN/orderDesk/internal/shared/errorHandling"
 	"github.com/labstack/echo/v4"
 )
 
-const ACTION_GETSUPPLIER = "Retrieving supplier"
-
-func (sc *SupplierService) GetSupplierByID(c echo.Context, supplierID int32) (Supplier, error) {
+func (sc *SupplierService) GetSupplierByID(c echo.Context, supplierID int32) (Supplier, *errorHandling.AppError) {
 	supplier, err := sc.queries.GetSupplierByID(c.Request().Context(), supplierID)
 	if err != nil {
-		return Supplier{}, ErrInternalError
+		return Supplier{}, &errorHandling.AppError{
+			Action:    "Retrieving supplier by ID",
+			LogError:  fmt.Errorf("Failed to fetch supplier %d: %v", supplierID, err),
+			UserError: errors.New("failed to fetch supplier"),
+		}
 	}
 
 	var s = Supplier{
@@ -22,14 +27,17 @@ func (sc *SupplierService) GetSupplierByID(c echo.Context, supplierID int32) (Su
 	return s, nil
 }
 
-func (sc *SupplierService) GetSupplierByNameAndCompanyID(c echo.Context, supplierName string, companyID int32) (Supplier, error) {
+func (sc *SupplierService) GetSupplierByNameAndCompanyID(c echo.Context, supplierName string, companyID int32) (Supplier, *errorHandling.AppError) {
 	supplier, err := sc.queries.GetCompanySupplier(c.Request().Context(), database.GetCompanySupplierParams{
 		Name:      supplierName,
 		CompanyID: companyID,
 	})
 	if err != nil {
-		logging.ErrorLog(ACTION_GETSUPPLIER, err.Error())
-		return Supplier{}, ErrInternalError
+		return Supplier{}, &errorHandling.AppError{
+			Action:    "Retrieving supplier by name and company",
+			LogError:  fmt.Errorf("Failed to fetch supplier %s for company %d: %v", supplierName, companyID, err),
+			UserError: errors.New("failed to fetch supplier"),
+		}
 	}
 
 	return Supplier{
