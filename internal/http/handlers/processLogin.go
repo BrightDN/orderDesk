@@ -93,7 +93,8 @@ func (h *Handler) processLogin(c echo.Context) error {
 		return c.Redirect(http.StatusSeeOther, routing.Neworder)
 	} else {
 		session.SetValues(c, session.SessionData{
-			UserID: user.ID,
+			UserID:         user.ID,
+			IsMultiCompany: true,
 		})
 		return c.Redirect(http.StatusSeeOther, "/auth/select")
 	}
