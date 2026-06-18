@@ -3,7 +3,7 @@ package handlers
 import (
 	"net/http"
 
-	"github.com/brightDN/orderDesk/internal/flash"
+	"github.com/brightDN/orderDesk/internal/shared/errorHandling"
 	"github.com/brightDN/orderDesk/internal/shared/parse"
 	"github.com/labstack/echo/v4"
 )
@@ -11,14 +11,14 @@ import (
 func (h *Handler) reactivateCompanyInvite(c echo.Context) error {
 	id, err := parse.Int32(c.Param("id"))
 	if err != nil {
-		if flashErr := flash.Trigger(c, flash.Error, err.Error()); flashErr != nil {
-			return flashErr
+		if logErr := errorHandling.Log_and_flash(c, *err); logErr != nil {
+			return logErr
 		}
 		return h.renderInviteListPartial(c)
 	}
 	if err := h.App.Services.Invitations.Reactivate(c, id); err != nil {
-		if flashErr := flash.Trigger(c, flash.Error, ErrInternalError.Error()); flashErr != nil {
-			return flashErr
+		if logErr := errorHandling.Log_and_flash_trigger(c, *err); logErr != nil {
+			return logErr
 		}
 		return h.renderInviteListPartial(c)
 	}

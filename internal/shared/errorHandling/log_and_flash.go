@@ -17,3 +17,13 @@ func Log_and_flash(c echo.Context, err AppError) error {
 	}
 	return nil
 }
+
+func Log_and_flash_trigger(c echo.Context, err AppError) error {
+	fmt.Printf("Logging type: error\nEncountered at: %s\nError: %v\nTime: %v", err.Action, err.LogError, time.Now())
+	if err.UserError != nil {
+		if flashErr := flash.Trigger(c, flash.Error, err.UserError.Error()); flashErr != nil {
+			return flashErr
+		}
+	}
+	return nil
+}
