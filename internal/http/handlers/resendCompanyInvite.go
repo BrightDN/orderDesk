@@ -3,7 +3,8 @@ package handlers
 import (
 	"net/http"
 
-	"github.com/brightDN/orderDesk/internal/flash"
+	"github.com/brightDN/orderDesk/internal/shared/errorHandling"
+	"github.com/brightDN/orderDesk/internal/shared/logging"
 	"github.com/brightDN/orderDesk/internal/shared/parse"
 	"github.com/labstack/echo/v4"
 )
@@ -11,20 +12,20 @@ import (
 func (h *Handler) resendCompanyInvite(c echo.Context) error {
 	id, err := parse.Int32(c.Param("id"))
 	if err != nil {
-		if flashErr := flash.Trigger(c, flash.Error, err.Error()); flashErr != nil {
-			return flashErr
+		if logErr := errorHandling.Log_and_flash(c, *err); logErr != nil {
+			return logErr
 		}
 		return c.NoContent(http.StatusNoContent)
 	}
 	if err := h.App.Services.Invitations.Resend(c, id); err != nil {
-		if flashErr := flash.Trigger(c, flash.Error, err.Error()); flashErr != nil {
-			return flashErr
+		if logErr := errorHandling.Log_and_flash(c, *err); logErr != nil {
+			return logErr
 		}
 		return c.NoContent(http.StatusNoContent)
 	}
 
-	if err := flash.Trigger(c, flash.Pass, "Company invite email resent."); err != nil {
-		return err
+	if logErr := logging.Log_info_and_flash_trigger(c, "A company has received a new invitation mail", "Company invite email resent"); logErr != nil {
+		return logErr
 	}
 	return c.NoContent(http.StatusNoContent)
 }

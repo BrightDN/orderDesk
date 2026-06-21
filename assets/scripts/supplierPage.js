@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 document.body.addEventListener('htmx:afterSwap', event => {
     const target = event?.detail?.target
-    if (target && target.id === 'supplier-information-slot') {
+    if (target.id === 'supplier-information-slot' || target.id === 'supplier-content-slot') {
         setupSupplierInformation(target)
     }
 })
