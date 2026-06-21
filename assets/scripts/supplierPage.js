@@ -40,7 +40,7 @@ function closeModal(modalSelector, inputselector) {
     }
 }
 
-function setupSupplierInformation() {
+function setupSupplierInformation(target = null) {
     const editBtn = document.querySelector('#edit-btn')
     const saveBtn = document.querySelector('#save-btn')
     const cancelBtn = document.querySelector('#cancel-btn')
@@ -49,6 +49,18 @@ function setupSupplierInformation() {
 
     if (!editBtn || !saveBtn || !cancelBtn || !viewMode || !editMode) {
         return
+    }
+
+    if (target && target.id === "supplier-information-slot") {
+        const suppcard = document.getElementsByClassName("selected")[0]
+        const suppname = suppcard.querySelector(".s-name")
+        const suppmail = suppcard.querySelector(".s-cat")
+        const inputfields = document.querySelectorAll(".info-value")
+        suppname.innerHTML = inputfields[0].innerHTML
+        suppmail.innerHTML = inputfields[1].innerHTML
+
+        const productsSectionLabel = document.querySelector(".order-section-label")
+        productsSectionLabel.innerHTML = `products &mdash; ${inputfields[0].innerHTML}`
     }
 
     editBtn.addEventListener('click', () => {

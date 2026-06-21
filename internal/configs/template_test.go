@@ -2,10 +2,14 @@ package configs
 
 import (
 	"html/template"
+	"net/http"
+	"net/http/httptest"
 	"os"
 	"path/filepath"
 	"runtime"
 	"testing"
+
+	"github.com/labstack/echo/v4"
 )
 
 func TestRoutedTemplatesHaveMatchingDefinitions(t *testing.T) {
@@ -52,6 +56,27 @@ func TestRoutedTemplatesHaveMatchingDefinitions(t *testing.T) {
 				t.Fatalf("missing template definition %q in %s", executeName, page)
 			}
 		})
+	}
+}
+
+func TestTemplateRouteFunc(t *testing.T) {
+	e := echo.New()
+	e.GET("/test/:id", func(c echo.Context) error { return nil }).Name = "test.route"
+
+	req := httptest.NewRequest(http.MethodGet, "/", nil)
+	rec := httptest.NewRecorder()
+	c := e.NewContext(req, rec)
+
+	tmpl := &Template{}
+	routeFunc, ok := tmpl.templateFuncMap(c)["route"].(func(string, ...interface{}) string)
+	if !ok {
+		t.Fatal("expected route func in template func map")
+	}
+
+	got := routeFunc("test.route", 123)
+	want := "/test/123"
+	if got != want {
+		t.Fatalf("expected %q got %q", want, got)
 	}
 }
 

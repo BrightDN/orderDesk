@@ -34,7 +34,8 @@ func (t *Template) Render(w io.Writer, name string, data any, c echo.Context) er
 		return err
 	}
 
-	tmpl, err := template.ParseFiles(files...)
+	tmpl := template.New("").Funcs(t.templateFuncMap(c))
+	tmpl, err = tmpl.ParseFiles(files...)
 	if err != nil {
 		return err
 	}
@@ -45,6 +46,17 @@ func (t *Template) Render(w io.Writer, name string, data any, c echo.Context) er
 	}
 
 	return tmpl.ExecuteTemplate(w, executeName, templateData)
+}
+
+func (t *Template) templateFuncMap(c echo.Context) template.FuncMap {
+	return template.FuncMap{
+		"route": func(name string, params ...interface{}) string {
+			if c == nil || c.Echo() == nil {
+				return ""
+			}
+			return c.Echo().Reverse(name, params...)
+		},
+	}
 }
 
 func templatePath(name string) string {
