@@ -1,0 +1,9 @@
+{{ define "supplierResponse" }}
+
+<div id="supplier-information-slot" hx-swap-oob="true">
+    {{ template "supplierInformation" . }}
+</div>
+
+{{ template "itemList" . }}
+
+{{ end }}

@@ -1,6 +1,8 @@
 package middlewares
 
 import (
+	"net/http"
+
 	"github.com/brightDN/orderDesk/internal/configs"
 	"github.com/gorilla/sessions"
 	"github.com/labstack/echo-contrib/session"
@@ -22,8 +24,15 @@ func Register(e *echo.Echo, cfg configs.Config) {
 		TokenLookup: "form:_csrf,header:" + echo.HeaderXCSRFToken,
 	}))
 
-	e.Use(session.Middleware(sessions.NewCookieStore(
+	store := sessions.NewCookieStore(
 		cfg.Session.SessionAuthKey,
 		cfg.Session.SessionEncryptionKey,
-	)))
+	)
+	store.Options = &sessions.Options{
+		Path:     "/",
+		HttpOnly: true,
+		SameSite: http.SameSiteLaxMode,
+	}
+
+	e.Use(session.Middleware(store))
 }

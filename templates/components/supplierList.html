@@ -5,9 +5,9 @@
       {{ range $index, $supplier := .Suppliers }}
        <article
        class="supplier-card {{ if eq $index 0 }} selected {{ end }}"
-       hx-get="/app/suppliers/get/{{ $supplier.Name }}"
+       hx-get="{{ route $.pageData.SupplierDataURL $supplier.Name }}"
        hx-swap="innerHTML"
-       hx-target="#supplier-content-slot">
+       hx-target="#item-list-slot">
           <div class="s-header">
               <h2 class="s-name">{{ $supplier.Name }}</h2>
               <p class="s-cat">{{ $supplier.Email }}</p>

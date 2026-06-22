@@ -7,7 +7,6 @@ function afterItemAdd(modalSelector) {
 }
 
 function afterRemoveItem() {
-    console.log("func triggered")
     const hasFlashError = document.querySelector('.feedback-error') != null
     if (!hasFlashError) {
         alterSupplierItemCounter(".selected", ".s-count", false)
@@ -85,10 +84,15 @@ function setupSupplierInformation(target = null) {
 document.addEventListener('DOMContentLoaded', () => {
     setupSupplierInformation()
 })
-
 document.body.addEventListener('htmx:afterSwap', event => {
     const target = event?.detail?.target
-    if (target.id === 'supplier-information-slot' || target.id === 'supplier-content-slot') {
+    if (target.id === 'supplier-information-slot') {
         setupSupplierInformation(target)
     }
 })
+document.body.addEventListener("htmx:oobAfterSwap", e => {
+            const target = event?.detail?.elt
+        if (target.id === 'supplier-information-slot') {
+        setupSupplierInformation(target)
+    }
+});

@@ -1,0 +1,21 @@
+<svg width="100%" viewBox="0 0 680 200" role="img" xmlns="http://www.w3.org/2000/svg">
+  <title style="fill:rgb(0, 0, 0);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">OrderDesk logo</title>
+  <desc style="fill:rgb(0, 0, 0);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">OrderDesk logo: a green rounded-square icon with three white order lines and a checkmark, followed by the wordmark OrderDesk with Order in dark and Desk in green</desc>
+  
+
+  
+  <rect x="205" y="64" width="72" height="72" rx="16" fill="#16A34A" style="fill:rgb(22, 163, 74);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  
+  <rect x="222" y="87" width="38" height="4" rx="2" fill="white" style="fill:rgb(255, 255, 255);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <rect x="222" y="99" width="38" height="4" rx="2" fill="white" style="fill:rgb(255, 255, 255);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <rect x="222" y="111" width="22" height="4" rx="2" fill="white" style="fill:rgb(255, 255, 255);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  
+  <path d="M249 114 L252 117 L258 110" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none" style="fill:none;stroke:rgb(255, 255, 255);color:rgb(0, 0, 0);stroke-width:2.5px;stroke-linecap:round;stroke-linejoin:round;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  
+  <text x="293" y="100" dominant-baseline="central" font-size="38" letter-spacing="0.4" font-family="var(--font-sans, system-ui, -apple-system, sans-serif)" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif;font-size:38px;font-weight:400;text-anchor:start;dominant-baseline:central">
+    <tspan font-weight="400" style="fill:rgb(240, 240, 238);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif;font-size:38px;font-weight:400;text-anchor:start;dominant-baseline:central">Order</tspan><tspan font-weight="500" style="fill:rgb(22, 163, 74);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif;font-size:38px;font-weight:500;text-anchor:start;dominant-baseline:central">Desk</tspan>
+  </text>
+</svg>

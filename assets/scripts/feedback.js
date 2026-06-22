@@ -32,6 +32,22 @@ function showFeedbackBanner(type, message) {
   setupFeedbackBanners();
 }
 
+function insertFeedbackHtml(html) {
+  if (!html) return;
+
+  const wrapper = document.createElement('div');
+  wrapper.innerHTML = html.trim();
+
+  const banners = wrapper.querySelectorAll('[data-feedback-banner]');
+  banners.forEach((banner) => {
+    document.body.insertBefore(banner, document.querySelector('.app') || document.body.firstChild);
+  });
+
+  if (banners.length > 0) {
+    setupFeedbackBanners();
+  }
+}
+
 function setupFeedbackBanners() {
   document.querySelectorAll('[data-feedback-banner]').forEach((banner) => {
     if (banner.dataset.feedbackReady === 'true') return;

@@ -1,7 +1,7 @@
 {{ define "itemList" }}
 {{ if .isPartial }}{{ template "feedback" . }}{{ end }}
 {{ with .pageData }}
-  <p class="section-label order-section-label">{{ if eq .Title "new order" }}New order {{ else if eq .Title "suppliers" }} Products {{ end }}&mdash; {{ $.supplier.Name }}</p>
+  <p class="section-label order-section-label">{{ if eq .Title "new order" }}New order {{ else if eq .Title "suppliers" }} Products {{ end }} &mdash; {{ $.supplier.Name }}</p>
 
   <div class="order-panel">
     <table class="order-table">
@@ -19,7 +19,7 @@
         {{ range $.products }}
         <tr>
           <td>
-            <p class="order-product"> {{ .Name }}</p>
+            <p class="order-product">{{ .Name }}</p>
           </td>
           {{ if eq $.pageData.Title "new order"}}
           <td>
@@ -55,7 +55,7 @@
     {{ if eq .Title "new order" }}
     <div class="order-footer">
       <p class="footer-note">Sending to <span> {{ $.supplier.Email }}</span></p>
-      <button class="btn-primary">
+      <button class="btn-primary" data-supplierID="{{ $.supplier.ID }}">
         <svg viewBox="0 0 14 14"><path d="M2 7l4 4 6-7"/></svg>
         Send order
       </button>

@@ -90,7 +90,7 @@ func (h *Handler) processLogin(c echo.Context) error {
 			RoleName:       employee.Role,
 			IsMultiCompany: false,
 		})
-		return c.Redirect(http.StatusSeeOther, routing.Neworder)
+		return c.Redirect(http.StatusSeeOther, routing.NeworderPage)
 	} else {
 		session.SetValues(c, session.SessionData{
 			UserID:         user.ID,

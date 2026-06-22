@@ -24,6 +24,7 @@ func (t *Template) Render(w io.Writer, name string, data any, c echo.Context) er
 	page := templatePath(name)
 	executeName := templateName(name)
 	isPartial := strings.HasPrefix(name, "partials/")
+	isComponent := strings.HasPrefix(name, "components/")
 	base, err := templateBase(page)
 	if err != nil {
 		return err
@@ -40,7 +41,7 @@ func (t *Template) Render(w io.Writer, name string, data any, c echo.Context) er
 		return err
 	}
 
-	templateData, err := t.templateData(data, c, isPartial, base == "businessBase")
+	templateData, err := t.templateData(data, c, isPartial, isComponent, base == "businessBase")
 	if err != nil {
 		return err
 	}
@@ -60,8 +61,10 @@ func (t *Template) templateFuncMap(c echo.Context) template.FuncMap {
 }
 
 func templatePath(name string) string {
+	name = strings.TrimPrefix(name, "/")
 	if strings.HasPrefix(name, "pages/") ||
-		strings.HasPrefix(name, "partials/") {
+		strings.HasPrefix(name, "partials/") ||
+		strings.HasPrefix(name, "components/") {
 		return filepath.Join("templates", name+".html")
 	}
 
@@ -72,7 +75,7 @@ func templateName(name string) string {
 	return strings.TrimSuffix(filepath.Base(name), filepath.Ext(name))
 }
 
-func (t *Template) templateData(data any, c echo.Context, isPartial bool, needsSuppliers bool) (any, error) {
+func (t *Template) templateData(data any, c echo.Context, isPartial, isComponent bool, needsSuppliers bool) (any, error) {
 	csrf, _ := c.Get("csrf").(string)
 	feedback, _ := flash.Pop(c)
 	employee := c.Get("employee")
@@ -80,9 +83,10 @@ func (t *Template) templateData(data any, c echo.Context, isPartial bool, needsS
 	switch values := data.(type) {
 	case nil:
 		withGlobals := map[string]any{
-			"csrf":      csrf,
-			"isPartial": isPartial,
-			"identity":  t.Identity,
+			"csrf":        csrf,
+			"isPartial":   isPartial,
+			"isComponent": isComponent,
+			"identity":    t.Identity,
 		}
 		if employee != nil {
 			withGlobals["employee"] = employee
@@ -102,6 +106,9 @@ func (t *Template) templateData(data any, c echo.Context, isPartial bool, needsS
 		}
 		if _, ok := withGlobals["isPartial"]; !ok {
 			withGlobals["isPartial"] = isPartial
+		}
+		if _, ok := withGlobals["isComponent"]; !ok {
+			withGlobals["isComponent"] = isComponent
 		}
 		if _, ok := withGlobals["identity"]; !ok {
 			withGlobals["identity"] = t.Identity
@@ -126,6 +133,9 @@ func (t *Template) templateData(data any, c echo.Context, isPartial bool, needsS
 		}
 		if _, ok := withGlobals["isPartial"]; !ok {
 			withGlobals["isPartial"] = isPartial
+		}
+		if _, ok := withGlobals["isComponent"]; !ok {
+			withGlobals["isComponent"] = isComponent
 		}
 		if _, ok := withGlobals["identity"]; !ok {
 			withGlobals["identity"] = t.Identity
@@ -217,6 +227,48 @@ func templateFiles(page string) ([]string, error) {
 			if path != page {
 				files = append(files, path)
 			}
+			return nil
+		})
+		if err != nil {
+			return nil, err
+		}
+
+		files = append(files, page)
+		return files, nil
+	}
+
+	// Component templates:
+	// templates/components/*
+	// skip base layouts entirely
+	if len(parts) > 0 && parts[0] == "components" {
+		files := []string{}
+
+		err = filepath.WalkDir("templates/components", func(path string, d fs.DirEntry, err error) error {
+			if err != nil {
+				return err
+			}
+
+			if d.IsDir() || filepath.Ext(path) != ".html" {
+				return nil
+			}
+
+			files = append(files, path)
+			return nil
+		})
+		if err != nil {
+			return nil, err
+		}
+
+		err = filepath.WalkDir("templates/partials", func(path string, d fs.DirEntry, err error) error {
+			if err != nil {
+				return err
+			}
+
+			if d.IsDir() || filepath.Ext(path) != ".html" {
+				return nil
+			}
+
+			files = append(files, path)
 			return nil
 		})
 		if err != nil {

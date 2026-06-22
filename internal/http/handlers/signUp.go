@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/brightDN/orderDesk/internal/flash"
+	"github.com/brightDN/orderDesk/internal/http/routing"
 	"github.com/brightDN/orderDesk/internal/shared/errorHandling"
 	"github.com/brightDN/orderDesk/internal/shared/session"
 	"github.com/labstack/echo/v4"
@@ -91,5 +92,5 @@ func (h *Handler) authSignUp(c echo.Context) error {
 		}
 		return c.Redirect(http.StatusSeeOther, "/auth/signup/"+token)
 	}
-	return c.Redirect(http.StatusSeeOther, "/app/neworder")
+	return c.Redirect(http.StatusSeeOther, routing.NeworderPage)
 }

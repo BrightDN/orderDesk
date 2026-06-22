@@ -2,6 +2,8 @@ package configs
 
 import (
 	"errors"
+	"fmt"
+	"log/slog"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
@@ -28,7 +30,7 @@ func HTTPErrorHandler(err error, c echo.Context) {
 	}
 
 	// Actual error logging
-	c.Logger().Error(
+	slog.Error(
 		"HTTP request failed",
 		"error", err,
 		"code", code,
@@ -36,13 +38,27 @@ func HTTPErrorHandler(err error, c echo.Context) {
 		"method", c.Request().Method,
 	)
 
-	if renderErr := c.Render(code, "error", map[string]any{
+	renderErr := c.Render(code, "error", map[string]any{
 		"Code":    code,
 		"Message": message,
-	}); renderErr != nil {
+	})
+	if renderErr != nil {
 		c.Logger().Error(
 			"failed to render error page",
 			"error", renderErr,
+			"template", "error",
+			"code", code,
+			"path", c.Request().URL.Path,
+			"method", c.Request().Method,
 		)
+
+		if !c.Response().Committed {
+			if err := c.String(code, fmt.Sprintf("Error %d: %s", code, message)); err != nil {
+				c.Logger().Error(
+					"failed to write fallback error response",
+					"error", err,
+				)
+			}
+		}
 	}
 }

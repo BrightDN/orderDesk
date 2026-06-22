@@ -24,8 +24,12 @@ const (
 	Logout = "/auth/logout"
 	Signup = "auth/signup/:token"
 
-	Neworder   = "/app/neworder"
-	Csuppliers = "/app/suppliers"
+	NeworderPage  = "/app/new-order"
+	SuppliersPage = "/app/suppliers"
+
+	// PARTIAL GETS
+	AppSupplierDataPartial = "/app/suppliers/get/:supplier-name"
+	AppNewOrderDataPartial = "/app/new-order/get/:supplier-name"
 )
 
 func (n *Navigation) Register(e *echo.Echo) {
@@ -41,12 +45,14 @@ func (n *Navigation) Register(e *echo.Echo) {
 	}
 
 	// Business
-	e.GET(Neworder, n.appNewOrder, withEmployee...).Name = "app.new-order"
-	e.GET(Csuppliers, n.appSuppliers, withEmployee...).Name = "app.suppliers"
+	e.GET(NeworderPage, n.appNewOrder, withEmployee...).Name = "app.new-order"
+	e.GET(SuppliersPage, n.appSuppliers, withEmployee...).Name = "app.suppliers"
 	e.GET("/app/history", n.appOrderHistory, withEmployee...).Name = "app.history"
 	e.GET("/app/settings/company", n.appCompanySettings, withEmployee...).Name = "app.settings.company"
 	e.GET("/app/settings/user", n.appUserSettings, withEmployee...).Name = "app.settings.user"
-	e.GET("/app/suppliers/get/:supplier-name", n.appGetSupplier, withEmployee...).Name = "app.suppliers.get"
+	// Business partials
+	e.GET(AppSupplierDataPartial, n.appSuppliersDataPartial, withEmployee...).Name = "app.suppliers.get"
+	e.GET(AppNewOrderDataPartial, n.appNewOrderDataPartial, withEmployee...).Name = "app.new-order.get"
 
 	// Site admin
 	e.GET("/admin/companies/invites", n.adminCompanyInvite, withOwner...).Name = "admin.companies.invites"
@@ -64,4 +70,7 @@ func (n *Navigation) Register(e *echo.Echo) {
 	// support, TODO: add FAQ, TOS&PP, landing page
 	e.GET("/", n.authLogin).Name = "root" // TODO: Create a landing page and redirect to it instead of login
 	e.GET("/support/contact", n.supportContact).Name = "support.contact"
+
+	// Compatibility alias for old path references.
+	e.GET("/app/neworder", n.appNewOrder, withEmployee...).Name = "app.new-order-legacy"
 }

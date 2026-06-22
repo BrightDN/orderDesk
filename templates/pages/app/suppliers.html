@@ -13,9 +13,12 @@
 
 {{ define "content" }}
 {{ if .supplier }}
-<div id="supplier-content-slot">
-  {{ template "fullSupplierData" . }}
-</div>
+    <div id="supplier-information-slot">
+    {{ template "supplierInformation" . }}
+  </div>
+  <div id="item-list-slot" hx-on::after-request="handleItemListAfterRequest(event)">
+    {{ template "itemList" . }}
+  </div>
 {{ end }}
 {{ end }}
 

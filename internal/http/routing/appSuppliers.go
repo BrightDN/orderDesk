@@ -12,8 +12,9 @@ import (
 
 func (n *Navigation) appSuppliers(c echo.Context) error {
 	pageData := pages.PageData{
-		Title: "suppliers",
-		Type:  pages.BusinessType,
+		Title:           "suppliers",
+		Type:            pages.BusinessType,
+		SupplierDataURL: "app.suppliers.get",
 	}
 
 	id, ok, err := session.GetValue[int32](c, session.CompanyIDKey)
@@ -42,7 +43,7 @@ func (n *Navigation) appSuppliers(c echo.Context) error {
 		}
 	}
 
-	return c.Render(http.StatusOK, "app/suppliers", map[string]any{
+	return c.Render(http.StatusOK, SuppliersPage, map[string]any{
 		"pageData": pageData,
 		"supplier": supp,
 		"products": products,

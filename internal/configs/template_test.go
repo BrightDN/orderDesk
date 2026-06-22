@@ -20,7 +20,7 @@ func TestRoutedTemplatesHaveMatchingDefinitions(t *testing.T) {
 		"adminCompanyInvites",
 		"adminCompanyOverview",
 		"app/companySettings",
-		"app/newOrder",
+		"app/new-order",
 		"app/orderHistory",
 		"app/suppliers",
 		"app/userSettings",
@@ -29,6 +29,7 @@ func TestRoutedTemplatesHaveMatchingDefinitions(t *testing.T) {
 		"auth/select-company",
 		"auth/signup",
 		"error",
+		"components/feedback",
 		"partials/companyList",
 		"partials/inviteList",
 		"support/contact",
@@ -46,7 +47,8 @@ func TestRoutedTemplatesHaveMatchingDefinitions(t *testing.T) {
 				t.Fatalf("template files: %v", err)
 			}
 
-			tmpl, err := template.ParseFiles(files...)
+			tmpl := template.New("").Funcs((&Template{}).templateFuncMap(nil))
+			tmpl, err = tmpl.ParseFiles(files...)
 			if err != nil {
 				t.Fatalf("parse templates: %v", err)
 			}

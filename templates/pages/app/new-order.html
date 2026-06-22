@@ -1,15 +1,18 @@
-{{ define "newOrder" }}
+{{ define "new-order" }}
   {{ template "businessBase" . }}
 {{ end }}
 
-{{ define "title" }}Orderdesk{{ end }}
+{{ define "title" }}OD - Orders{{ end }}
 {{ define "stylesheets"}}
 <link rel="stylesheet" href="/assets/stylesheets/itemList.css">
 {{end}}
 
 {{ define "scripts" }}
+<script defer src="/assets/scripts/sendOrder.js"></script>
 {{ end }}
 
 {{ define "content" }}
+<div id="item-list-slot">
   {{ template "itemList" . }}
+</div>
 {{ end }}

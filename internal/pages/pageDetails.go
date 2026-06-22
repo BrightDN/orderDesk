@@ -1,8 +1,9 @@
 package pages
 
 type PageData struct {
-	Title string
-	Type  pageType
+	Title           string
+	Type            pageType
+	SupplierDataURL string
 }
 
 type pageType string

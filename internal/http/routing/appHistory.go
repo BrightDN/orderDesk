@@ -9,8 +9,9 @@ import (
 
 func (n *Navigation) appOrderHistory(c echo.Context) error {
 	pageData := pages.PageData{
-		Title: "history",
-		Type:  pages.BusinessType,
+		Title:           "history",
+		Type:            pages.BusinessType,
+		SupplierDataURL: "app.new-order.get",
 	}
 
 	return c.Render(http.StatusOK, "/app/orderHistory", map[string]any{
