@@ -7,6 +7,7 @@ import (
 	"github.com/brightDN/orderDesk/internal/database"
 	"github.com/brightDN/orderDesk/internal/services/authentication"
 	"github.com/brightDN/orderDesk/internal/services/companies"
+	"github.com/brightDN/orderDesk/internal/services/companies/orders"
 	"github.com/brightDN/orderDesk/internal/services/companies/suppliers"
 	"github.com/brightDN/orderDesk/internal/services/invites"
 	"github.com/brightDN/orderDesk/internal/services/mailer"
@@ -18,6 +19,7 @@ type Services struct {
 	Suppliers   *suppliers.SupplierService
 	Invitations *invites.InvitationService
 	Auth        *authentication.AuthenticationService
+	Orders      *orders.OrderService
 }
 
 func NewServices(queries *database.Queries, db *sql.DB, ms *mailer.MailerService, identiy *configs.IdentityConfig) *Services {
@@ -25,11 +27,13 @@ func NewServices(queries *database.Queries, db *sql.DB, ms *mailer.MailerService
 	invitations := invites.NewInvitationService(queries, ms, companies, identiy)
 	suppliers := suppliers.NewSupplierService(queries, db)
 	auth := authentication.NewAuthService(queries, db)
+	orders := orders.NewOrderService(queries, db)
 	return &Services{
 		Mailer:      ms,
 		Companies:   companies,
 		Suppliers:   suppliers,
 		Invitations: invitations,
 		Auth:        auth,
+		Orders:      orders,
 	}
 }

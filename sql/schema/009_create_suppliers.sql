@@ -6,14 +6,16 @@ CREATE TABLE suppliers (
     email TEXT NOT NULL,
     contact TEXT,
 
-    deleted_at TIMESTAMPTZ,
     created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+
+    is_active BOOLEAN NOT NULL DEFAULT 'true',
 
     company_id INTEGER NOT NULL,
 
     FOREIGN KEY (company_id)
         REFERENCES companies(id)
-        ON DELETE RESTRICT,
+        ON DELETE CASCADE,
 
     CONSTRAINT suppliers_company_name_unique
         UNIQUE (company_id, name),

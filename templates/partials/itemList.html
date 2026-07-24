@@ -55,7 +55,7 @@
     {{ if eq .Title "new order" }}
     <div class="order-footer">
       <p class="footer-note">Sending to <span> {{ $.supplier.Email }}</span></p>
-      <button class="btn-primary" data-supplierID="{{ $.supplier.ID }}">
+      <button class="btn-primary" data-supplierName="{{ $.supplier.Name }}">
         <svg viewBox="0 0 14 14"><path d="M2 7l4 4 6-7"/></svg>
         Send order
       </button>

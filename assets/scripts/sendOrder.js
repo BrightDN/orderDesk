@@ -21,14 +21,14 @@ async function sendOrder() {
     const data = Array.from(rows) 
     if (!data || data.length == 0) return loadFeedbackBanner()
 
-    let supplierID = Number(document.querySelector("[data-supplierID]").getAttribute("data-supplierID"))
-    if (!supplierID) return loadFeedbackBanner()
+    let supplierName = String(document.querySelector("[data-supplierName]").getAttribute("data-supplierName"))
+    if (!supplierName) return loadFeedbackBanner()
     
     const filteredOrderData = filterByQty(data)
     if (filteredOrderData.length == 0) return loadFeedbackBanner()
 
     const JSONData = JSON.stringify({
-        "supplierID": supplierID,
+        "supplierName": supplierName,
         "items": generateOrderData(filteredOrderData)
     })
 

@@ -41,6 +41,7 @@ func main() {
 		Identity:  cfg.Identity,
 		Suppliers: serviceSet.Suppliers,
 	}
+
 	e.HTTPErrorHandler = configs.HTTPErrorHandler
 	e.Static("/assets", "assets")
 
@@ -53,9 +54,9 @@ func main() {
 	h := handlers.NewHandler(&app)
 	h.Register(e)
 
-	// hashedPassword, err := serviceSet.Auth.HashPassword("password")
-	// if err != nil {
-	// 	log.Fatalf("Failed to hash password: %v", err)
+	// hashedPassword, aErr := serviceSet.Auth.HashPassword("password")
+	// if aErr != nil {
+	// 	log.Fatalf("Failed to hash password: %v", aErr.LogError)
 	// }
 	// dbQueries.CreateUser(context.Background(), database.CreateUserParams{
 	// 	Email:    "hr@brightforge.dev",

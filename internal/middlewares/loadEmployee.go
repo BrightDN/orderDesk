@@ -20,8 +20,8 @@ func LoadEmployee(db *database.Queries) echo.MiddlewareFunc {
 			if !ok {
 				return c.Redirect(http.StatusSeeOther, "/auth/login")
 			}
-			employee, err := db.GetEmployeeByUserID(c.Request().Context(), userID)
-			if err != nil {
+			employee, dbErr := db.GetEmployeeByUserID(c.Request().Context(), userID)
+			if dbErr != nil {
 				return c.Redirect(http.StatusSeeOther, "/auth/login")
 			}
 

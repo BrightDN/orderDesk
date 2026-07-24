@@ -1,23 +1,23 @@
 -- +goose Up
 
 CREATE TABLE orders (
-    id SERIAL PRIMARY KEY,
+    id TEXT PRIMARY KEY,
+
     supplier_id INTEGER NOT NULL,
-    company_id INTEGER NOT NULL,
-    user_id INTEGER NOT NULL,
+    employee_id INTEGER NOT NULL,
 
     created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
 
     FOREIGN KEY (supplier_id)
         REFERENCES suppliers(id)
-        ON DELETE RESTRICT,
+        ON DELETE CASCADE,
     
     FOREIGN KEY (company_id)
         REFERENCES companies(id)
-        ON DELETE RESTRICT,
+        ON DELETE CASCADE,
 
-    FOREIGN KEY (user_id)
-        REFERENCES users(id)
+    FOREIGN KEY (employee_id)
+        REFERENCES employees(id)
         ON DELETE RESTRICT
 );
 

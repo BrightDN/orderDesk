@@ -3,13 +3,15 @@
 CREATE TABLE products (
     id SERIAL PRIMARY KEY,
     name TEXT NOT NULL,
+
     supplier_id INTEGER NOT NULL,
-    deleted_at TIMESTAMPTZ,
+
     created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
 
     FOREIGN KEY (supplier_id)   
         REFERENCES suppliers(id)
-        ON DELETE RESTRICT,
+        ON DELETE CASCADE,
 
     CONSTRAINT products_supplier_name_unique
         UNIQUE (supplier_id, name)

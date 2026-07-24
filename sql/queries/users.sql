@@ -25,5 +25,5 @@ RETURNING
 
 -- name: GetCompanyCount :one
 SELECT COUNT(*)
-FROM company_users
+FROM employees
 WHERE user_id = $1;

@@ -1,10 +1,11 @@
 package session
 
 import (
+	"github.com/brightDN/orderDesk/internal/shared/errorHandling"
 	"github.com/labstack/echo/v4"
 )
 
-func GetValue[T any](c echo.Context, key string) (T, bool, error) {
+func GetValue[T any](c echo.Context, key string) (T, bool, *errorHandling.AppError) {
 	var zero T
 
 	sess, err := getSession(c)

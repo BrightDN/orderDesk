@@ -5,8 +5,8 @@ SELECT
     suppliers.email,
     suppliers.contact,
     suppliers.deleted_at,
-    COALESCE(order_mails.subject, 'Order') AS mail_subject,
-    COALESCE(order_mails.mail_content, 'See order in attachment') AS mail_content,
+    order_mails.subject AS mail_subject,
+    order_mails.mail_content AS mail_content,
     (
         SELECT COUNT(*)
         FROM products
@@ -25,8 +25,8 @@ SELECT
     suppliers.email,
     suppliers.contact,
     suppliers.deleted_at,
-    COALESCE(order_mails.subject, 'Order') AS mail_subject,
-    COALESCE(order_mails.mail_content, 'See order in attachment') AS mail_content,
+    order_mails.subject AS mail_subject,
+    order_mails.mail_content AS mail_content,
     (
         SELECT COUNT(*)
         FROM products

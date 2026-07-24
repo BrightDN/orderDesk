@@ -27,11 +27,11 @@ func LoadSuppliers(db *database.Queries) echo.MiddlewareFunc {
 			if !ok {
 				return c.Redirect(http.StatusSeeOther, "/auth/login")
 			}
-			employee, err := db.GetEmployee(c.Request().Context(), database.GetEmployeeParams{
+			employee, dbErr := db.GetEmployee(c.Request().Context(), database.GetEmployeeParams{
 				UserID:    userID,
 				CompanyID: companyID,
 			})
-			if err != nil {
+			if dbErr != nil {
 				return c.Redirect(http.StatusSeeOther, "/auth/login")
 			}
 

@@ -1,60 +1,60 @@
 -- name: GetCompanyEmployees :many
 SELECT
-  company_users.display_name,
-  company_users.user_id,
-  company_users.company_id,
-  company_users.id AS employee_id,
+  employees.display_name,
+  employees.user_id,
+  employees.company_id,
+  employees.id AS employee_id,
   users.email AS email,
   roles.name AS role
 FROM
-  company_users
-  INNER JOIN users ON company_users.user_id = users.id
-  INNER JOIN roles ON company_users.role_id = roles.id
+  employees
+  INNER JOIN users ON employees.user_id = users.id
+  INNER JOIN roles ON employees.role_id = roles.id
 WHERE
   company_id = $1;
 
 -- name: CreateCompanyEmployee :one
-INSERT INTO company_users (company_id, user_id, role_id, display_name)
+INSERT INTO employees (company_id, user_id, role_id, display_name)
 VALUES ($1, $2, $3, $4)
 RETURNING *;
 
 -- name: GetEmployee :one
 SELECT
-        company_users.display_name,
-        company_users.user_id,
-        company_users.company_id,
-        company_users.id AS employee_id,
+        employees.display_name,
+        employees.user_id,
+        employees.company_id,
+        employees.id AS employee_id,
         companies.name AS employed_at,
         users.email AS email,
         roles.name AS role 
     FROM
-        company_users 
+        employees 
     INNER JOIN
         users 
-            ON company_users.user_id = users.id 
+            ON employees.user_id = users.id 
     INNER JOIN
         roles 
-            ON company_users.role_id = roles.id 
+            ON employees.role_id = roles.id 
     INNER JOIN
         companies 
             ON companies.id = $3 
     WHERE
-        company_users.company_id = $1 
-        AND company_users.user_id = $2;
+        employees.company_id = $1 
+        AND employees.user_id = $2;
 
 -- name: GetEmployeeByUserID :one
 SELECT
-  company_users.display_name,
-  company_users.user_id,
-  company_users.company_id,
-  company_users.id AS employee_id,
+  employees.display_name,
+  employees.user_id,
+  employees.company_id,
+  employees.id AS employee_id,
   users.email AS email,
   roles.name AS role,
   companies.name AS employed_at
 FROM
-  company_users
-  INNER JOIN users ON company_users.user_id = users.id
-  INNER JOIN roles ON company_users.role_id = roles.id
-  INNER JOIN companies ON company_users.company_id = companies.id
+  employees
+  INNER JOIN users ON employees.user_id = users.id
+  INNER JOIN roles ON employees.role_id = roles.id
+  INNER JOIN companies ON employees.company_id = companies.id
 WHERE
   user_id = $1;
