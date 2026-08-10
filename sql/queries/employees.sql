@@ -11,7 +11,8 @@ FROM
   INNER JOIN users ON employees.user_id = users.id
   INNER JOIN roles ON employees.role_id = roles.id
 WHERE
-  company_id = $1;
+  employees.company_id = $1
+  AND employees.left_at IS NULL;
 
 -- name: CreateCompanyEmployee :one
 INSERT INTO employees (company_id, user_id, role_id, display_name)
@@ -37,10 +38,11 @@ SELECT
             ON employees.role_id = roles.id 
     INNER JOIN
         companies 
-            ON companies.id = $3 
+            ON companies.id = employees.company_id
     WHERE
         employees.company_id = $1 
-        AND employees.user_id = $2;
+        AND employees.user_id = $2
+        AND employees.left_at IS NULL;
 
 -- name: GetEmployeeByUserID :one
 SELECT
@@ -57,4 +59,5 @@ FROM
   INNER JOIN roles ON employees.role_id = roles.id
   INNER JOIN companies ON employees.company_id = companies.id
 WHERE
-  user_id = $1;
+  employees.user_id = $1
+  AND employees.left_at IS NULL;

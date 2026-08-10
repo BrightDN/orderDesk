@@ -26,7 +26,10 @@ func (ss *SupplierService) EditSupplier(c echo.Context, name string, compID int3
 			UserError: errors.New("failed to edit supplier"),
 		}
 	}
-	suppl, err := ss.queries.GetSupplierByName(c.Request().Context(), newName)
+	suppl, err := ss.queries.GetSupplierByName(c.Request().Context(), database.GetSupplierByNameParams{
+		Name:      newName,
+		CompanyID: compID,
+	})
 	if err != nil {
 		return Supplier{}, &errorHandling.AppError{
 			Action:    "Fetching updated supplier information",

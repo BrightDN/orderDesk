@@ -10,7 +10,8 @@ RETURNING
 SELECT
   *
 FROM
-  companies;
+  companies
+WHERE deleted_at IS NULL;
 
 -- name: GetCompany :one
 SELECT
@@ -18,7 +19,8 @@ SELECT
 FROM
   companies
 WHERE
-  id = $1;
+  id = $1
+  AND deleted_at IS NULL;
 
 -- name: DeleteCompany :exec
 UPDATE companies
@@ -35,4 +37,5 @@ UPDATE companies
     name = $2,
     email = $3,
     updated_at = NOW()
-WHERE id = $1;
+WHERE id = $1
+  AND deleted_at IS NULL;

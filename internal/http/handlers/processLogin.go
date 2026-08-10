@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"database/sql"
 	"fmt"
 	"html"
 	"net/http"
@@ -60,7 +61,10 @@ func (h *Handler) processLogin(c echo.Context) error {
 		return c.Redirect(http.StatusSeeOther, "/admin/companies/overview")
 	}
 
-	count, err := h.App.Db.GetCompanyCount(c.Request().Context(), user.ID)
+	count, err := h.App.Db.GetCompanyCount(c.Request().Context(), sql.NullInt32{
+		Valid: true,
+		Int32: user.ID,
+	})
 	if err != nil || count == 0 {
 		if logErr := errorHandling.Log_and_flash(c, errorHandling.AppError{
 			Action:    "Fetching company count at login processing",
@@ -73,7 +77,10 @@ func (h *Handler) processLogin(c echo.Context) error {
 	}
 
 	if count == 1 {
-		employee, err := h.App.Db.GetEmployeeByUserID(c.Request().Context(), user.ID)
+		employee, err := h.App.Db.GetEmployeeByUserID(c.Request().Context(), sql.NullInt32{
+			Valid: true,
+			Int32: user.ID,
+		})
 		if err != nil {
 			if logErr := errorHandling.Log_and_flash(c, errorHandling.AppError{
 				Action:    "Fetching employee at login process",
@@ -85,7 +92,7 @@ func (h *Handler) processLogin(c echo.Context) error {
 			return err
 		}
 		session.SetValues(c, session.SessionData{
-			UserID:         employee.UserID,
+			UserID:         employee.UserID.Int32,
 			CompanyID:      employee.CompanyID,
 			RoleName:       employee.Role,
 			IsMultiCompany: false,

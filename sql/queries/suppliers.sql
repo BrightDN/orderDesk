@@ -66,4 +66,6 @@ UPDATE suppliers
 -- name: GetSupplierByName :one
 SELECT *
 FROM suppliers
-WHERE name = $1;
+WHERE name = $1
+  AND company_id = $2
+  AND deleted_at IS NULL;

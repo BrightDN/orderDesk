@@ -9,53 +9,44 @@
         <th>Date</th>
         <th>Items</th>
         <th>Placed by</th>
-        <th></th>
+        <th>Download</th>
       </tr>
     </thead>
     <tbody id="history-body">
-      <tr>
-        <td><span class="order-ref">#ORD-0041</span></td>
-        <td><time class="order-date" datetime="2026-04-29T14:32">29 Apr 2026</time><p class="order-date-sub">14:32</p></td>
-        <td><span class="order-items">14 items</span></td>
-        <td><span class="order-by">Jan V.</span></td>
-        <td><button class="btn-dl" title="Download PDF"><svg viewBox="0 0 14 14"><path d="M7 2v7M4 6l3 3 3-3M2 11h10"/></svg></button></td>
-      </tr>
-      <tr>
-        <td><span class="order-ref">#ORD-0038</span></td>
-        <td><time class="order-date" datetime="2026-04-26T09:15">26 Apr 2026</time><p class="order-date-sub">09:15</p></td>
-        <td><span class="order-items">11 items</span></td>
-        <td><span class="order-by">Jan V.</span></td>
-        <td><button class="btn-dl" title="Download PDF"><svg viewBox="0 0 14 14"><path d="M7 2v7M4 6l3 3 3-3M2 11h10"/></svg></button></td>
-      </tr>
-      <tr>
-        <td><span class="order-ref">#ORD-0035</span></td>
-        <td><time class="order-date" datetime="2026-04-23T11:47">23 Apr 2026</time><p class="order-date-sub">11:47</p></td>
-        <td><span class="order-items">16 items</span></td>
-        <td><span class="order-by">Jan V.</span></td>
-        <td><button class="btn-dl" title="Download PDF"><svg viewBox="0 0 14 14"><path d="M7 2v7M4 6l3 3 3-3M2 11h10"/></svg></button></td>
-      </tr>
+      {{ range .orderHistory }}
+        <tr>
+          <td>
+            <span class="order-ref">{{ .OrderID }}</span>
+          </td>
+          <td>
+            <time class="order-date">{{ .Date }}</time>
+            <p class="order-date-sub">{{ .Time }}</p>
+          </td>
+          <td>
+            <span>{{ .ItemCount }} item(s)</span>
+          </td>
+          <td>
+            <span class="order-by">{{ .Placed_by }}</span>
+          </td>
+          <td>
+            <button class="btn-dl" title="Download order">
+              <svg viewbox="0 0 14 14">
+                <path d="M7 2v7M4 6l3 3 3-3M2 11h10"/>
+              </svg>
+            </button>
+          </td>
+        </tr>
+      {{ end }}
     </tbody>
   </table>
 </div>
 
 <script>
 const data = {
-  freshveg: [
-    {ref:'#ORD-0041', date:'29 Apr 2026', time:'14:32', items:14, by:'Jan V.'},
-    {ref:'#ORD-0038', date:'26 Apr 2026', time:'09:15', items:11, by:'Jan V.'},
-    {ref:'#ORD-0035', date:'23 Apr 2026', time:'11:47', items:16, by:'Jan V.'},
-  ],
-  dairygo: [
-    {ref:'#ORD-0040', date:'28 Apr 2026', time:'10:00', items:6, by:'Jan V.'},
-  ],
   bakker: [],
-  grocer: [
-    {ref:'#ORD-0039', date:'27 Apr 2026', time:'13:20', items:9, by:'Jan V.'},
-    {ref:'#ORD-0036', date:'24 Apr 2026', time:'08:55', items:12, by:'Jan V.'},
-  ],
 };
 
-const names = {freshveg:'FreshVeg BV', dairygo:'DairyGo', bakker:'BakkerKoning', grocer:'GrocerMart'};
+const names = {bakker:'BakkerKoning'};
 
 function selectSupplier(card, key) {
   document.querySelectorAll('.supplier-card').forEach(c => c.classList.remove('selected'));

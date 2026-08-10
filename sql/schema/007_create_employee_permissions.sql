@@ -2,8 +2,8 @@
 
 CREATE TABLE employee_permissions (
     id SERIAL PRIMARY KEY,
-    employee_id INTEGER,
-    permission_id INTEGER,
+    employee_id INTEGER NOT NULL,
+    permission_id INTEGER NOT NULL,
 
     UNIQUE (employee_id, permission_id),
 

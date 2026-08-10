@@ -42,6 +42,7 @@
         </a>
       </nav>
 
+
       <nav class="nav-section nav-section-spaced" aria-label="Admin menu">
         <p class="nav-label">Admin</p>
         <a href="{{ route "app.settings.company" }}" class='nav-item {{ if eq .Title "company settings" }} active {{end }}'>
@@ -49,7 +50,7 @@
           Settings
         </a>
       </nav>
-
+      {{ if eq .Type "owner" }}
       <nav class="nav-section nav-section-spaced" aria-label="Admin menu">
         <p class="nav-label">Site</p>
         <a href="{{ route "admin.companies.invites" }}" class='nav-item {{ if eq .Title "Invite companies" }} active {{end }}'>
@@ -68,6 +69,7 @@
           Companies
         </a>
       </nav>
+      {{ end }}
       {{ end }}
       <div class="nav-bottom">
         <div class="nav-user">

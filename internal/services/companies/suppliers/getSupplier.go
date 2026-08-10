@@ -47,7 +47,7 @@ func (sc *SupplierService) GetSupplierByNameAndCompanyID(c echo.Context, supplie
 		ContactPerson: supplier.Contact.String,
 		Count:         supplier.ProductCount,
 		Active:        !supplier.DeletedAt.Valid,
-		MailSubject:   supplier.MailSubject,
-		MailContext:   supplier.MailContent,
+		MailSubject:   supplier.MailSubject.String,
+		MailContext:   supplier.MailContent.String,
 	}, nil
 }

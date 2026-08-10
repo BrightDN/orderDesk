@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"errors"
 	"net/http"
 
 	"github.com/brightDN/orderDesk/internal/flash"
@@ -18,9 +19,16 @@ func (h *Handler) sendOrder(c echo.Context) error {
 		return returnFeedback(c, flash.Error, nil, "error: Malformed request")
 	}
 
+	if len(order.Items) == 0 {
+		return returnFeedback(c, flash.Error, &errorHandling.AppError{
+			Action:    "Creating order",
+			LogError:  errors.New("order has no items"),
+			UserError: errors.New("error: an order must contain at least one item"),
+		}, "")
+	}
+
 	compID, ok, err := session.GetValue[int32](c, session.CompanyIDKey)
 	if err != nil || !ok {
-
 		return returnFeedback(c, flash.Error, err, "")
 	}
 	userID, ok, err := session.GetValue[int32](c, session.UserIDKey)
@@ -48,11 +56,12 @@ func (h *Handler) sendOrder(c echo.Context) error {
 		return returnFeedback(c, flash.Error, err, "")
 	}
 
+	if err := h.App.Services.Orders.CreateOrder(c, int32(employee.CompanyId), supplier.ID, int32(employee.EmployeeId), orderData); err != nil {
+		return returnFeedback(c, flash.Error, err, "")
+	}
 	if err := h.App.Services.Mailer.SendOrder(mailData); err != nil {
 		return returnFeedback(c, flash.Error, err, "")
 	}
-	orderData = orderData
-	mailData = mailData
 
 	return returnFeedback(c, flash.Pass, nil, "Order has been sent")
 }

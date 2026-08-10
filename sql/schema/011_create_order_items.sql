@@ -2,10 +2,10 @@
 
 CREATE TABLE order_items (
     id SERIAL PRIMARY KEY,
-    order_id INTEGER NOT NULL,
+    order_id TEXT NOT NULL,
     product_id INTEGER,
     
-    quantity INTEGER NOT NULL,
+    quantity INTEGER NOT NULL CHECK (quantity > 0),
     name_at_order TEXT NOT NULL,
 
     FOREIGN KEY (order_id)

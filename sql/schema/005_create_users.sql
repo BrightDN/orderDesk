@@ -7,11 +7,11 @@ CREATE TABLE users (
   password TEXT NOT NULL,
   name TEXT NOT NULL,
 
-  is_admin BOOLEAN NOT NULL DEFAULT 'false'
+  is_admin BOOLEAN NOT NULL DEFAULT 'false',
 
-  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  deleted_at TIMESTAMPTZ DEFAULT NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  deleted_at TIMESTAMPTZ DEFAULT NULL
 );
 
 -- +goose Down

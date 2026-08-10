@@ -1,6 +1,7 @@
 package companies
 
 import (
+	"database/sql"
 	"errors"
 	"fmt"
 
@@ -9,7 +10,13 @@ import (
 )
 
 func (cs *CompanyService) GetEmployee(c echo.Context, userID int32) (Employee, *errorHandling.AppError) {
-	employee, err := cs.db.GetEmployeeByUserID(c.Request().Context(), userID)
+
+	employee, err := cs.db.GetEmployeeByUserID(
+		c.Request().Context(),
+		sql.NullInt32{
+			Valid: true,
+			Int32: userID,
+		})
 	if err != nil {
 		return Employee{}, &errorHandling.AppError{
 			Action:    "Fetching employee details",
@@ -22,7 +29,7 @@ func (cs *CompanyService) GetEmployee(c echo.Context, userID int32) (Employee, *
 		Email:      employee.Email,
 		Role:       employee.Role,
 		EmployedAt: employee.EmployedAt,
-		UserId:     int(employee.UserID),
+		UserId:     int(employee.UserID.Int32),
 		CompanyId:  int(employee.CompanyID),
 		EmployeeId: int(employee.EmployeeID),
 	}, nil

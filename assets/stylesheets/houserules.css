@@ -295,6 +295,7 @@
 /* MODULES */
 
 .module {
+  width: fit-content;
   background:var(--surface);
   border:0.5px solid var(--border);
   border-radius:var(--radius-lg);

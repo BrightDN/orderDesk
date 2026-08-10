@@ -35,7 +35,7 @@ WHERE invites.invite_type = 'company';
 -- name: GetEmployeeInvites :many
 SELECT *
 FROM invites
-WHERE invite_type = "employee";
+WHERE invite_type = 'employee';
 
 -- name: CreateInvite :exec
 INSERT INTO invites (email, company_id, invite_type, token, expires_at)
@@ -53,7 +53,8 @@ WHERE id = $1;
 
 -- name: DeleteUsedInvites :exec
 DELETE FROM invites
-WHERE used_at < now();
+WHERE used_at IS NOT NULL
+   OR expires_at <= now();
 
 -- name: RenewInvite :exec
 UPDATE invites

@@ -58,9 +58,7 @@
       <p>Requires javascript to render the preview correctly</p>
     </noscript>
 
-    <p class="mail-preview">
-      {{ .MailContext }}
-    </p>
+    <p class="mail-preview">{{ .MailContext }}</p>
 
     <p class="legend legend-spaced">
       Variables:
@@ -114,9 +112,7 @@
   </dd>
   <dt class="info-label info-label-top">Order mail</dt>
   <dd>
-    <textarea class="info-textarea" name="order_mail" required>
-      {{ .MailContext }}
-    </textarea>
+    <textarea class="info-textarea" name="order_mail" required>{{ .MailContext }}</textarea>
 
     <p class="legend legend-spaced">
       Variables:

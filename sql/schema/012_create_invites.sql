@@ -18,13 +18,14 @@ CREATE TABLE invites (
 
     FOREIGN KEY (company_id)
         REFERENCES companies(id)
+        ON DELETE CASCADE,
+
+    FOREIGN KEY (role_id)
+        REFERENCES roles(id)
         ON DELETE RESTRICT,
 
     CONSTRAINT unique_invite_token
         UNIQUE (token),
-
-    CONSTRAINT unique_invite
-        UNIQUE (email, company_id),
 
     CONSTRAINT valid_expiration
         CHECK (expires_at > created_at),
@@ -32,6 +33,10 @@ CREATE TABLE invites (
     CONSTRAINT valid_invite_type
         CHECK (invite_type IN ('company', 'employee'))
 );
+
+CREATE TRIGGER invites_set_updated_at
+BEFORE UPDATE ON invites
+FOR EACH ROW EXECUTE FUNCTION set_updated_at();
 
 -- +goose Down
 

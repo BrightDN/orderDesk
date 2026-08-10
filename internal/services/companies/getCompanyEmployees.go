@@ -24,7 +24,7 @@ func (cs *CompanyService) GetCompanyEmployees(c echo.Context, id int32) ([]Emplo
 			Name:       employee.DisplayName,
 			Email:      employee.Email,
 			Role:       employee.Role,
-			UserId:     int(employee.UserID),
+			UserId:     int(employee.UserID.Int32),
 			CompanyId:  int(employee.CompanyID),
 			EmployeeId: int(employee.EmployeeID),
 		})

@@ -11,5 +11,5 @@ func (n *Navigation) authLogout(c echo.Context) error {
 		return err
 	}
 
-	return c.Redirect(http.StatusSeeOther, "/auth/login")
+	return c.Redirect(http.StatusSeeOther, Login)
 }

@@ -82,7 +82,7 @@ func (h *Handler) authSignUp(c echo.Context) error {
 	}
 
 	if err := session.SetValues(c, session.SessionData{
-		UserID:         empl.UserID,
+		UserID:         empl.UserID.Int32,
 		RoleName:       empl.Role,
 		CompanyID:      employee.CompanyID,
 		IsMultiCompany: false}); err != nil {

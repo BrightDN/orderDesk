@@ -1,6 +1,7 @@
 package middlewares
 
 import (
+	"database/sql"
 	"net/http"
 
 	"github.com/brightDN/orderDesk/internal/database"
@@ -18,11 +19,14 @@ func LoadEmployee(db *database.Queries) echo.MiddlewareFunc {
 				return err
 			}
 			if !ok {
-				return c.Redirect(http.StatusSeeOther, "/auth/login")
+				return c.Redirect(http.StatusSeeOther, "/auth/logout")
 			}
-			employee, dbErr := db.GetEmployeeByUserID(c.Request().Context(), userID)
+			employee, dbErr := db.GetEmployeeByUserID(c.Request().Context(), sql.NullInt32{
+				Valid: true,
+				Int32: userID,
+			})
 			if dbErr != nil {
-				return c.Redirect(http.StatusSeeOther, "/auth/login")
+				return c.Redirect(http.StatusSeeOther, "/auth/logout")
 			}
 
 			employeeData := companies.Employee{
@@ -30,7 +34,7 @@ func LoadEmployee(db *database.Queries) echo.MiddlewareFunc {
 				Email:      employee.Email,
 				Role:       employee.Role,
 				EmployedAt: employee.EmployedAt,
-				UserId:     int(employee.UserID),
+				UserId:     int(employee.UserID.Int32),
 				CompanyId:  int(employee.CompanyID),
 				EmployeeId: int(employee.EmployeeID),
 			}

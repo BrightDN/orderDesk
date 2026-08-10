@@ -15,7 +15,7 @@ func RequireAuth() echo.MiddlewareFunc {
 				return err
 			}
 			if !ok {
-				return c.Redirect(http.StatusSeeOther, "/auth/login")
+				return c.Redirect(http.StatusSeeOther, "/auth/logout")
 			}
 			return next(c)
 		}

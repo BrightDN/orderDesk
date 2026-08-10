@@ -24,40 +24,41 @@
 
 {{ define "modals" }}
 <dialog id="modal-add-supplier">
-    <div class="modal-header">
-      <span class="modal-title">Add supplier</span>
-      <button class="modal-close" command="close" commandfor="modal-add-supplier">
-        <svg viewBox="0 0 12 12"><path d="M2 2l8 8M10 2L2 10"/></svg>
-      </button>
+  <div class="modal-header">
+    <span class="modal-title">Add supplier</span>
+    <button class="modal-close" command="close" commandfor="modal-add-supplier">
+      <svg viewBox="0 0 12 12"><path d="M2 2l8 8M10 2L2 10"/></svg>
+    </button>
+  </div>
+  <form class="modal-body" method="post" action="/app/suppliers/create/new">
+    <input type="hidden" name="_csrf" value="{{ .csrf }}">
+    <div class="field">
+      <label>Supplier name
+        <input type="text" name="company" placeholder="company..." required autocomplete="organization">
+      </label>
     </div>
-      <form class="modal-body" method="post" action="/app/suppliers/create/new">
-        <input type="hidden" name="_csrf" value="{{ .csrf }}">
-        <div class="field">
-          <label>Company name
-            <input type="text" name="company" placeholder="company..." required autocomplete="organization">
-          </label>
-        </div>
-        <div class="field">
-          <label>Email address
-            <input type="email" name="email" placeholder="example@org.com" required autocomplete="email">
-          </label>
-        </div>
-        <div class="field">
-          <label>Contact person<span class="field-optional">(optional)</span>
-            <input type="text" name="contact" placeholder="contact person..." autocomplete="name">
-          </label>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn-ghost" command="close" commandfor="modal-add-supplier">Cancel</button>
-        <button type="submit" class="btn-primary">
-          <svg viewBox="0 0 14 14"><path d="M2 7l4 4 6-7"/></svg>
-          Add supplier
-        </button>
-      </form>
+    <div class="field">
+      <label>Email address
+        <input type="email" name="email" placeholder="example@org.com" required autocomplete="email">
+      </label>
+    </div>
+    <div class="field">
+      <label>Contact person<span class="field-optional">(optional)</span>
+        <input type="text" name="contact" placeholder="contact person..." autocomplete="name">
+      </label>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn-ghost" command="close" commandfor="modal-add-supplier">Cancel</button>
+    <button type="submit" class="btn-primary">
+      <svg viewBox="0 0 14 14"><path d="M2 7l4 4 6-7"/></svg>
+      Add supplier
+    </button>
+  </form>
 </dialog>
 
-<dialog id="modal-add-product">
+{{ if .supplier }}
+  <dialog id="modal-add-product">
     <div class="modal-header">
       <span class="modal-title">Add product</span>
       <button class="modal-close" type="button" command="close" commandfor="modal-add-product">
@@ -83,5 +84,6 @@
         </button>
       </form>
     </div>
-</dialog>
+  </dialog>
+  {{ end }}
 {{ end }}

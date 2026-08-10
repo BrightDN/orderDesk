@@ -31,8 +31,8 @@ func (s *SupplierService) GetAllByCompany(c echo.Context, companyID int32) ([]Su
 			ContactPerson: contact,
 			Count:         dbSupplier.ProductCount,
 			Active:        !dbSupplier.DeletedAt.Valid,
-			MailSubject:   dbSupplier.MailSubject,
-			MailContext:   dbSupplier.MailContent,
+			MailSubject:   dbSupplier.MailSubject.String,
+			MailContext:   dbSupplier.MailContent.String,
 		})
 	}
 	return suppliers, nil

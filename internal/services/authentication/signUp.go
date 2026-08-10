@@ -1,6 +1,7 @@
 package authentication
 
 import (
+	"database/sql"
 	"errors"
 
 	"github.com/brightDN/orderDesk/internal/database"
@@ -8,7 +9,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func (auth *AuthenticationService) SignUp(c echo.Context, email, password, name string, invitation *database.Invite) (*database.CompanyUser, *errorHandling.AppError) {
+func (auth *AuthenticationService) SignUp(c echo.Context, email, password, name string, invitation *database.Invite) (*database.Employee, *errorHandling.AppError) {
 	tx, err := auth.db.BeginTx(c.Request().Context(), nil)
 	if err != nil {
 		return nil, &errorHandling.AppError{
@@ -40,7 +41,10 @@ func (auth *AuthenticationService) SignUp(c echo.Context, email, password, name 
 	}
 
 	empl, err := queries.CreateCompanyEmployee(c.Request().Context(), database.CreateCompanyEmployeeParams{
-		UserID:      user.ID,
+		UserID: sql.NullInt32{
+			Valid: true,
+			Int32: user.ID,
+		},
 		CompanyID:   invitation.CompanyID,
 		RoleID:      invitation.RoleID,
 		DisplayName: name,

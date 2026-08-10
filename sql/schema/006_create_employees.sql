@@ -24,7 +24,10 @@ CREATE TABLE employees (
         ON DELETE RESTRICT,
 
     CONSTRAINT employees_company_user_unique
-        UNIQUE (company_id, user_id)
+        UNIQUE (company_id, user_id),
+
+    CONSTRAINT employees_id_company_unique
+        UNIQUE (id, company_id)
 );
 
 -- +goose Down
