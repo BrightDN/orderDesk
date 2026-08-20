@@ -16,7 +16,7 @@
     <div id="supplier-information-slot">
     {{ template "supplierInformation" . }}
   </div>
-  <div id="item-list-slot" hx-on::after-request="handleItemListAfterRequest(event)">
+  <div id="supplier-target-slot" hx-on::after-request="handleItemListAfterRequest(event)">
     {{ template "itemList" . }}
   </div>
 {{ end }}
@@ -68,7 +68,7 @@
     <div class="modal-body">
       <form
         hx-post="/app/suppliers/create/product/{{ $.supplier.ID }}"
-        hx-target="#item-list-slot"
+        hx-target="#supplier-target-slot"
         hx-swap="innerHTML"
         hx-on::after-request="afterItemAdd('modal-add-product')">
         <div class="field">

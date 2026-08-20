@@ -11,10 +11,11 @@ function initializeListeners() {
         return
     }
 
-    btn.addEventListener("click", sendOrder)
+    btn.addEventListener("click", sendOrder, {once: true})
 }
 
 async function sendOrder() {
+    document.querySelector(".order-footer").querySelector("button").setAttribute("disabled", "")
     const rows = document.querySelectorAll(".order-table tbody tr")
     if (!rows || rows.length == 0) return loadFeedbackBanner()
 
@@ -62,6 +63,8 @@ function generateOrderData(data) {
 }
 
 function loadFeedbackBanner(html) {
+    initializeListeners()
+    document.querySelector(".order-footer").querySelector("button").setAttribute("disabled", "")
     if (!html) {
         if (typeof showFeedbackBanner === 'function') {
             showFeedbackBanner('error', 'Unable to send order. Please try again.');
@@ -90,7 +93,7 @@ function loadFeedbackBanner(html) {
 initializeListeners()
 document.body.addEventListener('htmx:afterSwap', event => {
     const target = event?.detail?.target
-    if (target && target.id === 'item-list-slot') {
+    if (target && target.id === 'supplier-target-slot') {
         initializeListeners()
     }
 })

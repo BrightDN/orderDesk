@@ -7,7 +7,7 @@
        class="supplier-card {{ if eq $index 0 }} selected {{ end }}"
        hx-get="{{ route $.pageData.SupplierDataURL $supplier.Name }}"
        hx-swap="innerHTML"
-       hx-target="#item-list-slot">
+       hx-target="#supplier-target-slot">
           <div class="s-header">
               <h2 class="s-name">{{ $supplier.Name }}</h2>
               <p class="s-cat">{{ $supplier.Email }}</p>

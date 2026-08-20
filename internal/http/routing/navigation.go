@@ -26,10 +26,13 @@ const (
 
 	NeworderPage  = "/app/new-order"
 	SuppliersPage = "/app/suppliers"
+	HistoryPage   = "/app/history"
 
 	// PARTIAL GETS
 	AppSupplierDataPartial = "/app/suppliers/get/:supplier-name"
 	AppNewOrderDataPartial = "/app/new-order/get/:supplier-name"
+	AppHistoryDataPartial  = "/app/history/get/:supplier-name"
+	AppOrderDownload       = "/app/orders/:order-id/download"
 )
 
 func (n *Navigation) Register(e *echo.Echo) {
@@ -47,12 +50,15 @@ func (n *Navigation) Register(e *echo.Echo) {
 	// Business
 	e.GET(NeworderPage, n.appNewOrder, withEmployee...).Name = "app.new-order"
 	e.GET(SuppliersPage, n.appSuppliers, withEmployee...).Name = "app.suppliers"
-	e.GET("/app/history", n.appOrderHistory, withEmployee...).Name = "app.history"
+	e.GET(HistoryPage, n.appOrderHistory, withEmployee...).Name = "app.history"
 	e.GET("/app/settings/company", n.appCompanySettings, withEmployee...).Name = "app.settings.company"
 	e.GET("/app/settings/user", n.appUserSettings, withEmployee...).Name = "app.settings.user"
+
 	// Business partials
 	e.GET(AppSupplierDataPartial, n.appSuppliersDataPartial, withEmployee...).Name = "app.suppliers.get"
 	e.GET(AppNewOrderDataPartial, n.appNewOrderDataPartial, withEmployee...).Name = "app.new-order.get"
+	e.GET(AppHistoryDataPartial, n.appHistoryDataPartial, withEmployee...).Name = "app.history.get"
+	e.GET(AppOrderDownload, n.appOrderDownload, withEmployee...).Name = "app.orders.download"
 
 	// Site admin
 	e.GET("/admin/companies/invites", n.adminCompanyInvite, withOwner...).Name = "admin.companies.invites"

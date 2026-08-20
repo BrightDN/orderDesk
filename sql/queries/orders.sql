@@ -26,3 +26,27 @@ INNER JOIN employees
 WHERE
     orders.supplier_id = $1
     AND orders.company_id = $2;
+
+-- name: GetOrderForDownload :many
+SELECT
+    orders.id,
+    orders.created_at,
+    suppliers.name AS supplier_name,
+    suppliers.email AS supplier_email,
+    companies.name AS company_name,
+    employees.display_name AS placed_by,
+    order_items.name_at_order,
+    order_items.quantity
+FROM orders
+INNER JOIN suppliers
+    ON orders.supplier_id = suppliers.id
+INNER JOIN companies
+    ON orders.company_id = companies.id
+INNER JOIN employees
+    ON orders.employee_id = employees.id
+INNER JOIN order_items
+    ON order_items.order_id = orders.id
+WHERE
+    orders.id = $1
+    AND orders.company_id = $2
+ORDER BY order_items.id;

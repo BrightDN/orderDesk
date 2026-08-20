@@ -14,7 +14,7 @@ func (n *Navigation) appOrderHistory(c echo.Context) error {
 	pageData := pages.PageData{
 		Title:           "history",
 		Type:            pages.BusinessType,
-		SupplierDataURL: "app.new-order.get",
+		SupplierDataURL: "app.history.get",
 	}
 
 	compID, ok, err := session.GetValue[int32](c, session.CompanyIDKey)
@@ -44,5 +44,6 @@ func (n *Navigation) appOrderHistory(c echo.Context) error {
 	return c.Render(http.StatusOK, "/app/orderHistory", map[string]any{
 		"pageData":     pageData,
 		"orderHistory": orderHistory,
+		"supplierName": suppl[0].Name,
 	})
 }
