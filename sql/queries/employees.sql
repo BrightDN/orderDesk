@@ -44,6 +44,19 @@ SELECT
         AND employees.user_id = $2
         AND employees.left_at IS NULL;
 
+-- name: GetEmployeeRoleAndPermissions :many
+SELECT
+    employees.id AS employee_id,
+    roles.name AS role,
+    permissions.permission
+FROM employees
+INNER JOIN roles ON employees.role_id = roles.id
+LEFT JOIN employee_permissions ON employee_permissions.employee_id = employees.id
+LEFT JOIN permissions ON permissions.id = employee_permissions.permission_id
+WHERE employees.company_id = $1
+    AND employees.user_id = $2
+    AND employees.left_at IS NULL;
+
 -- name: GetEmployeeByUserID :one
 SELECT
   employees.display_name,

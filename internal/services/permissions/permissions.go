@@ -12,7 +12,9 @@ func NewPermissionsService(db *database.Queries) *PermissionsService {
 	}
 }
 
-type allPermissions struct {
+// Permissions contains the actions the current employee is allowed to perform.
+// It is stored in the Echo context by LoadPermissions.
+type Permissions struct {
 	// order page
 	CanViewOrders  bool
 	CanPlaceOrders bool
@@ -28,6 +30,8 @@ type allPermissions struct {
 	// order history page
 	CanViewOrderHistory bool
 }
+
+const ContextKey = "permissions"
 
 type PermKey string
 

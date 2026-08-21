@@ -39,7 +39,7 @@ func (n *Navigation) Register(e *echo.Echo) {
 	withEmployee := []echo.MiddlewareFunc{
 		middlewares.RequireAuth(),
 		middlewares.LoadEmployee(n.db),
-		// middlewares.LoadPermissions(n.db), // TODO: implement this middleware
+		middlewares.LoadPermissions(n.db, n.app.Services.Permissions),
 	}
 
 	withOwner := []echo.MiddlewareFunc{

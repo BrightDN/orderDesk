@@ -1,7 +1,7 @@
 package permissions
 
-func (p *PermissionsService) GetEmployeePermissions() allPermissions {
-	return allPermissions{
+func (p *PermissionsService) GetEmployeePermissions() Permissions {
+	return Permissions{
 		CanViewOrders:       true,
 		CanPlaceOrders:      true,
 		CanViewSuppliers:    true,
