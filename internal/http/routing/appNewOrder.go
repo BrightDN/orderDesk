@@ -48,8 +48,9 @@ func (n *Navigation) appNewOrder(c echo.Context) error {
 	}
 
 	return c.Render(http.StatusOK, NeworderPage, map[string]any{
-		"pageData": pageData,
-		"supplier": supp,
-		"products": products,
+		"pageData":    pageData,
+		"supplier":    supp,
+		"products":    products,
+		"permissions": appPermissions(c),
 	})
 }

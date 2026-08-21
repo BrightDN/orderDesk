@@ -60,8 +60,9 @@ func (n *Navigation) appNewOrderDataPartial(c echo.Context) error {
 
 	fmt.Println(c.Request().RequestURI)
 	return c.Render(http.StatusOK, "partials/itemList", map[string]any{
-		"products": products,
-		"supplier": supplier,
-		"pageData": pageData,
+		"products":    products,
+		"supplier":    supplier,
+		"pageData":    pageData,
+		"permissions": appPermissions(c),
 	})
 }

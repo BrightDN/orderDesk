@@ -63,8 +63,9 @@ func (n *Navigation) appSuppliersDataPartial(c echo.Context) error {
 
 	fmt.Println(c.Request().RequestURI)
 	return c.Render(http.StatusOK, "partials/supplierResponse", map[string]any{
-		"supplier": supplier,
-		"products": products,
-		"pageData": pageData,
+		"supplier":    supplier,
+		"products":    products,
+		"pageData":    pageData,
+		"permissions": appPermissions(c),
 	})
 }

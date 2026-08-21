@@ -13,6 +13,7 @@ func (n *Navigation) appUserSettings(c echo.Context) error {
 		Type:  pages.BusinessType,
 	}
 	return c.Render(http.StatusOK, "app/userSettings", map[string]any{
-		"pageData": pageData,
+		"pageData":    pageData,
+		"permissions": appPermissions(c),
 	})
 }

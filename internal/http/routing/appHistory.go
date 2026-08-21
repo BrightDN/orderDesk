@@ -45,5 +45,6 @@ func (n *Navigation) appOrderHistory(c echo.Context) error {
 		"pageData":     pageData,
 		"orderHistory": orderHistory,
 		"supplierName": suppl[0].Name,
+		"permissions":  appPermissions(c),
 	})
 }

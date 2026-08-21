@@ -54,5 +54,6 @@ func (n *Navigation) appHistoryDataPartial(c echo.Context) error {
 		"orderHistory": orderHistory,
 		"isPartial":    true,
 		"supplierName": supplier.Name,
+		"permissions":  appPermissions(c),
 	})
 }

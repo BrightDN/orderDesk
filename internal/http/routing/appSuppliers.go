@@ -44,8 +44,9 @@ func (n *Navigation) appSuppliers(c echo.Context) error {
 	}
 
 	return c.Render(http.StatusOK, SuppliersPage, map[string]any{
-		"pageData": pageData,
-		"supplier": supp,
-		"products": products,
+		"pageData":    pageData,
+		"supplier":    supp,
+		"products":    products,
+		"permissions": appPermissions(c),
 	})
 }
