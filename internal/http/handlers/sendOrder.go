@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/brightDN/orderDesk/internal/flash"
+	"github.com/brightDN/orderDesk/internal/services/companies"
 	"github.com/brightDN/orderDesk/internal/services/companies/orders"
 	"github.com/brightDN/orderDesk/internal/shared/errorHandling"
 	"github.com/brightDN/orderDesk/internal/shared/session"
@@ -31,20 +32,13 @@ func (h *Handler) sendOrder(c echo.Context) error {
 	if err != nil || !ok {
 		return returnFeedback(c, flash.Error, err, "")
 	}
-	userID, ok, err := session.GetValue[int32](c, session.UserIDKey)
-	if err != nil || !ok {
-		return returnFeedback(c, flash.Error, err, "")
-	}
 
 	supplier, err := h.App.Services.Suppliers.GetSupplierByNameAndCompanyID(c, order.SupplierName, compID)
 	if err != nil {
 		return returnFeedback(c, flash.Error, err, "")
 	}
 
-	employee, err := h.App.Services.Companies.GetEmployee(c, userID)
-	if err != nil {
-		return returnFeedback(c, flash.Error, err, "")
-	}
+	employee := c.Get("employee").(companies.Employee)
 
 	orderData, err := h.App.Services.Orders.GetOrderData(order, supplier, employee)
 	if err != nil {

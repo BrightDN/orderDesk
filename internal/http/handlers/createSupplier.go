@@ -54,7 +54,7 @@ func (h *Handler) createSupplier(c echo.Context) error {
 		return c.Redirect(http.StatusSeeOther, routing.Logout)
 	}
 
-	if err := h.App.Services.Suppliers.Create(c, company, email, contact, id); err != nil {
+	if err := h.app.Services.Suppliers.Create(c, company, email, contact, id); err != nil {
 		if logErr := errorHandling.Log_and_flash(c, *err); logErr != nil {
 			return logErr
 		}

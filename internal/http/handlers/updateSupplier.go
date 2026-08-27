@@ -87,7 +87,7 @@ func (h *Handler) updateSupplier(c echo.Context) error {
 		return renderPartialSuppInfo(c, suppliers.Supplier{}, &logErr)
 	}
 
-	supp, appErr := h.App.Services.Suppliers.EditSupplier(c, oldName, compID, newName, email, contact, subject, mailCtx)
+	supp, appErr := h.app.Services.Suppliers.EditSupplier(c, oldName, compID, newName, email, contact, subject, mailCtx)
 	if appErr != nil {
 		return renderPartialSuppInfo(c, suppliers.Supplier{}, appErr)
 	}
