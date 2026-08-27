@@ -24,9 +24,10 @@ const (
 	Logout = "/auth/logout"
 	Signup = "auth/signup/:token"
 
-	NeworderPage  = "/app/new-order"
-	SuppliersPage = "/app/suppliers"
-	HistoryPage   = "/app/history"
+	NeworderPage    = "/app/new-order"
+	SuppliersPage   = "/app/suppliers"
+	HistoryPage     = "/app/history"
+	CompanySettings = "/app/settings/company"
 
 	// PARTIAL GETS
 	AppSupplierDataPartial = "/app/suppliers/get/:supplier-name"
@@ -51,7 +52,7 @@ func (n *Navigation) Register(e *echo.Echo) {
 	e.GET(NeworderPage, n.appNewOrder, withEmployee...).Name = "app.new-order"
 	e.GET(SuppliersPage, n.appSuppliers, withEmployee...).Name = "app.suppliers"
 	e.GET(HistoryPage, n.appOrderHistory, withEmployee...).Name = "app.history"
-	e.GET("/app/settings/company", n.appCompanySettings, withEmployee...).Name = "app.settings.company"
+	e.GET(CompanySettings, n.appCompanySettings, withEmployee...).Name = "app.settings.company"
 	e.GET("/app/settings/user", n.appUserSettings, withEmployee...).Name = "app.settings.user"
 
 	// Business partials

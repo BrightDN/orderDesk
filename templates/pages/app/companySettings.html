@@ -65,27 +65,57 @@
     <thead>
       <tr>
         <th>Employee</th>
-        <th>Email</th>
         <th>Role</th>
         <th></th>
       </tr>
     </thead>
     <tbody>
+      {{ range .employees }}
       <tr>
         <td>
-          <p class="emp-name">Jan V.</p>
+          <p class="emp-name">{{ .Name }}</p>
+          {{ if eq .UserId $.employee.UserId}}
           <p class="emp-email emp-you">you</p>
+          {{ else }}
+          <p class="emp-email">{{ .Email }}</p>
+          {{ end }}
         </td>
-        <td><span class="table-text">jan@storeroom.nl</span></td>
-        <td><span class="table-text-muted">Super admin</span></td>
+
+        {{ if eq .UserId $.employee.UserId }}
+        <td><span class="table-text-muted">{{ .Role }}</span></td>
+        {{ else if eq .Role "superadmin" }}
+        <td>
+          <span class="table-text-muted">Super admin</span>
+        </td>
+        {{ else if eq $.employee.Role "employee" }}
         <td></td>
+        {{ else if eq $.employee.Role "custom" }}
+        <td></td>
+        {{ else if eq $.employee.Role "admin" }}
+        <td>
+          <select class="role-select" onchange="modalOpener(this, 'custom', '#modal-permissions')">
+            <option>Admin</option>
+            <option selected>Manager</option>
+            <option>Employee</option>
+            <option value="custom">Custom...</option>
+          </select>
+        </td>
+        {{ end }}
+
+                <td>
+          <div class="row-actions">
+            <button class="del-btn" title="Remove employee">
+              <svg viewBox="0 0 12 12"><path d="M2 2l8 8M10 2L2 10"/></svg>
+            </button>
+          </div>
+        </td>
       </tr>
+      {{ end }}
       <tr>
         <td>
           <p class="emp-name">Marie K.</p>
           <p class="emp-email">marie@storeroom.nl</p>
         </td>
-        <td><span class="table-text">marie@storeroom.nl</span></td>
         <td>
           <select class="role-select" onchange="modalOpener(this, 'custom', '#modal-permissions')">
             <option>Admin</option>
@@ -107,7 +137,6 @@
           <p class="emp-name">Thomas B.</p>
           <p class="emp-email">thomas@storeroom.nl</p>
         </td>
-        <td><span class="table-text">thomas@storeroom.nl</span></td>
         <td>
           <select class="role-select" onchange="modalOpener(this, 'custom', '#modal-permissions')">
             <option>Admin</option>
@@ -150,7 +179,6 @@ document.querySelectorAll('.del-btn').forEach(btn=>{
 {{ end }}
 
 {{ define "modals" }}
-<!-- Add employee modal -->
 <dialog id="modal-add-employee">
     <div class="modal-header">
       <span class="modal-title">Add employee</span>
@@ -158,29 +186,24 @@ document.querySelectorAll('.del-btn').forEach(btn=>{
         <svg viewBox="0 0 12 12"><path d="M2 2l8 8M10 2L2 10"/></svg>
       </button>
     </div>
-    <div class="modal-body">
-      <div class="field">
-        <label>Email address</label>
-        <input type="email" placeholder="employee@company.nl">
+    <form method="POST" action="/app/settings/company/invite">
+      <div class="modal-body">
+        <div class="field">
+          <label>Email address
+            <input name="email" type="email" placeholder="example@mail.com" autocomplete="off">
+          </label>
+        </div>
+        
       </div>
-      <div class="field">
-        <label>Role</label>
-        <select>
-          <option value="">Select a role</option>
-          <option>Admin</option>
-          <option>Manager</option>
-          <option>Employee</option>
-        </select>
+      <div class="modal-footer">
+        <button type="button" class="btn-ghost" command="close" commandfor="modal-add-employee">Cancel</button>
+        <button type="submit" class="btn-primary">
+          <svg viewBox="0 0 14 14"><path d="M2 7l4 4 6-7"/></svg>
+          Send invite
+        </button>
       </div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn-ghost" command="close" commandfor="modal-add-employee">Cancel</button>
-      <button class="btn-primary" command="close" commandfor="modal-add-employee">
-        <svg viewBox="0 0 14 14"><path d="M2 7l4 4 6-7"/></svg>
-        Send invite
-      </button>
-    </div>
-</dialog>
+    </form>
+    </dialog>
 
 <!-- Custom permissions modal -->
 <dialog id="modal-permissions">

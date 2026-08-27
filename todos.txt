@@ -1,3 +1,16 @@
-EDIT SUPPLIER INFO DOES NOT YET SEND FEEDBACK BANNER
+# Almost finished pages
+- Order History
+    - TO DO: 
+        - Clean up CSS
+- New Order
+    - TO DO:
+        - Fix feedbackbanner and clean up CSS
+- Suppliers
+    - TO DO:
+        - Fix CSS,
+        - Fix Mail preview,
+        - Fix some changes to supplier information not passing through (Active/Inactive state)
 
-
+# High work still required
+- Company settings
+- Error page needs fixing
