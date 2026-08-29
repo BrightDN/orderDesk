@@ -46,9 +46,8 @@ func LoadPermissions(db *database.Queries, permissionsService *permissions.Permi
 			var perms permissions.Permissions
 			switch role {
 			case "superadmin", "admin":
-				perms = permissionsService.GetAdminPermissions()
 			case "employee":
-				perms = permissionsService.GetEmployeePermissions()
+				perms = permissionsService.GetPermissions(role)
 			case "custom":
 				if employeeLoaded {
 					rows, err := db.GetEmployeeRoleAndPermissions(c.Request().Context(), database.GetEmployeeRoleAndPermissionsParams{

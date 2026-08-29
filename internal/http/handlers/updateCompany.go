@@ -13,7 +13,7 @@ func (h *Handler) updateCompany(c echo.Context) error {
 		return c.Redirect(http.StatusSeeOther, "/admin/companies/overview")
 	}
 
-	if err := h.App.Services.Companies.Update(c, id); err != nil {
+	if err := h.app.Services.Companies.Update(c, id); err != nil {
 		return err
 	}
 

@@ -32,7 +32,7 @@ func (h *Handler) authSignUp(c echo.Context) error {
 		return c.Redirect(http.StatusSeeOther, "/auth/signup/"+token)
 	}
 
-	inv, appErr := h.App.Services.Invitations.ValidateInvitation(c, token, email)
+	inv, appErr := h.app.Services.Invitations.ValidateInvitation(c, token, email)
 	if appErr != nil {
 		if logErr := errorHandling.Log_and_flash(c, *appErr); logErr != nil {
 			return logErr
@@ -64,7 +64,7 @@ func (h *Handler) authSignUp(c echo.Context) error {
 		return c.Redirect(http.StatusSeeOther, "/auth/signup/"+token)
 	}
 
-	employee, appErr := h.App.Services.Auth.SignUp(c, email, password, name, inv)
+	employee, appErr := h.app.Services.Auth.SignUp(c, email, password, name, inv)
 	if appErr != nil {
 		fmt.Println("Error: Failed to sign up user")
 		if flashErr := flash.Set(c, flash.Error, appErr.UserError.Error()); flashErr != nil {
@@ -72,7 +72,7 @@ func (h *Handler) authSignUp(c echo.Context) error {
 		}
 		return c.Redirect(http.StatusSeeOther, "/auth/signup/"+token)
 	}
-	empl, dbErr := h.App.Db.GetEmployeeByUserID(c.Request().Context(), employee.UserID)
+	empl, dbErr := h.app.Db.GetEmployeeByUserID(c.Request().Context(), employee.UserID)
 	if dbErr != nil {
 		fmt.Println("Error: Failed to get employee")
 		if flashErr := flash.Set(c, flash.Error, dbErr.Error()); flashErr != nil {

@@ -4,13 +4,12 @@ import (
 	"fmt"
 	"net/mail"
 
-	"github.com/brightDN/orderDesk/internal/services/companies"
+	"github.com/brightDN/orderDesk/internal/services/permissions"
 	"github.com/brightDN/orderDesk/internal/shared/errorHandling"
 	"github.com/labstack/echo/v4"
 )
 
 func (h *Handler) inviteEmployee(c echo.Context) error {
-	employee := c.Get("employee").(companies.Employee)
 	email := c.Request().PostFormValue("email")
 	if !valid(email) {
 		errorHandling.Log_and_flash(c, errorHandling.AppError{
@@ -19,14 +18,16 @@ func (h *Handler) inviteEmployee(c echo.Context) error {
 			UserError: fmt.Errorf("The given emailaddress is invalid"),
 		})
 	}
-
-	if employee.Role != "superadmin" || employee.Role != "admin" {
+	permissions := c.Get("permissions").(permissions.Permissions)
+	if !permissions.CanEditCompany {
 		errorHandling.Log_and_flash(c, errorHandling.AppError{
 			Action:    "Validating logged in users permissions",
-			LogError:  fmt.Errorf("No valid emailaddress was provided"),
-			UserError: fmt.Errorf("The given emailaddress is invalid"),
+			LogError:  fmt.Errorf("this user is not autorized to edit the company."),
+			UserError: fmt.Errorf("You do not have the rights to perform this action."),
 		})
 	}
+
+	return nil
 }
 
 func valid(email string) bool {

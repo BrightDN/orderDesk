@@ -33,27 +33,27 @@ func (h *Handler) sendOrder(c echo.Context) error {
 		return returnFeedback(c, flash.Error, err, "")
 	}
 
-	supplier, err := h.App.Services.Suppliers.GetSupplierByNameAndCompanyID(c, order.SupplierName, compID)
+	supplier, err := h.app.Services.Suppliers.GetSupplierByNameAndCompanyID(c, order.SupplierName, compID)
 	if err != nil {
 		return returnFeedback(c, flash.Error, err, "")
 	}
 
 	employee := c.Get("employee").(companies.Employee)
 
-	orderData, err := h.App.Services.Orders.GetOrderData(order, supplier, employee)
+	orderData, err := h.app.Services.Orders.GetOrderData(order, supplier, employee)
 	if err != nil {
 		return returnFeedback(c, flash.Error, err, "")
 	}
 
-	mailData, err := h.App.Services.Orders.GetOrderMailData(c, supplier.ID, *orderData)
+	mailData, err := h.app.Services.Orders.GetOrderMailData(c, supplier.ID, *orderData)
 	if err != nil {
 		return returnFeedback(c, flash.Error, err, "")
 	}
 
-	if err := h.App.Services.Orders.CreateOrder(c, int32(employee.CompanyId), supplier.ID, int32(employee.EmployeeId), orderData); err != nil {
+	if err := h.app.Services.Orders.CreateOrder(c, int32(employee.CompanyId), supplier.ID, int32(employee.EmployeeId), orderData); err != nil {
 		return returnFeedback(c, flash.Error, err, "")
 	}
-	if err := h.App.Services.Mailer.SendOrder(mailData); err != nil {
+	if err := h.app.Services.Mailer.SendOrder(mailData); err != nil {
 		return returnFeedback(c, flash.Error, err, "")
 	}
 

@@ -14,8 +14,6 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-var action = "Editing supplier"
-
 func (h *Handler) updateSupplier(c echo.Context) error {
 	compID, ok, err := session.GetValue[int32](c, session.CompanyIDKey)
 	if err != nil || !ok {
